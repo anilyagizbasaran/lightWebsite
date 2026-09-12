@@ -1,0 +1,628 @@
+/* ============================================================
+   Nöbet N1 — kapı önü güvenlik armatürü
+   Palet: gece mavisi zemin, vurgu = ürünün kendi ışığı.
+   Kırmızı/mavi yalnızca alarm anında görünür.
+   ============================================================ */
+
+:root {
+  --ink:        #070C14;
+  --ink-2:      #0A1320;
+  --slate:      #16202F;
+  --haze:       #2B3A4F;
+  --beam:       #E8F3FF;
+  --window:     #F0C879;
+  --alarm-red:  #FF2B45;
+  --alarm-blue: #2B7BFF;
+
+  --chalk: #D7E2F0;
+  --mute:  #7C8DA6;
+  --faint: #4A5C76;
+
+  --sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --mono: "Azeret Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --gut: clamp(1.25rem, 4vw, 4rem);
+  --rule: 1px solid color-mix(in srgb, var(--haze) 55%, transparent);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--chalk);
+  font-family: var(--sans);
+  font-variation-settings: "wdth" 100, "wght" 400;
+  font-size: clamp(1rem, 0.94rem + 0.22vw, 1.075rem);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg { max-width: 100%; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+.skiplink {
+  position: absolute; left: 50%; top: -100px; z-index: 100;
+  transform: translateX(-50%);
+  background: var(--beam); color: var(--ink);
+  padding: .6rem 1.1rem; font-weight: 600; text-decoration: none;
+  transition: top .18s;
+}
+.skiplink:focus { top: .6rem; }
+
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--beam);
+  outline-offset: 3px;
+}
+
+/* ---------------- üst çubuk ---------------- */
+
+.topbar {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  display: flex; align-items: center; gap: clamp(.75rem, 3vw, 2.5rem);
+  padding: .85rem var(--gut);
+  background: linear-gradient(to bottom, rgba(4,7,14,.92), rgba(4,7,14,0));
+  backdrop-filter: blur(2px);
+}
+
+.brand {
+  display: inline-flex; align-items: center; gap: .55rem;
+  text-decoration: none; color: var(--chalk);
+  margin-inline-end: auto;
+}
+.brand-mark { width: 30px; height: auto; flex: none; }
+.brand-mark rect { fill: var(--haze); }
+.brand-beam { fill: var(--beam); opacity: .5; }
+.brand:hover .brand-beam { opacity: .9; }
+.brand-name {
+  font-variation-settings: "wdth" 112, "wght" 800;
+  font-size: 1.28rem; letter-spacing: -.025em; line-height: 1;
+}
+
+.topnav { display: flex; gap: clamp(.7rem, 2vw, 1.8rem); }
+.topnav a {
+  color: var(--mute); text-decoration: none; font-size: .92rem;
+  font-variation-settings: "wdth" 92, "wght" 500;
+  padding-block: .25rem;
+  border-bottom: 1px solid transparent;
+}
+.topnav a:hover { color: var(--chalk); border-bottom-color: var(--beam); }
+
+.sound {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: transparent; color: var(--mute);
+  border: 1px solid color-mix(in srgb, var(--haze) 70%, transparent);
+  padding: .42rem .7rem; font: inherit; font-size: .82rem;
+  font-family: var(--mono); cursor: pointer; flex: none;
+}
+.sound:hover { color: var(--chalk); border-color: var(--beam); }
+.sound[aria-pressed="true"] { color: var(--beam); border-color: var(--beam); }
+.sound-wave { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
+.sound-wave i { width: 2px; height: 3px; background: currentColor; }
+.sound[aria-pressed="true"] .sound-wave i { animation: wave .9s ease-in-out infinite; }
+.sound[aria-pressed="true"] .sound-wave i:nth-child(2) { animation-delay: .12s; }
+.sound[aria-pressed="true"] .sound-wave i:nth-child(3) { animation-delay: .24s; }
+.sound[aria-pressed="true"] .sound-wave i:nth-child(4) { animation-delay: .36s; }
+@keyframes wave { 0%,100% { height: 3px } 50% { height: 12px } }
+
+/* ---------------- kaydırma tüneli + sahne ---------------- */
+
+.tunnel { position: relative; height: 620vh; }
+
+.stage {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  background: linear-gradient(to bottom, #04070E 0%, #091220 62%, #0D1A29 100%);
+}
+
+/* ---------------- sahne içi çizim ----------------
+   Düz cephe. Kamera yalnızca karşıdan yaklaşıyor (dönüş yok), bu yüzden
+   3D'ye gerek kalmadı: dolly = viewBox'ı daraltmak. */
+
+.stage-art {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+
+#stars circle { fill: #C8CFE6; }
+.far rect { fill: #1A1F2E; }
+
+/* pencere dograma ve kayitlari: referanstaki ince siyah cerceveler */
+.win-frame rect { fill: none; stroke: #0C1016; stroke-width: 7; }
+.win-bar { stroke: #0C1016; stroke-width: 5; }
+
+/* ekim silueti */
+
+
+.housenum {
+  fill: #6B7689; font-family: var(--mono); font-size: 13px;
+  text-anchor: middle; letter-spacing: .04em;
+}
+
+.callout line { stroke: var(--faint); stroke-width: 1; }
+.callout circle { fill: var(--beam); }
+.callout text {
+  fill: var(--mute); font-family: var(--mono); font-size: 13px; letter-spacing: .01em;
+}
+.callout .callout-sub { fill: var(--faint); font-size: 11px; }
+
+/* Yaklaşırken etiket dev gibi büyüyordu; yakın planda gizleniyor. */
+.stage.is-near .callout { opacity: 0; transition: opacity .4s; }
+
+/* ============================================================
+   FLAŞÖR
+   Gercek acil durum cakarlari (SAE J845: 60-240 atim/dk) kisa ve sert
+   atim + duraklama deseni kullanir. Onceki %50 acik / %50 kapali
+   donusum bu yuzden tembel bir yanip sonme gibi okunuyordu.
+
+   Ama gercek polis cakari hizi WCAG 2.3.1'i (saniyede en fazla 3 atim)
+   ihlal eder ve fotosensitif epilepsi riski tasir. Bu yuzden hizi degil
+   KARAKTERI taklit ediyoruz:
+     - 0,8 s dongu -> renk basina 1,25 atim/s, toplam 2,5 atim/s (uyumlu)
+     - atim suresi dongunun %8'i (64 ms): sert bir "pat", yanip sonme degil
+     - atimdan sonra duvarda/zeminde sonen renk izi, boylece kisa atim
+       dusuk hizda da okunur
+   ============================================================ */
+
+.strobe { position: absolute; inset: 0; pointer-events: none; }
+.strobe i { position: absolute; inset: 0; opacity: 0; display: block; }
+.strobe .s-r {
+  background: radial-gradient(90% 70% at 12% 62%, rgba(255,43,69,.30), rgba(255,43,69,0) 70%);
+}
+.strobe .s-b {
+  background: radial-gradient(90% 70% at 88% 62%, rgba(43,123,255,.30), rgba(43,123,255,0) 70%);
+}
+
+/* Emitorler cift haleli: yakin bloom + genis sacilma. */
+#fxR { filter: drop-shadow(0 0 8px #FFD5DC) drop-shadow(0 0 20px #FF2B45) drop-shadow(0 0 44px rgba(255,43,69,.8)); }
+#fxB { filter: drop-shadow(0 0 8px #D6E6FF) drop-shadow(0 0 20px #2B7BFF) drop-shadow(0 0 44px rgba(43,123,255,.8)); }
+
+/* --- nokta atimlar: sert, kisa --- */
+.stage.is-alarm #fxR { animation: popR .8s steps(1, end) infinite; }
+.stage.is-alarm #fxB { animation: popB .8s steps(1, end) infinite; }
+@keyframes popR { 0% { opacity: 1 } 8%, 100% { opacity: 0 } }
+@keyframes popB { 0%, 49% { opacity: 0 } 50% { opacity: 1 } 58%, 100% { opacity: 0 } }
+
+/* --- renk izi: atimla birlikte dogar, yumusak soner --- */
+.stage.is-alarm #washR, .stage.is-alarm #poolR,
+.stage.is-alarm .s-r { animation: glowR .8s ease-out infinite; }
+.stage.is-alarm #washB, .stage.is-alarm #poolB,
+.stage.is-alarm .s-b { animation: glowB .8s ease-out infinite; }
+/* Atimdan sonra kisa bir tepe tutusu, sonra sonme. Duz sonme birakinca
+   atim arasi renk cok zayif kaliyordu ve alarm okunmuyordu. */
+@keyframes glowR {
+  0%, 13% { opacity: 1 }
+  46%     { opacity: 0 }
+  100%    { opacity: 0 }
+}
+@keyframes glowB {
+  0%, 49% { opacity: 0 }
+  50%, 63% { opacity: 1 }
+  96%     { opacity: 0 }
+  100%    { opacity: 0 }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage.is-alarm #fxR, .stage.is-alarm #fxB,
+  .stage.is-alarm #washR, .stage.is-alarm #poolR, .stage.is-alarm .s-r,
+  .stage.is-alarm #washB, .stage.is-alarm #poolB, .stage.is-alarm .s-b {
+    animation: none; opacity: .55;
+  }
+}
+
+/* ---------------- sahne kopyası ---------------- */
+
+.stage-copy {
+  position: absolute;
+  top: clamp(5.5rem, 15vh, 11rem);
+  right: var(--gut);
+  width: min(44ch, 44vw);
+}
+
+.act {
+  position: absolute; top: 0; right: 0; width: 100%;
+  opacity: 0; visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity .45s ease, transform .45s ease, visibility .45s;
+}
+.act.is-on { opacity: 1; visibility: visible; transform: none; }
+
+.act h1, .act h2 {
+  margin: 0 0 .7em;
+  font-variation-settings: "wdth" 112, "wght" 800;
+  letter-spacing: -.035em; line-height: .93;
+  text-wrap: balance;
+}
+.act h1 { font-size: clamp(2.5rem, 5.6vw, 4.9rem); }
+.act h2 { font-size: clamp(2rem, 3.9vw, 3.3rem); }
+.act p { margin: 0 0 .9em; color: var(--mute); max-width: 44ch; }
+.act p:last-child { margin-bottom: 0; }
+
+.cue {
+  font-family: var(--mono); font-size: .78rem; color: var(--faint);
+  display: flex; align-items: center; gap: .6rem;
+}
+.cue::after {
+  content: ""; width: 1px; height: 26px;
+  background: linear-gradient(to bottom, var(--faint), transparent);
+  animation: cueDrop 1.9s ease-in-out infinite;
+}
+@keyframes cueDrop { 0%,100% { transform: scaleY(.4); opacity: .4 } 50% { transform: scaleY(1); opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .cue::after { animation: none } }
+
+/* Ses acikken sonsuz donen gosterge ve kopya gecisindeki kayma da
+   reduced-motion'da durmali; yalniz opaklik degisimi kalir. */
+@media (prefers-reduced-motion: reduce) {
+  .sound[aria-pressed="true"] .sound-wave i { animation: none; height: 8px; }
+  .act { transform: none; transition: opacity .3s ease, visibility .3s; }
+}
+
+.hint { font-family: var(--mono); font-size: .8rem; color: var(--faint); }
+.hint.is-hidden { display: none; }
+.inline-btn {
+  font: inherit; color: var(--beam); background: none; border: 0;
+  border-bottom: 1px solid var(--beam); padding: 0; cursor: pointer;
+}
+
+.btn {
+  display: inline-block; text-decoration: none;
+  background: var(--beam); color: #06101C;
+  padding: .72rem 1.15rem;
+  font-variation-settings: "wdth" 96, "wght" 650;
+  font-size: .95rem;
+  border: 1px solid var(--beam);
+}
+.btn:hover { background: #fff; }
+.btn-ghost { background: transparent; color: var(--chalk); border-color: var(--haze); }
+.btn-ghost:hover { background: transparent; border-color: var(--beam); color: var(--beam); }
+.act-cta { display: flex; flex-wrap: wrap; gap: .6rem; }
+
+/* Kopya kolonunun arkasindaki perde. Kapi kadrajin merkezinde oldugu ve
+   aydinlatildigi icin metin herhangi bir anda parlak zemine denk gelebilir. */
+.copy-scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  /* fazla koyu olunca garaji yutuyordu: daha gec basla, daha hafif */
+  /* sag ust pencere yaninca kopya onun uzerine dusuyor: perde guclendi */
+  background: linear-gradient(to right,
+    rgba(7,12,20,0) 46%, rgba(7,12,20,.64) 68%, rgba(7,12,20,.86) 100%);
+}
+
+/* ---------------- bölüm göstergesi ---------------- */
+
+.beats {
+  /* %50'de sicak pencerenin uzerine biniyordu; biraz asagi */
+  position: absolute; left: var(--gut); top: 58%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: .1rem;
+  z-index: 3;
+}
+.beats button {
+  appearance: none; background: none; border: 0;
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .04em;
+  color: var(--faint); cursor: pointer;
+  /* sahne arkasi degistigi icin (sicak cam, kirmizi baskin) golge sart */
+  text-shadow: 0 1px 5px rgba(4,7,14,.95);
+  padding: .32rem 0 .32rem 1.4rem;
+  text-align: left; position: relative;
+  transition: color .25s;
+}
+.beats button::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  width: .7rem; height: 1px; margin-top: -.5px;
+  background: currentColor;
+  transition: width .25s;
+}
+.beats button:hover { color: var(--mute); }
+/* aktif asama: koseli parantez, referanstaki etiket dili */
+.beats button[aria-current="true"] {
+  color: var(--beam);
+}
+.beats button[aria-current="true"]::before { width: 1.1rem; }
+.hud.is-alarm ~ .beats button[aria-current="true"],
+.stage.is-alarm .beats button[aria-current="true"] { color: var(--alarm-red); }
+
+/* ---------------- telemetri ---------------- */
+
+/* zemin çizgisi sahnenin en alt ~%18'ini kaplar; panel onun üstünde kalmalı
+   ki mesafe etiketleriyle çakışmasın */
+.hud {
+  position: absolute; right: var(--gut); bottom: clamp(1rem, 24%, 14rem);
+  width: min(19rem, 62vw);
+  font-family: var(--mono); font-size: .78rem;
+  border-top: 1px solid color-mix(in srgb, var(--haze) 80%, transparent);
+  padding-top: .6rem;
+}
+.hud-row {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding: .2rem 0;
+}
+.hud-k { color: var(--faint); }
+.hud-v { color: var(--chalk); font-variation-settings: "wght" 500; }
+.hud.is-alarm .hud-v { color: var(--alarm-red); }
+.hud-bar {
+  margin-top: .55rem; height: 2px;
+  background: color-mix(in srgb, var(--haze) 70%, transparent);
+}
+.hud-bar i { display: block; height: 100%; width: 0; background: var(--beam); }
+.hud.is-alarm .hud-bar i { background: var(--alarm-red); }
+
+/* ---------------- ortak bölüm iskeleti ---------------- */
+
+.band { padding: clamp(4.5rem, 12vh, 9rem) 0; position: relative; z-index: 1; background: var(--ink); }
+.band-alt { background: var(--ink-2); }
+.wrap { width: min(78rem, 100% - var(--gut) * 2); margin-inline: auto; }
+.wrap.narrow { width: min(46rem, 100% - var(--gut) * 2); }
+
+.band-h {
+  margin: 0 0 .5em;
+  font-variation-settings: "wdth" 108, "wght" 750;
+  font-size: clamp(1.8rem, 3.3vw, 2.9rem);
+  letter-spacing: -.03em; line-height: 1; text-wrap: balance;
+}
+.band-lede {
+  margin: 0 0 clamp(2.5rem, 6vh, 4rem);
+  color: var(--mute); max-width: 52ch; font-size: 1.08em;
+}
+
+/* ---------------- kademe merdiveni ---------------- */
+
+.ladder {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: repeat(3, 1fr);
+  position: relative;
+}
+.ladder::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 54px; height: 1px;
+  background: linear-gradient(to right, var(--haze), color-mix(in srgb, var(--alarm-red) 60%, var(--haze)));
+}
+.step { position: relative; padding-top: 0; }
+
+/* her kademe, zemin çizgisi üstünde bir ışık havuzu — sahnedeki havuzun minyatürü */
+.step-viz { height: 110px; position: relative; overflow: hidden; }
+.step-viz::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 1px;
+  background: var(--haze);
+}
+.v-glow {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 74%; height: 58px;
+  background: radial-gradient(50% 108% at 50% 100%, rgba(232,243,255,.24), rgba(232,243,255,0) 72%);
+}
+.v-glow.v-full {
+  width: 96%; height: 84px;
+  background: radial-gradient(50% 104% at 50% 100%, rgba(232,243,255,.66), rgba(232,243,255,0) 74%);
+}
+.v-flash { position: absolute; bottom: 0; width: 62%; height: 84px; }
+.v-r { left: 0;  background: radial-gradient(54% 104% at 46% 100%, rgba(255,43,69,.78), rgba(255,43,69,0) 72%); }
+.v-b { right: 0; background: radial-gradient(54% 104% at 54% 100%, rgba(43,123,255,.78), rgba(43,123,255,0) 72%); }
+/* demo gercek cakarla ayni deseni kullanir */
+.step-3:hover .v-r, .step-3:focus-within .v-r { animation: glowR .8s ease-out infinite; }
+.step-3:hover .v-b, .step-3:focus-within .v-b { animation: glowB .8s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .step-3:hover .v-r, .step-3:hover .v-b { animation: none }
+}
+
+.step h3 {
+  margin: 1.1rem 0 .2rem;
+  font-variation-settings: "wdth" 104, "wght" 700;
+  font-size: 1.3rem; letter-spacing: -.02em;
+}
+.step-meta { margin: 0 0 .7rem; font-family: var(--mono); font-size: .78rem; color: var(--faint); }
+.step p:last-child { margin: 0; color: var(--mute); }
+.step-3 .step-meta { color: color-mix(in srgb, var(--alarm-red) 80%, var(--mute)); }
+
+/* ---------------- algılama geometrisi ---------------- */
+
+.geo {
+  display: grid; gap: clamp(2rem, 5vw, 4.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: center;
+}
+.geo-text > p { color: var(--mute); max-width: 48ch; }
+
+.slider { display: block; margin: 2.2rem 0 1.8rem; max-width: 26rem; }
+.slider-top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: .55rem;
+}
+.slider-name { font-size: .92rem; color: var(--chalk); }
+.slider output {
+  font-family: var(--mono); font-size: 1.05rem; color: var(--beam);
+  font-variation-settings: "wght" 500;
+}
+.slider input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 2px; background: var(--haze); cursor: pointer;
+}
+.slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--beam); border: 0; cursor: grab;
+}
+.slider input[type="range"]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--beam); border: 0; cursor: grab;
+}
+
+.geo-figs {
+  margin: 0; display: grid; grid-template-columns: repeat(3, auto);
+  gap: 1.6rem; justify-content: start;
+}
+.geo-figs div { border-top: var(--rule); padding-top: .55rem; }
+.geo-figs dt { font-size: .8rem; color: var(--faint); }
+.geo-figs dd {
+  margin: .15rem 0 0; font-family: var(--mono);
+  font-size: 1.3rem; color: var(--chalk); font-variation-settings: "wght" 500;
+}
+
+.geo-art { width: 100%; height: auto; overflow: visible; }
+.geo-grid line { stroke: #16202F; stroke-width: 1; }
+.geo-grid text {
+  fill: var(--faint); font-family: var(--mono); font-size: 9px;
+}
+.geo-wedge { fill: rgba(232,243,255,.09); }
+.geo-edge { stroke: var(--haze); stroke-width: 1; stroke-dasharray: 4 5; fill: none; }
+.geo-arc { stroke: var(--beam); stroke-width: 1.5; fill: none; }
+.geo-blind { fill: rgba(255,43,69,.14); stroke: rgba(255,43,69,.5); stroke-width: 1; stroke-dasharray: 3 4; }
+.geo-house rect { fill: var(--slate); }
+.geo-sensor { fill: var(--beam); }
+.geo-label { fill: var(--mute); font-family: var(--mono); font-size: 10px; text-anchor: middle; }
+.geo-dim { fill: var(--beam); font-family: var(--mono); font-size: 11px; text-anchor: middle; }
+
+/* ---------------- teknik tablo ---------------- */
+
+.spec { width: 100%; border-collapse: collapse; text-align: left; }
+.spec tr { border-bottom: var(--rule); }
+.spec tr:first-child { border-top: 1px solid color-mix(in srgb, var(--haze) 90%, transparent); }
+.spec th, .spec td { padding: .95rem 0; vertical-align: baseline; }
+.spec th {
+  font-variation-settings: "wdth" 96, "wght" 500;
+  color: var(--mute); font-size: .95rem; width: 34%; padding-right: 1.5rem;
+}
+.spec td { color: var(--chalk); }
+
+/* ---------------- modeller ---------------- */
+
+.models { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); grid-template-columns: repeat(3, 1fr); }
+.model { border-top: 1px solid var(--haze); padding-top: 1.1rem; }
+.model-lead { border-top-color: var(--beam); }
+.model h3 {
+  margin: 0 0 .1rem; font-family: var(--mono);
+  font-size: 1.5rem; letter-spacing: -.01em; color: var(--chalk);
+  font-variation-settings: "wght" 500;
+}
+.model-lead h3 { color: var(--beam); }
+.model-what {
+  margin: 0 0 .8rem;
+  font-variation-settings: "wdth" 100, "wght" 650; font-size: 1.02rem;
+}
+.model p { color: var(--mute); margin: 0 0 .8rem; }
+.model-power {
+  margin: 0; font-family: var(--mono); font-size: .78rem; color: var(--faint);
+  border-top: var(--rule); padding-top: .6rem;
+}
+
+/* ---------------- kurulum (gerçek sıra) ---------------- */
+
+.howto { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.howto li {
+  counter-increment: s;
+  display: grid; grid-template-columns: 3.2rem 1fr; gap: 1.2rem;
+  padding: 1.6rem 0; border-bottom: var(--rule);
+}
+.howto li:first-child { border-top: var(--rule); }
+/* sayaç iki satırı da kaplar, yoksa <p> ilk sütuna düşüp kelime kelime sarar */
+.howto li::before {
+  content: counter(s);
+  grid-row: 1 / span 2;
+  font-family: var(--mono); font-size: 1.5rem; color: var(--faint);
+  line-height: 1.1;
+}
+.howto h3 {
+  margin: 0 0 .25rem;
+  font-variation-settings: "wdth" 102, "wght" 700; font-size: 1.2rem;
+}
+.howto p { margin: 0; color: var(--mute); }
+
+/* ---------------- alt ---------------- */
+
+.foot { padding: clamp(3rem, 8vh, 6rem) 0; background: var(--ink); border-top: var(--rule); }
+.foot-in { display: grid; gap: .6rem; }
+.foot-brand {
+  margin: 0; font-variation-settings: "wdth" 112, "wght" 800;
+  font-size: 1.6rem; letter-spacing: -.03em;
+}
+.foot-note { margin: 0; color: var(--mute); }
+.foot-mail { margin: 0; }
+.foot-mail a {
+  color: var(--beam); text-decoration: none; font-family: var(--mono);
+  border-bottom: 1px solid color-mix(in srgb, var(--beam) 45%, transparent);
+}
+.foot-mail a:hover { border-bottom-color: var(--beam); }
+
+/* ============================================================
+   MOBİL / TABLET
+   Sahne: çizim alta sığdırılır, kopya üstte durur.
+   ============================================================ */
+
+@media (max-width: 1080px) {
+  .geo { grid-template-columns: 1fr; }
+  .ladder { grid-template-columns: 1fr; gap: 2.2rem; }
+  .ladder::before { display: none; }
+  .step { border-top: 1px solid var(--haze); padding-top: 1rem; }
+  .step-3 { border-top-color: color-mix(in srgb, var(--alarm-red) 70%, var(--haze)); }
+  .step-viz { height: 72px; }
+  .models { grid-template-columns: 1fr; }
+  .stage-copy { width: min(40ch, 52vw); }
+}
+
+/* Dar ya da uzun ekranda çizim kendi 16:9 oranında sahnenin altına oturur;
+   üstteki boşluğu .stage'in gökyüzü degradesi doldurur. */
+@media (max-width: 760px), (min-width: 761px) and (max-aspect-ratio: 13/10) {
+  .stage-art { inset: auto 0 0 0; height: auto; }
+  .hud { bottom: calc(56.25vw + 0.9rem); }
+}
+
+@media (max-width: 760px) {
+  .topnav { display: none; }
+  /* mobilde kopya tam genislikte, perde de yukaridan asagi */
+  .copy-scrim {
+    background: linear-gradient(to bottom,
+      rgba(7,12,20,.86) 0%, rgba(7,12,20,.62) 46%, rgba(7,12,20,0) 62%);
+  }
+  /* dar ekranda kopya ve HUD ile cakisiyor, alani da yok */
+  .beats { display: none; }
+  .sound { margin-left: auto; }
+
+  .tunnel { height: 560vh; }
+
+  .stage-copy {
+    top: clamp(4.6rem, 12vh, 7rem);
+    left: var(--gut); right: var(--gut);
+    width: auto;
+  }
+  .act h1 { font-size: clamp(2.1rem, 10.5vw, 3.1rem); }
+  .act h2 { font-size: clamp(1.85rem, 9vw, 2.6rem); }
+  .act p { font-size: .95rem; max-width: 38ch; }
+  .act p:not(.cue):not(.hint):not(.act-cta) { max-width: 34ch; }
+
+  .hud {
+    /* bottom'i BURADA verme: ustteki kural seridin yuksekligini hesaplayip
+       HUD'u onun ustune koyuyor, buradaki sabit deger onu eziyordu. */
+    left: var(--gut); right: var(--gut); width: auto;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: .1rem .8rem; font-size: .68rem;
+    background: linear-gradient(to top, rgba(4,7,14,.85), rgba(4,7,14,.35));
+    padding: .5rem .6rem;
+  }
+  .hud-row { flex-direction: column; gap: 0; padding: 0; }
+  .hud-bar { grid-column: 1 / -1; margin-top: .35rem; }
+
+  .geo-figs { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .spec th, .spec td { display: block; width: auto; padding-right: 0; }
+  .spec th { padding-bottom: .1rem; font-size: .82rem; }
+  .spec td { padding-top: 0; padding-bottom: 1rem; }
+  .howto li { grid-template-columns: 2.2rem 1fr; gap: .8rem; }
+}
+
+@media (max-width: 420px) {
+  .act p.hint, .act p.cue { font-size: .72rem; }
+  .act p:not(.cue):not(.hint):not(.act-cta) { max-width: 30ch; }
+}
+
+/* yatay mobil: kopya ile çizim çakışmasın */
+@media (max-height: 560px) and (min-width: 761px) {
+  .stage-copy { top: 4.5rem; }
+  .act h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
+  .act p { font-size: .9rem; }
+  .hud { bottom: .8rem; }
+}

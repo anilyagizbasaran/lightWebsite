@@ -1,0 +1,15 @@
+services:
+  nobet:
+    build: .
+    image: nobet-site:latest
+    container_name: nobet-site
+    ports:
+      # 0.0.0.0 -> yerel ağdaki her cihaz http://<bilgisayarin-IP>:8080 ile açar
+      - "0.0.0.0:8080:80"
+    volumes:
+      # canli duzenleme: dosyayi kaydet, sayfayi yenile, yeniden build gerekmez.
+      # yalnizca dagitim istiyorsan bu iki satiri sil, imaj kendi kopyasini servis eder.
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./assets:/usr/share/nginx/html/assets:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped

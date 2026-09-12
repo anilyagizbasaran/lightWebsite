@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nöbet N1 — kapı önü güvenlik armatürü</title>
+<meta name="description" content="Nöbet N1: kapı önünü 14 metreye kadar tarayan ince lineer LED armatür. Işıkla uyarır, yaklaşmaya devam edene kırmızı-mavi flaşör ve 108 dB siren.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=37">
+</head>
+<body>
+<a class="skiplink" href="#caydirma">İçeriğe geç</a>
+
+<header class="topbar">
+  <a class="brand" href="#top">
+    <svg class="brand-mark" viewBox="0 0 34 20" aria-hidden="true">
+      <rect x="1" y="2" width="32" height="5" rx="1.5"/>
+      <path d="M5 9 L29 9 L33 19 L1 19 Z" class="brand-beam"/>
+    </svg>
+    <span class="brand-name">Nöbet</span>
+  </a>
+  <nav class="topnav" aria-label="Bölümler">
+    <a href="#caydirma">Caydırma</a>
+    <a href="#algilama">Algılama</a>
+    <a href="#teknik">Teknik</a>
+    <a href="#modeller">Modeller</a>
+  </nav>
+  <button class="sound" id="soundBtn" type="button" aria-pressed="false">
+    <span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-label">Ses kapalı</span>
+  </button>
+</header>
+
+<main id="top">
+
+<!-- ============ SAHNE ============ -->
+<section class="tunnel" id="tunnel">
+  <div class="stage" id="stage">
+
+    <svg class="stage-art" id="art" viewBox="0 0 1440 810" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <!-- Referanstaki alacakaranlik: tepede koyu mor-mavi,
+             ufukta lavantaya donen soluk bir bant. -->
+        <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#070A16"/>
+          <stop offset=".52" stop-color="#141A31"/>
+          <stop offset=".82" stop-color="#26263F"/>
+          <stop offset="1" stop-color="#2E2C42"/>
+        </linearGradient>
+        <linearGradient id="gBeam" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#E8F3FF" stop-opacity=".55"/>
+          <stop offset=".55" stop-color="#E8F3FF" stop-opacity=".13"/>
+          <stop offset="1"   stop-color="#E8F3FF" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="gPool">
+          <stop offset="0" stop-color="#E8F3FF" stop-opacity=".40"/>
+          <stop offset=".55" stop-color="#E8F3FF" stop-opacity=".12"/>
+          <stop offset="1" stop-color="#E8F3FF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gPoolR">
+          <stop offset="0" stop-color="#FF2B45" stop-opacity=".46"/>
+          <stop offset="1" stop-color="#FF2B45" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gPoolB">
+          <stop offset="0" stop-color="#2B7BFF" stop-opacity=".46"/>
+          <stop offset="1" stop-color="#2B7BFF" stop-opacity="0"/>
+        </radialGradient>
+        <!-- ic mekan isigi: merkezde sicak amber, kenarlarda koyulasir.
+             Duz parlak altin sari yerine bu, siluetin okunmasini saglar. -->
+        <radialGradient id="gWin">
+          <stop offset="0" stop-color="#D9A863"/>
+          <stop offset=".6" stop-color="#8A6533"/>
+          <stop offset="1" stop-color="#2A211B"/>
+        </radialGradient>
+        <linearGradient id="gContact" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#04070C" stop-opacity=".8"/>
+          <stop offset="1" stop-color="#04070C" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Sonuk cam: tepede soluk gok yansimasi. Duz koyu dolgu verince
+             pencere cam degil duvarda delik gibi okunuyor. -->
+        <linearGradient id="gGlassDark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2E3850"/>
+          <stop offset=".42" stop-color="#141B27"/>
+          <stop offset="1" stop-color="#0C111A"/>
+        </linearGradient>
+        <!-- ahsapta yukari dogru koyulasan ortam isigi dusumu -->
+        <linearGradient id="gTimberFall" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+          <stop offset=".55" stop-color="#03060C" stop-opacity=".26"/>
+          <stop offset="1" stop-color="#03060C" stop-opacity=".48"/>
+        </linearGradient>
+        <!-- girintili bayin ic kenar golgeleri -->
+        <linearGradient id="gRevealL" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#05080D" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gRevealR" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stop-color="#05080D" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        </linearGradient>
+        <!-- one kademeli sag blogun dusurdugu golge -->
+        <linearGradient id="gStepShadowL" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stop-color="#05080D" stop-opacity=".62"/>
+          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gStepShadow" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#05080D" stop-opacity=".62"/>
+          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        </linearGradient>
+        <!-- yanan pencerenin duvara tasan sicak halesi -->
+        <radialGradient id="gWinSpill">
+          <stop offset="0" stop-color="#F4C77A" stop-opacity=".38"/>
+          <stop offset=".55" stop-color="#C9974A" stop-opacity=".14"/>
+          <stop offset="1" stop-color="#C9974A" stop-opacity="0"/>
+        </radialGradient>
+        <pattern id="pTimber" width="15" height="12" patternUnits="userSpaceOnUse">
+          <rect width="15" height="12" fill="#33251A"/>
+          <rect x="13" width="2" height="12" fill="#241A11"/>
+        </pattern>
+        <pattern id="pPanel" width="120" height="120" patternUnits="userSpaceOnUse">
+          <rect width="120" height="120" fill="#2A323D"/>
+          <rect x="118" width="2" height="120" fill="#222933"/>
+          <rect y="118" width="120" height="2" fill="#222933"/>
+        </pattern>
+        <linearGradient id="gWarmWin" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F4DCA8"/>
+          <stop offset=".55" stop-color="#D9B472"/>
+          <stop offset="1" stop-color="#8A6A3C"/>
+        </linearGradient>
+        <linearGradient id="gDoorWood" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#7A5730"/>
+          <stop offset=".5" stop-color="#8E6737"/>
+          <stop offset="1" stop-color="#6B4A28"/>
+        </linearGradient>
+        <radialGradient id="gWashR">
+          <stop offset="0" stop-color="#FF2B45" stop-opacity=".82"/>
+          <stop offset="1" stop-color="#FF2B45" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gWashB">
+          <stop offset="0" stop-color="#2B7BFF" stop-opacity=".82"/>
+          <stop offset="1" stop-color="#2B7BFF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gLens">
+          <stop offset="0" stop-color="#FFFFFF"/>
+          <stop offset=".4" stop-color="#E8F3FF" stop-opacity=".8"/>
+          <stop offset="1" stop-color="#E8F3FF" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="-500" y="-300" width="2440" height="1120" fill="url(#gSky)"/>
+      <g id="stars"></g>
+
+      <!-- uzaktaki cit -->
+      <g class="far">
+        <rect x="760" y="646" width="1100" height="4" rx="2"/>
+        <rect x="960" y="614" width="6" height="34"/>
+        <rect x="1060" y="614" width="6" height="34"/>
+        <rect x="1160" y="614" width="6" height="34"/>
+        <rect x="1260" y="614" width="6" height="34"/>
+        <rect x="1360" y="614" width="6" height="34"/>
+        <rect x="1460" y="614" width="6" height="34"/>
+        <rect x="1560" y="614" width="6" height="34"/>
+        <rect x="1660" y="614" width="6" height="34"/>
+      </g>
+
+      <!-- ============================================================
+           Modern iki katli ev. Olcek 100 px = 1 m, zemin y=676.
+           Kapi ekseni x=386; sol blok sag blogun bu eksene gore aynasi,
+           tek fark kaplama: solda dikey ahsap, sagda gri panel.
+           Garaj yok. Tum pencereler sonuk; alarmda SAG UST yanar.
+           ============================================================ -->
+      <g id="house">
+
+        <!-- ---- sag blok: gri panel ---- -->
+        <rect x="470" y="40" width="440" height="636" fill="url(#pPanel)"/>
+        <rect x="462" y="20" width="456" height="22" fill="#12161C"/>
+        <rect x="462" y="20" width="456" height="3" fill="#39405C"/>
+        <rect x="556" y="140" width="150" height="200" fill="url(#gGlassDark)"/>
+        <g class="win-frame"><rect x="556" y="140" width="150" height="200"/></g>
+        <line x1="556" y1="252" x2="706" y2="252" class="win-bar"/>
+        <line x1="660" y1="140" x2="660" y2="340" class="win-bar"/>
+        <rect x="556" y="428" width="150" height="196" fill="url(#gGlassDark)"/>
+        <g class="win-frame"><rect x="556" y="428" width="150" height="196"/></g>
+        <line x1="556" y1="516" x2="706" y2="516" class="win-bar"/>
+        <line x1="660" y1="428" x2="660" y2="624" class="win-bar"/>
+        <rect x="470" y="636" width="440" height="40" fill="#232A33"/>
+        <rect x="470" y="630" width="440" height="8" fill="#4A3A28"/>
+
+        <!-- ---- sol blok: sagin aynasi, dikey ahsap kaplama ---- -->
+        <rect x="-138" y="40" width="440" height="636" fill="url(#pTimber)"/>
+        <!-- yukari dogru koyulasan ortam isigi dusumu -->
+        <rect x="-138" y="40" width="440" height="636" fill="url(#gTimberFall)"/>
+        <rect x="-146" y="20" width="456" height="22" fill="#12161C"/>
+        <rect x="-146" y="20" width="456" height="3" fill="#39405C"/>
+        <rect x="66" y="140" width="150" height="200" fill="url(#gGlassDark)"/>
+        <g class="win-frame"><rect x="66" y="140" width="150" height="200"/></g>
+        <line x1="66" y1="252" x2="216" y2="252" class="win-bar"/>
+        <line x1="112" y1="140" x2="112" y2="340" class="win-bar"/>
+        <rect x="66" y="428" width="150" height="196" fill="url(#gGlassDark)"/>
+        <g class="win-frame"><rect x="66" y="428" width="150" height="196"/></g>
+        <line x1="66" y1="516" x2="216" y2="516" class="win-bar"/>
+        <line x1="112" y1="428" x2="112" y2="624" class="win-bar"/>
+        <rect x="-138" y="636" width="440" height="40" fill="#232A33"/>
+        <rect x="-138" y="630" width="440" height="8" fill="#4A3A28"/>
+
+        <!-- ---- orta: girintili giris bayi ---- -->
+        <rect x="300" y="120" width="170" height="556" fill="#171D24"/>
+        <!-- Girintinin ic kenar golgeleri: bunlar olmadan bay girintili
+             degil, sadece daha koyu bir dikdortgen gibi okunuyor. -->
+        <rect x="300" y="120" width="34" height="556" fill="url(#gRevealL)"/>
+        <rect x="436" y="120" width="34" height="556" fill="url(#gRevealR)"/>
+        <rect x="292" y="100" width="186" height="22" fill="#12161C"/>
+
+        <!-- bayin ust kat pencereleri -->
+        <rect x="322" y="196" width="86" height="84" fill="url(#gGlassDark)"/>
+        <g class="win-frame"><rect x="322" y="196" width="86" height="84"/></g>
+        <rect x="322" y="300" width="86" height="84" fill="url(#gGlassDark)"/>
+        <g class="win-frame"><rect x="322" y="300" width="86" height="84"/></g>
+
+        <!-- konsol sacak -->
+        <rect x="288" y="398" width="212" height="26" fill="#12161C"/>
+        <rect x="288" y="424" width="212" height="6" fill="#0A0D11"/>
+
+        <!-- giris kapisi: ahsap, 0,95 x 2,15 m, ekseni x=386 -->
+        <rect x="332" y="455" width="108" height="221" fill="#0D1116"/>
+        <rect x="338" y="461" width="96" height="215" fill="url(#gDoorWood)"/>
+        <rect x="424" y="500" width="4" height="130" rx="2" fill="#1A1E24"/>
+
+        <text x="310" y="446" class="housenum">17</text>
+
+        <!-- Iki yan blok one kademeli: bayin iki kenarina golge dusuruyor. -->
+        <rect x="470" y="120" width="46" height="556" fill="url(#gStepShadow)"/>
+        <rect x="254" y="120" width="46" height="556" fill="url(#gStepShadowL)"/>
+      </g>
+
+      <!-- ============================================================
+           ALARMDA YANAN PENCERELER: sag ust + bayin ust penceresi.
+           Butun opaklik scene.js tarafindan suruluyor (alarm + 1 sn).
+           ============================================================ -->
+      <g id="winLit" opacity="0">
+        <!-- duvara tasan sicak haleler -->
+        <ellipse cx="141" cy="240" rx="230" ry="200" fill="url(#gWinSpill)"/>
+        <ellipse cx="631" cy="240" rx="230" ry="200" fill="url(#gWinSpill)"/>
+        <!-- sol ust -->
+        <rect x="66" y="140" width="150" height="200" fill="url(#gWarmWin)"/>
+        <line x1="66" y1="252" x2="216" y2="252" class="win-bar"/>
+        <line x1="112" y1="140" x2="112" y2="340" class="win-bar"/>
+        <!-- sag ust -->
+        <rect x="556" y="140" width="150" height="200" fill="url(#gWarmWin)"/>
+        <line x1="556" y1="252" x2="706" y2="252" class="win-bar"/>
+        <line x1="660" y1="140" x2="660" y2="340" class="win-bar"/>
+      </g>
+
+      <!-- Urun: N1. Govde 800 mm, sacagin altinda 2,45 m yuksekliginde. -->
+      <g id="fixture">
+        <rect x="346" y="430" width="80" height="18" rx="3" fill="#1D242C"/>
+        <rect x="346" y="430" width="80" height="4" rx="2" fill="#2C3844"/>
+        <rect x="352" y="442" width="68" height="5.5" rx="2.75" id="lens" fill="#E8F3FF"/>
+        <ellipse cx="386" cy="445" rx="112" ry="22" fill="url(#gLens)" opacity=".5" id="lensGlow"/>
+        <circle cx="386" cy="453" r="4" id="pir" fill="#0E1826" stroke="#3C5470" stroke-width="1.4"/>
+
+        <!-- Cakar emitorleri: kirmizi SOL, mavi SAG -->
+        <g id="fxR" opacity="0">
+          <circle cx="360" cy="453" r="8" fill="#FF2B45"/>
+          <circle cx="360" cy="453" r="3.6" fill="#FFEAEE"/>
+        </g>
+        <g id="fxB" opacity="0">
+          <circle cx="412" cy="453" r="8" fill="#2B7BFF"/>
+          <circle cx="412" cy="453" r="3.6" fill="#E8F1FF"/>
+        </g>
+      </g>
+
+      <!-- Cakarin duvara vurdugu yerel leke -->
+      <ellipse cx="352" cy="548" rx="120" ry="142" fill="url(#gWashR)" opacity="0" id="washR"/>
+      <ellipse cx="420" cy="548" rx="120" ry="142" fill="url(#gWashB)" opacity="0" id="washB"/>
+
+      <!-- Isik konisi: 120 derece huzme, 2,45 m yukseklikten -> zeminde +-4,2 m -->
+      <path id="beamW" d="M352,448 L420,448 L810,676 L-38,676 Z" fill="url(#gBeam)"/>
+
+      <!-- Zemin: sade koyu yuzey. Isik havuzunun uzerine dustugu duzlem
+           ve binanin oturdugu temas golgesi disinda detay yok. -->
+      <rect x="-500" y="676" width="2440" height="380" fill="#0E141C"/>
+      <rect x="-500" y="676" width="2440" height="26" fill="url(#gContact)"/>
+
+      <ellipse id="poolW" cx="386" cy="678" rx="424" ry="36" fill="url(#gPool)"/>
+      <ellipse id="poolR" cx="348" cy="678" rx="330" ry="32" fill="url(#gPoolR)" opacity="0"/>
+      <ellipse id="poolB" cx="424" cy="678" rx="330" ry="32" fill="url(#gPoolB)" opacity="0"/>
+
+      <!-- urun etiketi -->
+      <g class="callout">
+        <line x1="346" y1="428" x2="272" y2="378"/>
+        <circle cx="346" cy="428" r="2.5"/>
+        <text x="266" y="374" text-anchor="end">N1 gövde</text>
+        <text x="266" y="392" text-anchor="end" class="callout-sub">800 × 62 × 46 mm</text>
+      </g>
+    </svg>
+
+    <div class="strobe" id="strobe" aria-hidden="true"><i class="s-r"></i><i class="s-b"></i></div>
+
+    <!-- Bolum gostergesi: 6 ekranlik tunelde nerede oldugunu soyler ve
+         tiklayinca o ana atlar. Zeminden kaldirilan mesafe esiklerinin
+         yerini de dolduruyor. -->
+    <nav class="beats" id="beats" aria-label="Sahne asamalari">
+      <button type="button" data-p="0.10" aria-current="true">Bekleme</button>
+      <button type="button" data-p="0.41">Algılandı</button>
+      <button type="button" data-p="0.62">Uyarı</button>
+      <button type="button" data-p="0.80">Alarm</button>
+      <button type="button" data-p="0.96">Sıfırlama</button>
+    </nav>
+
+    <!-- Kapi merkeze alindi, arkasi her an aydinlik olabilir:
+         kopya kolonunun arkasina okunabilirlik perdesi. -->
+    <i class="copy-scrim" aria-hidden="true"></i>
+
+    <div class="stage-copy">
+      <article class="act is-on" data-act="0">
+        <h1>Işık uyarır.<br>Siren bitirir.</h1>
+        <p>Nöbet N1 kapı önünü 14 metreye kadar tarar. Beyaz ışık zaten yanıyor, kısık. Aşağı kaydır — kapıya sen yaklaş.</p>
+        <p class="cue">Aşağı kaydır</p>
+      </article>
+      <article class="act" data-act="1">
+        <h2>Seni gördü.</h2>
+        <p>14 metrede PIR tetiklendi. Armatür kısık moddan tam güce, 2400 lümene geçti. Çoğu ziyaretçi tam burada geri döner.</p>
+      </article>
+      <article class="act" data-act="2">
+        <h2>Yaklaşmaya devam ediyorsun.</h2>
+        <p>6 metre eşiği geçildi. Işık nabız gibi atmaya başladı. Bu bir uyarı: fark edildin, kayıt altındasın.</p>
+      </article>
+      <article class="act" data-act="3">
+        <h2>Üç metre.</h2>
+        <p>Kademe bitti. İki tonlu 108 desibel siren, kırmızı-mavi flaşörle birlikte çalışıyor. Evin ışığı yandı.</p>
+        <p class="hint" id="soundHint">Sesi duymak için <button type="button" class="inline-btn" id="soundHintBtn">sesi aç</button></p>
+      </article>
+      <article class="act" data-act="4">
+        <h2>Ve bekler.</h2>
+        <p>Otuz saniye sonra siren susar, flaşör kapanır, beyaz ışık geri gelir. N1 yeniden bekleme modunda: 0,6 watt, sessiz, hazır.</p>
+        <p class="act-cta"><a class="btn" href="#modeller">Modelleri gör</a> <a class="btn btn-ghost" href="#teknik">Teknik değerler</a></p>
+      </article>
+    </div>
+
+    <div class="hud" id="hud" role="status" aria-live="off">
+      <div class="hud-row"><span class="hud-k">Durum</span><span class="hud-v" id="hudState">Bekleme</span></div>
+      <div class="hud-row"><span class="hud-k">Mesafe</span><span class="hud-v" id="hudDist">—</span></div>
+      <div class="hud-row"><span class="hud-k">Bölge</span><span class="hud-v" id="hudZone">—</span></div>
+      <div class="hud-bar"><i id="hudBar"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAYDIRMA ============ -->
+<section class="band" id="caydirma">
+  <div class="wrap">
+    <h2 class="band-h">Tek bir armatür, üç kademe</h2>
+    <p class="band-lede">Sürekli yanan bir projektör caydırmaz, alışkanlık yaratır. N1 tepkiyi tehdide göre büyütür.</p>
+
+    <ol class="ladder">
+      <li class="step step-1">
+        <div class="step-viz" aria-hidden="true"><span class="v-glow"></span></div>
+        <h3>Kısık ışık</h3>
+        <p class="step-meta">400 lümen, sürekli</p>
+        <p>Kapı önü hiçbir zaman tamamen karanlık değil. Basamakları görürsün, kamera yüzü görür.</p>
+      </li>
+      <li class="step step-2">
+        <div class="step-viz" aria-hidden="true"><span class="v-glow v-full"></span></div>
+        <h3>Tam güç</h3>
+        <p class="step-meta">2400 lümen, hareketle</p>
+        <p>Sensör tetiklenince 40 milisaniyede tam güce çıkar. Gölge kalmaz.</p>
+      </li>
+      <li class="step step-3">
+        <div class="step-viz" aria-hidden="true"><span class="v-flash v-r"></span><span class="v-flash v-b"></span></div>
+        <h3>Flaşör ve siren</h3>
+        <p class="step-meta">108 dB, kırmızı-mavi</p>
+        <p>Son kademe. Gecikmeyi sen seçersin: anında, 3 saniye sonra, ya da hiç.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ ALGILAMA ============ -->
+<section class="band band-alt" id="algilama">
+  <div class="wrap geo">
+    <div class="geo-text">
+      <h2 class="band-h">Montaj yüksekliği menzili belirler</h2>
+      <p>PIR sensörü ısı farkını yatayda tarar. Yükseğe monte edersen alan büyür ama armatürün hemen altında kör bir daire kalır. Kaydırıcıyı oynat, kapı önünün gerçek kapsamasını gör.</p>
+
+      <label class="slider">
+        <span class="slider-top">
+          <span class="slider-name">Montaj yüksekliği</span>
+          <output id="hOut">2,4 m</output>
+        </span>
+        <input type="range" id="hRange" min="2" max="3.5" step="0.1" value="2.4">
+      </label>
+
+      <dl class="geo-figs">
+        <div><dt>Menzil</dt><dd id="figReach">11,8 m</dd></div>
+        <div><dt>Kapsanan alan</dt><dd id="figArea">133 m²</dd></div>
+        <div><dt>Kör daire</dt><dd id="figBlind">1,0 m</dd></div>
+      </dl>
+    </div>
+
+    <svg class="geo-art" id="geoArt" viewBox="0 0 520 460" role="img" aria-labelledby="geoTitle">
+      <title id="geoTitle">Üstten görünüm: 110 derecelik algılama konisi ve kör daire</title>
+      <g class="geo-grid" id="geoGrid"></g>
+      <path id="geoWedge" class="geo-wedge" d=""/>
+      <path id="geoEdgeL" class="geo-edge" d=""/>
+      <path id="geoEdgeR" class="geo-edge" d=""/>
+      <path id="geoArc" class="geo-arc" d=""/>
+      <circle id="geoBlind" class="geo-blind" cx="260" cy="44" r="20"/>
+      <g class="geo-house">
+        <rect x="176" y="8" width="168" height="30" rx="2"/>
+        <rect x="240" y="32" width="40" height="8"/>
+      </g>
+      <circle cx="260" cy="42" r="4" class="geo-sensor"/>
+      <text x="260" y="26" class="geo-label">N1</text>
+      <text id="geoReachLabel" x="260" y="0" class="geo-dim">11,8 m</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ TEKNIK ============ -->
+<section class="band" id="teknik">
+  <div class="wrap">
+    <h2 class="band-h">Teknik değerler</h2>
+    <table class="spec">
+      <caption class="sr-only">Nöbet N1-A teknik özellikleri</caption>
+      <tbody>
+        <tr><th scope="row">Işık gücü</th><td>2400 lümen, 5000 K nötr beyaz</td></tr>
+        <tr><th scope="row">Işık dağılımı</th><td>120° yatay, 70° düşey, asimetrik lens</td></tr>
+        <tr><th scope="row">Algılama</th><td>PIR, 110° yatay, 3–14 m (montaj yüksekliğine göre)</td></tr>
+        <tr><th scope="row">Siren</th><td>108 dB @ 1 m, iki tonlu, 1,7 Hz</td></tr>
+        <tr><th scope="row">Flaşör</th><td>Kırmızı ve mavi LED, dönüşümlü kısa atım, 150 atım/dk (SAE J845 aralığında)</td></tr>
+        <tr><th scope="row">Güç</th><td>12 V DC — 0,6 W bekleme, 22 W tam güç</td></tr>
+        <tr><th scope="row">Gövde</th><td>Anodize alüminyum ekstrüzyon, 800 × 62 × 46 mm</td></tr>
+        <tr><th scope="row">Koruma</th><td>IP66 su ve toz, IK08 darbe</td></tr>
+        <tr><th scope="row">Çalışma sıcaklığı</th><td>−25 °C ile +50 °C arası</td></tr>
+        <tr><th scope="row">Çıkış</th><td>Kuru kontak, NO/NC — NVR veya alarm paneline</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ MODELLER ============ -->
+<section class="band band-alt" id="modeller">
+  <div class="wrap">
+    <h2 class="band-h">Üç model</h2>
+    <div class="models">
+      <article class="model">
+        <h3>N1</h3>
+        <p class="model-what">Işık ve sensör</p>
+        <p>Kapı önünü aydınlatır, hareketle tam güce çıkar. Flaşör ve siren yok.</p>
+        <p class="model-power">12 V DC</p>
+      </article>
+      <article class="model model-lead">
+        <h3>N1-A</h3>
+        <p class="model-what">Işık, sensör, flaşör, siren</p>
+        <p>Üç kademenin tamamı. Sahnede gördüğün model bu.</p>
+        <p class="model-power">12 V DC, kuru kontak çıkışı</p>
+      </article>
+      <article class="model">
+        <h3>N1-P</h3>
+        <p class="model-what">Tek kabloyla</p>
+        <p>PoE besleme ve veri aynı kablodan. Mevcut kayıt cihazına bağlanır.</p>
+        <p class="model-power">802.3at PoE+</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KURULUM ============ -->
+<section class="band" id="kurulum">
+  <div class="wrap narrow">
+    <h2 class="band-h">Kurulum</h2>
+    <ol class="howto">
+      <li><h3>Yüksekliği seç</h3><p>Kapının 30 cm üstüne, zeminden 2,4–3,0 m arasına monte et. Daha yükseği menzili büyütür, kör daireyi de.</p></li>
+      <li><h3>Kabloyu geçir</h3><p>12 V besleme ve kuru kontak kablosu arka plakadaki kanaldan geçer. Sıva altı ya da üstü, ikisi de olur.</p></li>
+      <li><h3>Menzili ayarla</h3><p>Kapı önünde yürü, sensör tetiklendiğinde gövdedeki LED kırmızı yanar. Vidayla koniyi daralt ya da genişlet.</p></li>
+      <li><h3>Gecikmeyi seç</h3><p>Sirenin ne zaman devreye gireceğini belirle: anında, 3 saniye sonra ya da kapalı.</p></li>
+    </ol>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="foot-brand">Nöbet</p>
+    <p class="foot-note">Numune, fiyat listesi ve bayilik için yazın.</p>
+    <p class="foot-mail"><a href="mailto:merhaba@nobet.example">merhaba@nobet.example</a></p>
+  </div>
+</footer>
+
+</main>
+
+<script src="assets/js/siren.js?v=37" defer></script>
+<script src="assets/js/scene.js?v=37" defer></script>
+<script src="assets/js/ui.js?v=37" defer></script>
+</body>
+</html>
