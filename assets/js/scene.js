@@ -196,7 +196,10 @@
     var inWarn   = dist <= 6;
 
     /* ışık gücü: kısık -> tam -> uyarı nabzı */
-    var gain = detected ? 1 : 0.42;
+    /* Kisik seviye 0,42'den 0,55'e cikti: SVG huzmesinde 0,42 "kisik
+       ama yanik" okunuyordu, foto gecisinde ise neredeyse kapali
+       gorunuyor. Kapali kare gercekten karanlik, aradaki fark buyuk. */
+    var gain = detected ? 1 : 0.55;
     if (inWarn && !alarm && !reduced) gain *= 0.76 + 0.24 * Math.sin(now * 0.009);
     /* Çakar çalarken beyaz söner — ama ANİDEN değil. Sıfıra kesince
        "ışık kaynağı yok oldu, yerine başka bir şey çıktı" gibi

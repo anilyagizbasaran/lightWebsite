@@ -171,13 +171,14 @@ img, svg { max-width: 100%; }
 /* pencere dograma ve kayitlari: referanstaki ince siyah cerceveler */
 
 
-.callout line { stroke: var(--faint); stroke-width: 1; }
+.callout line { stroke: var(--mute); stroke-width: 1; opacity: .75; }
 .callout circle { fill: var(--beam); }
 .callout text {
   text-shadow: 0 1px 4px rgba(4,7,14,.95), 0 0 10px rgba(4,7,14,.7);
   fill: var(--mute); font-family: var(--mono); font-size: 13px; letter-spacing: .01em;
 }
-.callout .callout-sub { fill: var(--faint); font-size: 11px; }
+/* Fotografin uzerinde --faint okunmuyor; bir kademe yukari. */
+.callout .callout-sub { fill: var(--mute); font-size: 11px; opacity: .8; }
 
 /* Yaklaşırken etiket dev gibi büyüyordu; yakın planda gizleniyor. */
 .stage.is-near .callout { opacity: 0; transition: opacity .4s; }
