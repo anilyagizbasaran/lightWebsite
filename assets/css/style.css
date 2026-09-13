@@ -150,7 +150,13 @@ img, svg { max-width: 100%; }
 
 /* ---------------- kaydırma tüneli + sahne ---------------- */
 
-.tunnel { position: relative; height: 620vh; }
+/* Kaydirma yolu: bes akt, akt basina bir jest. 620vh'de akt basina
+   842 px dusuyordu, yani faz basina 7-8 tekerlek turu -- baslangicta
+   "Seni gordu"ye varmak icin bile cok fazla. 340vh'de akt basina
+   389 px, yani 3-4 tur. Mobilde biraz daha uzun (400vh, 487 px),
+   cunku telefonda tek bir kaydirma jesti momentumla daha uzun yol
+   aliyor ve kisa tunelde fazlar atlanabiliyor. */
+.tunnel { position: relative; height: 340vh; }
 
 .stage {
   position: sticky; top: 0; height: 100vh; overflow: hidden;
@@ -253,7 +259,10 @@ img, svg { max-width: 100%; }
   position: absolute; top: 0; right: 0; width: 100%;
   opacity: 0; visibility: hidden;
   transform: translateY(14px);
-  transition: opacity .45s ease, transform .45s ease, visibility .45s;
+  /* Tunel kisaldi (akt basina ~389 px): 0,45 s'lik gecis, fazin
+     kendisi ekrandan gecerken tamamlanamiyordu. 0,26 s'de kopya hizli
+     bir jestte de okunacak kadar yerlesiyor. */
+  transition: opacity .26s ease, transform .26s ease, visibility .26s;
 }
 .act.is-on { opacity: 1; visibility: visible; transform: none; }
 
@@ -627,7 +636,7 @@ img, svg { max-width: 100%; }
   .callout { display: none; }
   .menu-btn { margin-left: auto; }
 
-  .tunnel { height: 560vh; }
+  .tunnel { height: 400vh; }
 
   /* Yazi mobilde cok yer kapliyordu: tip kuculdu, satir araligi sikildi,
      paragraf daraltildi. Amac ana konunun (giris + isik) one gecmesi. */
