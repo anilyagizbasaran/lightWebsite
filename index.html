@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=95">
+<link rel="stylesheet" href="assets/css/style.css?v=96">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -60,6 +60,12 @@
         <filter id="fSoft" x="-30%" y="-30%" width="160%" height="160%"
                 color-interpolation-filters="sRGB">
           <feGaussianBlur stdDeviation="7"/>
+        </filter>
+        <!-- Cekirdek icin: hale 7'de kalirken cekirdek 3'te, boylece
+             ayni isigin hem yumusak hem net bir tarafi oluyor. -->
+        <filter id="fMed" x="-30%" y="-30%" width="160%" height="160%"
+                color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="3"/>
         </filter>
         <filter id="fTight" x="-60%" y="-400%" width="220%" height="900%"
                 color-interpolation-filters="sRGB">
@@ -154,6 +160,36 @@
           <stop offset="1" stop-color="#1348C8" stop-opacity="0"/>
         </linearGradient>
 
+        <linearGradient id="gCoreW" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.58"/>
+          <stop offset=".42" stop-color="#E4EEFF" stop-opacity="0.20"/>
+          <stop offset="1" stop-color="#E4EEFF" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="gHotW">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.64"/>
+          <stop offset=".55" stop-color="#E4EEFF" stop-opacity="0.24"/>
+          <stop offset="1" stop-color="#E4EEFF" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gCoreR" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFE0E4" stop-opacity="0.86"/>
+          <stop offset=".42" stop-color="#FF3244" stop-opacity="0.30"/>
+          <stop offset="1" stop-color="#FF3244" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="gHotR">
+          <stop offset="0" stop-color="#FFE0E4" stop-opacity="0.95"/>
+          <stop offset=".55" stop-color="#FF3244" stop-opacity="0.36"/>
+          <stop offset="1" stop-color="#FF3244" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gCoreB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#E2EEFF" stop-opacity="0.88"/>
+          <stop offset=".42" stop-color="#3A86FF" stop-opacity="0.32"/>
+          <stop offset="1" stop-color="#3A86FF" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="gHotB">
+          <stop offset="0" stop-color="#E2EEFF" stop-opacity="0.97"/>
+          <stop offset=".55" stop-color="#3A86FF" stop-opacity="0.38"/>
+          <stop offset="1" stop-color="#3A86FF" stop-opacity="0"/>
+        </radialGradient>
         <!-- ============================================================
              VINYET. Fotografta kapiyla yarisan uc parlaklik OLCULDU:
                sagdaki bahce armaturu  dunya (1001, 571)  lum 253
@@ -227,6 +263,12 @@
         <!-- havada: koni -->
         <path d="M352,427 L435,427 L560,676 L250,676 Z"
               fill="url(#gConeW)" filter="url(#fSoft)"/>
+        <!-- CEKIRDEK: dar ve guclu, 3 birim bulaniklik. Genis
+             hale altta duruyor; ikisi birlikte "belirgin ama
+             yumusak" okunuyor. -->
+        <path d="M369,427 L418,427 L483,676 L315,676 Z"
+              fill="url(#gCoreW)" filter="url(#fMed)"/>
+        <ellipse cx="393" cy="678" rx="92" ry="15" fill="url(#gHotW)" filter="url(#fMed)"/>
         <!-- yuzeyde: duvar yikamasi (agzin ALTINDA kaliyor, kaynagin
              etrafinda hale olusmasin) -->
         <ellipse cx="393" cy="565" rx="212" ry="188" fill="url(#gWashW)" filter="url(#fSoft)"/>
@@ -248,6 +290,12 @@
         <!-- havada: koni -->
         <path d="M330,427 L413,427 L538,676 L228,676 Z"
               fill="url(#gConeR)" filter="url(#fSoft)"/>
+        <!-- CEKIRDEK: dar ve guclu, 3 birim bulaniklik. Genis
+             hale altta duruyor; ikisi birlikte "belirgin ama
+             yumusak" okunuyor. -->
+        <path d="M347,427 L396,427 L461,676 L293,676 Z"
+              fill="url(#gCoreR)" filter="url(#fMed)"/>
+        <ellipse cx="371" cy="678" rx="92" ry="15" fill="url(#gHotR)" filter="url(#fMed)"/>
         <!-- yuzeyde: duvar yikamasi (agzin ALTINDA kaliyor, kaynagin
              etrafinda hale olusmasin) -->
         <ellipse cx="371" cy="565" rx="212" ry="188" fill="url(#gWashR)" filter="url(#fSoft)"/>
@@ -269,6 +317,12 @@
         <!-- havada: koni -->
         <path d="M374,427 L457,427 L582,676 L272,676 Z"
               fill="url(#gConeB)" filter="url(#fSoft)"/>
+        <!-- CEKIRDEK: dar ve guclu, 3 birim bulaniklik. Genis
+             hale altta duruyor; ikisi birlikte "belirgin ama
+             yumusak" okunuyor. -->
+        <path d="M391,427 L440,427 L505,676 L337,676 Z"
+              fill="url(#gCoreB)" filter="url(#fMed)"/>
+        <ellipse cx="415" cy="678" rx="92" ry="15" fill="url(#gHotB)" filter="url(#fMed)"/>
         <!-- yuzeyde: duvar yikamasi (agzin ALTINDA kaliyor, kaynagin
              etrafinda hale olusmasin) -->
         <ellipse cx="415" cy="565" rx="212" ry="188" fill="url(#gWashB)" filter="url(#fSoft)"/>
@@ -484,7 +538,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=95" defer></script>
-<script src="assets/js/ui.js?v=95" defer></script>
+<script src="assets/js/scene.js?v=96" defer></script>
+<script src="assets/js/ui.js?v=96" defer></script>
 </body>
 </html>

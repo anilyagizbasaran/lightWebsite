@@ -91,16 +91,19 @@
     BOX  = isMobile ? MMUST    : MUST;
   }
 
-  var D_START = 19.0;   // m — başlangıç, menzilin iyice dışı
-  var D_TRIP  = 3.0;    // m — ihlal eşiği
-  var D_BACK  = 16.5;   // m — geri itildikten sonra, menzil dışı
 
+  /* Akt izgarasi: bes esit besli. Mesafe egrisi buna gore uretiliyor
+     (asagidaki STOPS), yani her olay bir akt sinirina yapisik. */
+  var ACT = 0.2;
   var T = {
-    dolly:    [0.04, 0.72],
-    trip:     0.72,
-    alarmEnd: 0.90,
-    push:     [0.80, 0.90]
+    trip:     0.6,    /* ihlal: akt 3 basliyor */
+    alarmEnd: 0.8     /* alarm bitiyor, akt 4 basliyor */
   };
+
+  /* Mesafe duraklari: [p, metre]. Aradaki her parca kendi icinde
+     yumusatiliyor, ama DURAKLAR akt sinirlarinda oldugu icin esikler
+     her zaman tam yerinde. */
+  var STOPS = [[0.0, 19.0], [0.2, 14.0], [0.4, 6.0], [0.6, 3.0], [0.8, 3.0], [1.0, 16.5]];
 
   /* ---------- yardımcılar ---------- */
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -138,24 +141,29 @@
   /* Beyazin cakara devri: ani kesme "isik kayboldu" gibi okunuyordu. */
   var WHITE_FADE = 180;
 
-  /* metre cinsinden kamera mesafesi */
+  /* Metre cinsinden mesafe. Parca parca: her duragin arasinda
+     easeInOut, alarm parcasinda (0,6-0,8) sabit 3 m, son parcada
+     geri cekilme. Sinirlarda deger tam durak degeri oldugu icin
+     "14 m'ye ne zaman varildi" sorusu artik p=0,2 diye cevaplaniyor. */
   function cameraDistance(p) {
-    if (p <= T.dolly[0]) return D_START;
-    if (p < T.dolly[1])  return lerp(D_START, D_TRIP, easeInOut(track(p, T.dolly[0], T.dolly[1])));
-    if (p < T.push[1])   return lerp(D_TRIP, D_BACK, easeOut(track(p, T.push[0], T.push[1])));
-    return D_BACK;
+    if (p <= STOPS[0][0]) return STOPS[0][1];
+    for (var i = 1; i < STOPS.length; i++) {
+      if (p <= STOPS[i][0]) {
+        var a = STOPS[i - 1], b = STOPS[i];
+        if (a[1] === b[1]) return a[1];
+        var t = track(p, a[0], b[0]);
+        /* geri cekilme daha hizli basliyor, yavas bitiyor */
+        return lerp(a[1], b[1], b[1] > a[1] ? easeOut(t) : easeInOut(t));
+      }
+    }
+    return STOPS[STOPS.length - 1][1];
   }
 
-  /* Eşikler kameranın gerçekten o mesafeye vardığı noktalara bağlı.
-     D_START=19, D_TRIP=3, dolly [0.04,0.72] ve easeInOut ile:
-     14 m -> p=0.31, 6 m -> p=0.51, ihlal 0.72.
-     D_START değişirse bunlar da yeniden türetilmeli. */
+  /* Esikler artik turetilmiyor: izgaranin kendisi. Bes esit besli,
+     her sinir ayni zamanda bir mesafe duragi. */
   function actFor(p) {
-    if (p < 0.31) return 0;
-    if (p < 0.51) return 1;
-    if (p < T.trip) return 2;
-    if (p < T.alarmEnd) return 3;
-    return 4;
+    var i = Math.floor(p / ACT);
+    return i > 4 ? 4 : i;
   }
 
   function render(now) {
@@ -164,7 +172,9 @@
     var alarm = p >= T.trip && p < T.alarmEnd;
 
     /* Yaklaşma oranı: 16 m uzak kadraj, 3 m yakın kadraj. */
-    var zoom = clamp01((D_START - dist) / (D_START - D_TRIP));
+    /* Kadraj sabit oldugu icin bu deger artik sadece etiketin
+       gizlenmesi gibi ikincil isler icin kullaniliyor. */
+    var zoom = clamp01((19.0 - dist) / 16.0);
 
     var vw = lerp(FAR.w, NEAR.w, zoom);
     var vh = lerp(FAR.h, NEAR.h, zoom);
@@ -198,7 +208,7 @@
     }
 
     /* algılama: 14 m eşiği */
-    var detected = dist <= 14 && p > T.dolly[0];
+    var detected = dist <= 14;
     var inWarn   = dist <= 6;
 
     /* ışık gücü: kısık -> tam -> uyarı nabzı */
@@ -230,13 +240,13 @@
     /* telemetri */
     var state, zone;
     if (alarm)                            { state = 'Alarm';         zone = dist <= 6 ? 'İhlal' : '—'; }
-    else if (p >= T.alarmEnd && p < 0.97) { state = 'Geri çekildi';  zone = '—'; }
+    else if (p >= T.alarmEnd && p < 0.96) { state = 'Geri çekildi';  zone = '—'; }
     else if (!detected)                   { state = 'Bekleme';       zone = '—'; }
     else if (dist <= 3.2)                 { state = 'Uyarı';         zone = 'B1 / 3 m'; }
     else if (inWarn)                      { state = 'Yaklaşıyor';    zone = 'B2 / 6 m'; }
     else                                  { state = 'Algılandı';     zone = 'B3 / 14 m'; }
 
-    var distText = dist <= 14.2 && p > T.dolly[0] ? fmt(dist) + ' m' : '—';
+    var distText = dist <= 14.2 ? fmt(dist) + ' m' : '—';
     if (el.hudState && state !== lastState)   { el.hudState.textContent = state; lastState = state; }
     if (el.hudZone  && zone  !== lastZone)    { el.hudZone.textContent  = zone;  lastZone  = zone; }
     if (el.hudDist  && distText !== lastDist) { el.hudDist.textContent = distText; lastDist = distText; }
