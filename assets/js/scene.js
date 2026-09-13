@@ -121,8 +121,6 @@
        yani beklemede hicbir sey cizilmiyor, ekranda sadece fotograf
        var. killWhite ise tersi: alarmda pismis beyazi bastiriyor. */
     white:  document.getElementById('lWhite'),
-    kill:   document.getElementById('killWhite'),
-    win:    document.getElementById('lWin'),
     acts:   Array.prototype.slice.call(document.querySelectorAll('.act')),
     hud:      document.getElementById('hud'),
     hudState: document.getElementById('hudState'),
@@ -135,9 +133,8 @@
   /* ---------- durum ---------- */
   var progress = 0, alarmOn = false, actIndex = -1, nearOn = null;
   var lastState = '', lastZone = '', lastDist = '';
-  /* Pencere isigi gercek zamanli gecikmeyle yanar: alarm baslar,
-     1 sn sonra ev sahibi lambaya basar. Kaydirma hizindan bagimsiz. */
-  var alarmT0 = 0, WIN_DELAY = 1000, WIN_FADE = 450;
+  /* Alarmin basladigi an: beyazin sonme egrisi buna gore hesaplaniyor. */
+  var alarmT0 = 0;
   /* Beyazin cakara devri: ani kesme "isik kayboldu" gibi okunuyordu. */
   var WHITE_FADE = 180;
 
@@ -223,18 +220,12 @@
        kendisi oldugu icin eklenen isik 0'dan baslamali: 0,55'te sifir,
        1,0'da tam. Alarmda gain zaten 0'a dusuyor, yani rig kapaniyor.
        killWhite ters yonde: gain dustukce pismis beyazi bastiriyor. */
-    var add = clamp01((gain - 0.55) / 0.45);
-    if (el.white) el.white.setAttribute('opacity', add.toFixed(3));
-    if (el.kill)  el.kill.setAttribute('opacity', (clamp01(1 - gain / 0.55) * 0.82).toFixed(3));
+    /* Taban karede hic isik yok, yani KISIK hali de cizim. Rig
+       dogrudan gain'i izliyor: 0,55 kisik -> 1,0 tam guc. Alarmda
+       gain 180 ms'de 0'a dustugu icin beyaz kendiliginden soner,
+       bastirma perdesine gerek kalmadi. */
+    if (el.white) el.white.setAttribute('opacity', gain.toFixed(3));
 
-    /* Evin ışığı: alarmdan 1 sn sonra yanar. "Geri çekildi" boyunca YANIK
-       KALIR — ev sahibi lambayı davetsiz misafir gidince hemen kapatmaz.
-       Yalnızca sahne bekleme moduna dönerken (p 0.97 -> 1.00) söner. */
-    var glow;
-    if (alarm)                 glow = clamp01((now - alarmT0 - WIN_DELAY) / WIN_FADE);
-    else if (p < T.alarmEnd)   glow = 0;
-    else                       glow = alarmT0 ? (1 - track(p, 0.97, 1.0)) : 0;
-    if (el.win) el.win.setAttribute('opacity', glow.toFixed(3));
 
     /* telemetri */
     var state, zone;

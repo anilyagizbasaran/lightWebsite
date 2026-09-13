@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=93">
+<link rel="stylesheet" href="assets/css/style.css?v=94">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -154,18 +154,6 @@
           <stop offset="1" stop-color="#1348C8" stop-opacity="0"/>
         </linearGradient>
 
-        <!-- Pencere maskesi: olculen isik ayak izine gore iki elips.
-             Plato %86'ya kadar, sonra soluyor. -->
-        <radialGradient id="gWinFeather">
-          <stop offset="0" stop-color="#fff" stop-opacity="1"/>
-          <stop offset=".86" stop-color="#fff" stop-opacity="1"/>
-          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-        </radialGradient>
-        <mask id="mWins" maskUnits="userSpaceOnUse" x="-340" y="-220" width="1400" height="580">
-          <ellipse cx="34" cy="170" rx="285" ry="168" fill="url(#gWinFeather)"/>
-          <ellipse cx="731" cy="136" rx="305" ry="175" fill="url(#gWinFeather)"/>
-        </mask>
-
         <!-- Multiply tint: renkli isigin yuzeyde DIGER kanallari
              bastirmasi. Kenarda seffaf -> etkisi yok; merkezde renk.
              Kirmizi isikta yesil ve mavi yarilaniyor, mavi isikta
@@ -200,22 +188,14 @@
            Zoom kapali: bu kadraj bastan sona sabit.
            ============================================================ -->
       <rect x="-900" y="-500" width="3200" height="1800" fill="#0A0E16"/>
+      <!-- Taban: HER SEY KAPALI. Fotografta hicbir isik pismis degil,
+           yani kisik hali de dahil butun isigi asagidaki rig ciziyor.
+           Onceki tabanda kapi isigi acikti ve kapatilamadigi icin
+           alarmda bastirma perdesi gerekiyordu; artik gerekmiyor. -->
       <image href="assets/art/sahne.webp" x="-572.7" y="-233.1"
              width="1923.1" height="1074.1" preserveAspectRatio="none"/>
 
-      <!-- Alarmda pismis beyazi bastir -->
-      <ellipse id="killWhite" cx="393" cy="580" rx="300" ry="270"
-               fill="url(#gKill)" opacity="0"/>
 
-      <!-- EVIN ISIGI: iki ust pencere, alarmdan 1 sn sonra.
-           Bu katman FOTOGRAF: gradyan camin arkasindaki odayi
-           (koltuk, raf, abajur) uretemiyor, parlayan bir top gibi
-           duruyordu. Ayni kameradan cekilmis kare, pencere bandina
-           kirpili (2002x829, 226 KB) ve iki elipsle maskeli. -->
-      <g id="lWin" mask="url(#mWins)" opacity="0">
-        <image href="assets/art/pencere.webp" x="-339.9" y="-219.8"
-               width="1400" height="579.7" preserveAspectRatio="none"/>
-      </g>
 
       <g id="lWhite" class="rig" opacity="0">
         <!-- havada: koni -->
@@ -318,7 +298,7 @@
       </article>
       <article class="act" data-act="3">
         <h2>Üç metre.</h2>
-        <p>Kademe bitti. İki tonlu 108 desibel siren, kırmızı-mavi flaşörle birlikte çalışıyor. Evin ışığı yandı.</p>
+        <p>Kademe bitti. İki tonlu 108 desibel siren, kırmızı-mavi flaşörle birlikte çalışıyor. Kapı önü artık bir uyarı alanı.</p>
       </article>
       <article class="act" data-act="4">
         <h2>Ve bekler.</h2>
@@ -478,7 +458,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=93" defer></script>
-<script src="assets/js/ui.js?v=93" defer></script>
+<script src="assets/js/scene.js?v=94" defer></script>
+<script src="assets/js/ui.js?v=94" defer></script>
 </body>
 </html>
