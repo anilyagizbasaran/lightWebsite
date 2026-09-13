@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=94">
+<link rel="stylesheet" href="assets/css/style.css?v=95">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -154,6 +154,28 @@
           <stop offset="1" stop-color="#1348C8" stop-opacity="0"/>
         </linearGradient>
 
+        <!-- ============================================================
+             VINYET. Fotografta kapiyla yarisan uc parlaklik OLCULDU:
+               sagdaki bahce armaturu  dunya (1001, 571)  lum 253
+               soldaki esi            dunya (-293, 571)  lum 213
+               gokyuzundeki samanyolu y < 100 bandi       lum 210-244
+             Hepsi cevrede oldugu icin tek bir vinyet uceini de
+             bastiriyor. Maske ile kuruldu (gradientTransform yerine):
+             beyaz dikdortgen = perde gorunur, ustundeki yumusak elips
+             = girisin uzerinde perde yok. rx/ry ile ayarlanabiliyor.
+             Vinyet isik riginin ALTINDA duruyor: kendi isigimi
+             kismiyor, sadece fotografin cevresini kisiyor.
+             ============================================================ -->
+        <radialGradient id="gVigHole">
+          <stop offset="0" stop-color="#000" stop-opacity="1"/>
+          <stop offset=".58" stop-color="#000" stop-opacity="1"/>
+          <stop offset="1" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+        <mask id="mVig" maskUnits="userSpaceOnUse" x="-900" y="-500" width="3200" height="1800">
+          <rect x="-900" y="-500" width="3200" height="1800" fill="#fff"/>
+          <ellipse cx="393" cy="560" rx="560" ry="470" fill="url(#gVigHole)"/>
+        </mask>
+
         <!-- Multiply tint: renkli isigin yuzeyde DIGER kanallari
              bastirmasi. Kenarda seffaf -> etkisi yok; merkezde renk.
              Kirmizi isikta yesil ve mavi yarilaniyor, mavi isikta
@@ -194,6 +216,10 @@
            alarmda bastirma perdesi gerekiyordu; artik gerekmiyor. -->
       <image href="assets/art/sahne.webp" x="-572.7" y="-233.1"
              width="1923.1" height="1074.1" preserveAspectRatio="none"/>
+
+      <!-- Cevreyi kis, odak kapi ustundeki isik olsun -->
+      <rect id="vignette" x="-900" y="-500" width="3200" height="1800"
+            fill="#04070D" opacity=".62" mask="url(#mVig)"/>
 
 
 
@@ -458,7 +484,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=94" defer></script>
-<script src="assets/js/ui.js?v=94" defer></script>
+<script src="assets/js/scene.js?v=95" defer></script>
+<script src="assets/js/ui.js?v=95" defer></script>
 </body>
 </html>
