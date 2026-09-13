@@ -80,8 +80,10 @@
   var isMobile = false, FAR = VB_FAR, NEAR = VB_NEAR, BOX = MUST;
   var lastVB = '';
   function measureViewport() {
-    isMobile = window.innerWidth <= 760 ||
-               (window.innerWidth / window.innerHeight) < 1.3;
+    /* innerWidth 0 ise olcu henuz yok (gizli sekme, kapanmis panel);
+       0 <= 760 oldugu icin sahne kendini mobil saniyordu. */
+    var vw = window.innerWidth || 1280, vh = window.innerHeight || 800;
+    isMobile = vw <= 760 || (vw / vh) < 1.3;
     FAR  = isMobile ? MVB_FAR  : VB_FAR;
     NEAR = isMobile ? MVB_NEAR : VB_NEAR;
     BOX  = isMobile ? MMUST    : MUST;
@@ -106,31 +108,14 @@
   function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
   function fmt(n) { return n.toFixed(1).replace('.', ','); }
 
-  /* ---------- yıldızlar ---------- */
-  (function stars() {
-    var g = document.getElementById('stars');
-    if (!g) return;
-    var seed = 7, SVGNS = 'http://www.w3.org/2000/svg';
-    function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-    for (var i = 0; i < 46; i++) {
-      var c = document.createElementNS(SVGNS, 'circle');
-      c.setAttribute('cx', (40 + rnd() * 1360).toFixed(1));
-      c.setAttribute('cy', (30 + rnd() * 400).toFixed(1));
-      c.setAttribute('r', (0.7 + rnd() * 1.5).toFixed(2));
-      c.setAttribute('opacity', (0.12 + rnd() * 0.42).toFixed(2));
-      g.appendChild(c);
-    }
-  })();
 
   /* ---------- düğümler ---------- */
   var el = {
-    beamW:  document.getElementById('beamW'),
-    poolW:  document.getElementById('poolW'),
-    poolHot: document.getElementById('poolHot'),
-    bounceW: document.getElementById('bounceW'),
-    reflDoor: document.getElementById('reflDoor'),
-    lens:   document.getElementById('lens'),
-    winLit: document.getElementById('winLit'),
+    /* Isik artik SVG ile cizilmiyor: ayni kameradan uretilmis uc
+       fotogercekci kare arasinda gecis yapiliyor. Kareler 1 px icinde
+       ortusuyor (olculdu), o yuzden capraz gecis hayalet yapmiyor. */
+    white:  document.getElementById('imgWhite'),
+    win:    document.getElementById('imgWin'),
     acts:   Array.prototype.slice.call(document.querySelectorAll('.act')),
     hud:      document.getElementById('hud'),
     hudState: document.getElementById('hudState'),
@@ -218,14 +203,10 @@
        okunuyordu. 180 ms'de sönüyor: aynı armatürün mod değiştirmesi.
        Lens ağzı (lensBody) hiç kaybolmuyor, sadece yayım söner. */
     if (alarm) gain *= clamp01(1 - (now - alarmT0) / WHITE_FADE);
-    if (el.beamW) el.beamW.setAttribute('opacity', gain.toFixed(3));
-    if (el.poolW) el.poolW.setAttribute('opacity', gain.toFixed(3));
-    /* Odak lekesi ve duvar yansimasi ayni kazanci izliyor. Yansima
-       daha zayif: geri sacilan isik her zaman gelenden az olur. */
-    if (el.poolHot) el.poolHot.setAttribute('opacity', gain.toFixed(3));
-    if (el.bounceW) el.bounceW.setAttribute('opacity', (gain * 0.85).toFixed(3));
-    if (el.reflDoor) el.reflDoor.setAttribute('opacity', gain.toFixed(3));
-    if (el.lens)  el.lens.setAttribute('opacity', (alarm ? gain : 0.5 + 0.5 * gain).toFixed(3));
+    /* Tek opaklik butun beyaz isigi suruyor: huzme, kapinin uzerindeki
+       aydinlik, zemindeki havuz ve islak yansima hepsi karenin icinde
+       pismis durumda. Eskiden bunlar alti ayri SVG katmaniydi. */
+    if (el.white) el.white.setAttribute('opacity', gain.toFixed(3));
 
     /* Evin ışığı: alarmdan 1 sn sonra yanar. "Geri çekildi" boyunca YANIK
        KALIR — ev sahibi lambayı davetsiz misafir gidince hemen kapatmaz.
@@ -234,7 +215,7 @@
     if (alarm)                 glow = clamp01((now - alarmT0 - WIN_DELAY) / WIN_FADE);
     else if (p < T.alarmEnd)   glow = 0;
     else                       glow = alarmT0 ? (1 - track(p, 0.97, 1.0)) : 0;
-    if (el.winLit) el.winLit.setAttribute('opacity', glow.toFixed(3));
+    if (el.win) el.win.setAttribute('opacity', glow.toFixed(3));
 
     /* telemetri */
     var state, zone;

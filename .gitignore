@@ -1,3 +1,9 @@
 node_modules/
 dist/
 .DS_Store
+# Render kaynaklari (Gemini ciktilari, ~8 MB). Sitenin kullandigi sey
+# bunlardan uretilen assets/art/house-*.webp (toplam 644 KB) ve o
+# dosyalar surumleniyor. Kaynaklari gecmise gomup depoyu sismanlatmanin
+# anlami yok; OneDrive zaten yediliyor.
+Gemini_Generated_Image_*.jfif
+olcum.json

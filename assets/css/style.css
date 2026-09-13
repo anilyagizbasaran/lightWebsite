@@ -167,21 +167,14 @@ img, svg { max-width: 100%; }
   display: block;
 }
 
-#stars circle { fill: #C8CFE6; }
-.far rect { fill: #1A1F2E; }
 
 /* pencere dograma ve kayitlari: referanstaki ince siyah cerceveler */
-.win-frame rect { fill: none; stroke: #0C1016; stroke-width: 7; }
-.win-bar { stroke: #0C1016; stroke-width: 5; }
 
-.housenum {
-  fill: #6B7689; font-family: var(--mono); font-size: 13px;
-  text-anchor: middle; letter-spacing: .04em;
-}
 
 .callout line { stroke: var(--faint); stroke-width: 1; }
 .callout circle { fill: var(--beam); }
 .callout text {
+  text-shadow: 0 1px 4px rgba(4,7,14,.95), 0 0 10px rgba(4,7,14,.7);
   fill: var(--mute); font-family: var(--mono); font-size: 13px; letter-spacing: .01em;
 }
 .callout .callout-sub { fill: var(--faint); font-size: 11px; }
@@ -205,49 +198,15 @@ img, svg { max-width: 100%; }
      huzmede ve zeminde kalıyor.
    ============================================================ */
 
-.strobe { display: none; }
-
-/* Parıltı: SVG'de box-shadow çalışmaz, karşılığı drop-shadow filtresi. */
 /* ============================================================
-   HARMAN. Isik veren her katman 'screen': altindaki yuzeyin uzerine
-   perde gibi cokmuyor, isigi EKLIYOR. Fark en cok kapida gorunuyor --
-   huzmenin altinda ahsabin dokusu okunmaya devam ediyor.
-   Huzmeler grup olarak harmanliyor (#beams), tek tek degil: grupta
-   clip-path var, clip bir izolasyon grubu yaratiyor; icerideki
-   'screen' o zaman disariyi degil grubun kendi boslugunu harmanlar,
-   yani hicbir ise yaramaz.
+   CAKAR. Ayni alarm karesi iki maskeyle kirmizi ve mavi yarisina
+   bolunmus (bkz. mAlmR / mAlmB); nabiz o iki katmanin opakligini
+   sirayla acip kapatiyor. Ritim kasitli olarak sakin: gercek polis
+   strobu saniyede 4-5 flas atar, web sayfasinda goz yoruyor ve
+   WCAG 2.3.1'in saniyede 3 flas sinirini asiyor.
    ============================================================ */
-#beams, #bounceW, #bounceR, #bounceB,
-#poolW, #poolHot, #poolR, #poolB, #reflDoor, #reflR, #reflB,
-#washR, #washB, .glass-ref, .glass-env { mix-blend-mode: screen; }
-
-#fxR {
-  filter: drop-shadow(0 0 6px #FFE3E8) drop-shadow(0 0 16px #FF3048)
-          drop-shadow(0 0 34px rgba(255,48,72,.75));
-}
-#fxB {
-  filter: drop-shadow(0 0 6px #DCEAFF) drop-shadow(0 0 16px #3384FF)
-          drop-shadow(0 0 34px rgba(51,132,255,.75));
-}
-
-/* --- kırmızı taraf: tek yumuşak darbe --- */
-.stage.is-alarm #fxR,
-.stage.is-alarm #beamR,
-.stage.is-alarm #bounceR,
-.stage.is-alarm #poolR,
-.stage.is-alarm #reflR,
-.stage.is-alarm #washR {
-  animation: pulseR 1.2s ease-out infinite;
-}
-/* --- mavi taraf, yarım döngü sonra --- */
-.stage.is-alarm #fxB,
-.stage.is-alarm #beamB,
-.stage.is-alarm #bounceB,
-.stage.is-alarm #poolB,
-.stage.is-alarm #reflB,
-.stage.is-alarm #washB {
-  animation: pulseB 1.2s ease-out infinite;
-}
+.stage.is-alarm #imgAlarmR { animation: pulseR 1.2s ease-out infinite; }
+.stage.is-alarm #imgAlarmB { animation: pulseB 1.2s ease-out infinite; }
 
 @keyframes pulseR {
   0%   { opacity: 0 }
@@ -263,11 +222,10 @@ img, svg { max-width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage.is-alarm #fxR, .stage.is-alarm #beamR, .stage.is-alarm #bounceR,
-  .stage.is-alarm #poolR, .stage.is-alarm #reflR, .stage.is-alarm #washR,
-  .stage.is-alarm #fxB, .stage.is-alarm #beamB, .stage.is-alarm #bounceB,
-  .stage.is-alarm #poolB, .stage.is-alarm #reflB, .stage.is-alarm #washB {
-    animation: none; opacity: .45;
+  /* Cakar donuyor; iki renk birlikte yarim guclu kaliyor ki alarm
+     durumu yine okunsun. */
+  .stage.is-alarm #imgAlarmR, .stage.is-alarm #imgAlarmB {
+    animation: none; opacity: .5;
   }
 }
 
@@ -350,13 +308,24 @@ img, svg { max-width: 100%; }
   transform: translateY(-50%);
   display: flex; flex-direction: column; gap: .1rem;
   z-index: 3;
+  isolation: isolate;
+}
+/* Arka plan artik fotograf: aydinlik ahsabin uzerinde mono etiketler
+   kayboluyordu. Soldan gelen yumusak radyal perde -- dikdortgen bir
+   kutu fotografin uzerinde hemen goze batiyor, radyal batmiyor. */
+.beats::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  left: calc(var(--gut) * -1); right: -2.2rem;
+  top: -1.4rem; bottom: -1.4rem;
+  background: radial-gradient(120% 104% at 0% 50%,
+              rgba(4,7,14,.84) 0%, rgba(4,7,14,.5) 46%, rgba(4,7,14,0) 76%);
 }
 .beats button {
   appearance: none; background: none; border: 0;
   font-family: var(--mono); font-size: .72rem; letter-spacing: .04em;
-  color: var(--faint); cursor: pointer;
-  /* sahne arkasi degistigi icin (sicak cam, kirmizi baskin) golge sart */
-  text-shadow: 0 1px 5px rgba(4,7,14,.95);
+  color: var(--mute); cursor: pointer;
+  /* sahne arkasi fotograf: golge sart, perde de yetmiyor */
+  text-shadow: 0 1px 4px rgba(4,7,14,.95), 0 0 12px rgba(4,7,14,.75);
   padding: .32rem 0 .32rem 1.4rem;
   text-align: left; position: relative;
   transition: color .25s;
