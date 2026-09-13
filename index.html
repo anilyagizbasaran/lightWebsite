@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=82">
+<link rel="stylesheet" href="assets/css/style.css?v=93">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -54,17 +54,108 @@
 
     <svg class="stage-art" id="art" viewBox="0 0 1440 810" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <defs>
-        <!-- Kisik/sonuk perdesi. Isigin dustugu yere radyal oturuyor:
-             gercekte de isik kaynaktan radyal zayiflar, dikdortgen bir
-             perde kenari fotografin uzerinde hemen belli olur. -->
-        <radialGradient id="gDim">
-          <stop offset="0" stop-color="#05080F" stop-opacity="1"/>
-          <stop offset=".62" stop-color="#05080F" stop-opacity=".92"/>
-          <stop offset="1" stop-color="#05080F" stop-opacity="0"/>
+        <!-- Yumusatma. viewBox SABIT oldugu icin (zoom kapali) bu
+             filtreler bir kez hesaplanip onbellege giriyor: kare basina
+             maliyeti yok, o yuzden comert kullanilabiliyor. -->
+        <filter id="fSoft" x="-30%" y="-30%" width="160%" height="160%"
+                color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="7"/>
+        </filter>
+        <filter id="fTight" x="-60%" y="-400%" width="220%" height="900%"
+                color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="2.4"/>
+        </filter>
+
+        <!-- Islak yansimanin yanlari: dikdortgen kenari asfaltta bicak
+             izi gibi durur, maskeyle soluyor. -->
+        <linearGradient id="gStreakFade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+          <stop offset=".3" stop-color="#fff" stop-opacity="1"/>
+          <stop offset=".7" stop-color="#fff" stop-opacity="1"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="mStreak" maskUnits="userSpaceOnUse" x="260" y="670" width="280" height="145">
+          <rect x="260" y="670" width="280" height="145" fill="url(#gStreakFade)"/>
+        </mask>
+
+        <radialGradient id="gHaloW">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.52"/>
+          <stop offset=".45" stop-color="#EAF2FF" stop-opacity="0.12"/>
+          <stop offset="1" stop-color="#EAF2FF" stop-opacity="0"/>
         </radialGradient>
-        <!-- Pencere maskesi: iki elips, olculen isik ayak izine gore.
-             Plato %86'ya kadar, sonra soluyor; boylece camin kosesi tam
-             guclu ama duvara tasan sicak leke kenarsiz bitiyor. -->
+        <linearGradient id="gConeW" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#EAF2FF" stop-opacity="0.40"/>
+          <stop offset=".55" stop-color="#EAF2FF" stop-opacity="0.08"/>
+          <stop offset="1" stop-color="#BFD4F2" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="gPoolW">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.52"/>
+          <stop offset=".5" stop-color="#EAF2FF" stop-opacity="0.10"/>
+          <stop offset="1" stop-color="#EAF2FF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gWashW">
+          <stop offset="0" stop-color="#EAF2FF" stop-opacity="0.20"/>
+          <stop offset=".5" stop-color="#EAF2FF" stop-opacity="0.07"/>
+          <stop offset="1" stop-color="#BFD4F2" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gStreakW" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#EAF2FF" stop-opacity="0.40"/>
+          <stop offset=".35" stop-color="#EAF2FF" stop-opacity="0.08"/>
+          <stop offset="1" stop-color="#BFD4F2" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="gHaloR">
+          <stop offset="0" stop-color="#FFD9DE" stop-opacity="0.78"/>
+          <stop offset=".45" stop-color="#FF2A3C" stop-opacity="0.27"/>
+          <stop offset="1" stop-color="#FF2A3C" stop-opacity="0.00"/>
+        </radialGradient>
+        <linearGradient id="gConeR" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FF2A3C" stop-opacity="0.59"/>
+          <stop offset=".55" stop-color="#FF2A3C" stop-opacity="0.19"/>
+          <stop offset="1" stop-color="#C4122A" stop-opacity="0.00"/>
+        </linearGradient>
+        <radialGradient id="gPoolR">
+          <stop offset="0" stop-color="#FFD9DE" stop-opacity="0.70"/>
+          <stop offset=".5" stop-color="#FF2A3C" stop-opacity="0.22"/>
+          <stop offset="1" stop-color="#FF2A3C" stop-opacity="0.00"/>
+        </radialGradient>
+        <radialGradient id="gWashR">
+          <stop offset="0" stop-color="#FF2A3C" stop-opacity="0.54"/>
+          <stop offset=".5" stop-color="#FF2A3C" stop-opacity="0.19"/>
+          <stop offset="1" stop-color="#C4122A" stop-opacity="0.00"/>
+        </radialGradient>
+        <linearGradient id="gStreakR" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FF2A3C" stop-opacity="0.62"/>
+          <stop offset=".35" stop-color="#FF2A3C" stop-opacity="0.19"/>
+          <stop offset="1" stop-color="#C4122A" stop-opacity="0.00"/>
+        </linearGradient>
+        <radialGradient id="gHaloB">
+          <stop offset="0" stop-color="#DCEBFF" stop-opacity="0.60"/>
+          <stop offset=".45" stop-color="#2E7BFF" stop-opacity="0.21"/>
+          <stop offset="1" stop-color="#2E7BFF" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gConeB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2E7BFF" stop-opacity="0.46"/>
+          <stop offset=".55" stop-color="#2E7BFF" stop-opacity="0.15"/>
+          <stop offset="1" stop-color="#1348C8" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="gPoolB">
+          <stop offset="0" stop-color="#DCEBFF" stop-opacity="0.54"/>
+          <stop offset=".5" stop-color="#2E7BFF" stop-opacity="0.16"/>
+          <stop offset="1" stop-color="#2E7BFF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gWashB">
+          <stop offset="0" stop-color="#2E7BFF" stop-opacity="0.42"/>
+          <stop offset=".5" stop-color="#2E7BFF" stop-opacity="0.14"/>
+          <stop offset="1" stop-color="#1348C8" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gStreakB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2E7BFF" stop-opacity="0.48"/>
+          <stop offset=".35" stop-color="#2E7BFF" stop-opacity="0.14"/>
+          <stop offset="1" stop-color="#1348C8" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- Pencere maskesi: olculen isik ayak izine gore iki elips.
+             Plato %86'ya kadar, sonra soluyor. -->
         <radialGradient id="gWinFeather">
           <stop offset="0" stop-color="#fff" stop-opacity="1"/>
           <stop offset=".86" stop-color="#fff" stop-opacity="1"/>
@@ -74,49 +165,118 @@
           <ellipse cx="34" cy="170" rx="285" ry="168" fill="url(#gWinFeather)"/>
           <ellipse cx="731" cy="136" rx="305" ry="175" fill="url(#gWinFeather)"/>
         </mask>
+
+        <!-- Multiply tint: renkli isigin yuzeyde DIGER kanallari
+             bastirmasi. Kenarda seffaf -> etkisi yok; merkezde renk.
+             Kirmizi isikta yesil ve mavi yarilaniyor, mavi isikta
+             kirmizi ve yesil. Screen tek basina bunu yapamaz. -->
+        <radialGradient id="gTintR">
+          <stop offset="0" stop-color="#FF6A5C" stop-opacity=".80"/>
+          <stop offset=".5" stop-color="#FF8578" stop-opacity=".48"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gTintB">
+          <stop offset="0" stop-color="#7C9AFF" stop-opacity=".58"/>
+          <stop offset=".5" stop-color="#9AB2FF" stop-opacity=".32"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Alarmda pismis BEYAZ isigi bastirma perdesi. Fotografta
+             kapi isigi acik ve kapatilamiyor; cakar calisirken beyaz
+             sonuk olmali. Perde isigin dustugu yere radyal oturuyor. -->
+        <radialGradient id="gKill">
+          <stop offset="0" stop-color="#05080F" stop-opacity="1"/>
+          <stop offset=".6" stop-color="#05080F" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#05080F" stop-opacity="0"/>
+        </radialGradient>
+
       </defs>
 
       <!-- ============================================================
-           SAHNE. 100 birim = 1 metre, zemin y=676, kapi ekseni x=386.
-           Dort render bu iki sabite oturtuldu (K=0,69930). Alttaki koyu
-           dikdortgen sart: mobil kadraj resmin alt kenarindan ~3 birim
-           tasiyor.
+           TEK ARKA PLAN. 100 birim = 1 metre, zemin y=676, kapi ekseni
+           x=386, isik agzi x 348..439 / y 401..429 (hepsi piksel
+           verisinden olculdu; olcek kapi 138x290 px ve bar 129 px
+           uzerinden capraz dogrulandi: 143 px/metre, K=0,69930).
+           Zoom kapali: bu kadraj bastan sona sabit.
            ============================================================ -->
       <rect x="-900" y="-500" width="3200" height="1800" fill="#0A0E16"/>
-
-      <!-- 1) TABAN: beyaz isik acik, pencereler kapali.
-              Tek bloklayan kare bu; digerleri sayfa yuklendikten sonra
-              geliyor (asagidaki data-src). Boylece ilk boyama 582 KB
-              bekliyor, 1,6 MB degil. -->
-      <image href="assets/art/n-off.webp" x="-572.7" y="-233.1"
+      <image href="assets/art/sahne.webp" x="-572.7" y="-233.1"
              width="1923.1" height="1074.1" preserveAspectRatio="none"/>
 
-      <!-- 2) KISIK PERDESI: opakligi scene.js suruyor (1 - isik gucu).
-              Beklemede kismi -> isik kisik okunuyor; alarmda tam ->
-              beyaz sonuyor ve yerini cakar aliyor. -->
-      <ellipse id="dimVeil" cx="386" cy="600" rx="340" ry="300"
-               fill="url(#gDim)" opacity="0"/>
+      <!-- Alarmda pismis beyazi bastir -->
+      <ellipse id="killWhite" cx="393" cy="580" rx="300" ry="270"
+               fill="url(#gKill)" opacity="0"/>
 
-      <!-- 3) CAKAR: iki AYRI tam kare, sirayla nabiz atiyor. Onceki
-              surumde tek kare sag-sol maskeleniyordu; kapi yikamasi
-              zaten mor oldugu icin renk tam donmuyordu. Artik donuyor. -->
-      <image id="imgRed" data-src="assets/art/n-red.webp" x="-572.7" y="-233.1"
-             width="1923.1" height="1074.1" preserveAspectRatio="none" opacity="0"/>
-      <image id="imgBlue" data-src="assets/art/n-blue.webp" x="-572.7" y="-233.1"
-             width="1923.1" height="1074.1" preserveAspectRatio="none" opacity="0"/>
-
-      <!-- 4) EVIN ISIGI: sadece iki ust pencere, kendi 1 sn gecikmesiyle.
-              Cakarin UZERINDE duruyor ki alarm sirasinda da yanik kalsin. -->
-      <g mask="url(#mWins)">
-        <!-- Bu kare sadece iki pencere elipsinden gorunuyor, o yuzden
-             kaynakta o banda kirpildi (2002x829 yerine 2750x1536):
-             226 KB yerine 580 KB indirmenin anlami yok. Dunya
-             dikdortgeni kirpmaya gore. -->
-        <image id="imgWin" data-src="assets/art/n-win.webp" x="-339.9" y="-219.8"
-               width="1400" height="579.7" preserveAspectRatio="none" opacity="0"/>
+      <!-- EVIN ISIGI: iki ust pencere, alarmdan 1 sn sonra.
+           Bu katman FOTOGRAF: gradyan camin arkasindaki odayi
+           (koltuk, raf, abajur) uretemiyor, parlayan bir top gibi
+           duruyordu. Ayni kameradan cekilmis kare, pencere bandina
+           kirpili (2002x829, 226 KB) ve iki elipsle maskeli. -->
+      <g id="lWin" mask="url(#mWins)" opacity="0">
+        <image href="assets/art/pencere.webp" x="-339.9" y="-219.8"
+               width="1400" height="579.7" preserveAspectRatio="none"/>
       </g>
 
-      <!-- urun etiketi: barin sol ucuna (x 348..439, y 401..429) -->
+      <g id="lWhite" class="rig" opacity="0">
+        <!-- havada: koni -->
+        <path d="M352,427 L435,427 L560,676 L250,676 Z"
+              fill="url(#gConeW)" filter="url(#fSoft)"/>
+        <!-- yuzeyde: duvar yikamasi (agzin ALTINDA kaliyor, kaynagin
+             etrafinda hale olusmasin) -->
+        <ellipse cx="393" cy="565" rx="212" ry="188" fill="url(#gWashW)" filter="url(#fSoft)"/>
+        <!-- zeminde: havuz + islak yansima -->
+        <ellipse cx="393" cy="678" rx="178" ry="26" fill="url(#gPoolW)" filter="url(#fSoft)"/>
+        <rect x="295" y="676" width="196" height="132"
+              fill="url(#gStreakW)" mask="url(#mStreak)" filter="url(#fSoft)"/>
+        <!-- agiz: en parlak nokta, ince serit + hemen altinda hale -->
+        <ellipse cx="393" cy="433" rx="116" ry="30" fill="url(#gHaloW)" filter="url(#fSoft)"/>
+        <rect x="352" y="420" width="83" height="9" rx="4"
+              fill="#FFFFFF" opacity="0.85" filter="url(#fTight)"/>
+      </g>
+      <!-- Kirmizi tint: kanal bastirma (multiply) -->
+      <g id="lRedT" class="tint" opacity="0">
+        <ellipse cx="371" cy="565" rx="230" ry="200" fill="url(#gTintR)" filter="url(#fSoft)"/>
+        <ellipse cx="371" cy="678" rx="190" ry="30" fill="url(#gTintR)" filter="url(#fSoft)"/>
+      </g>
+      <g id="lRed" class="rig" opacity="0">
+        <!-- havada: koni -->
+        <path d="M330,427 L413,427 L538,676 L228,676 Z"
+              fill="url(#gConeR)" filter="url(#fSoft)"/>
+        <!-- yuzeyde: duvar yikamasi (agzin ALTINDA kaliyor, kaynagin
+             etrafinda hale olusmasin) -->
+        <ellipse cx="371" cy="565" rx="212" ry="188" fill="url(#gWashR)" filter="url(#fSoft)"/>
+        <!-- zeminde: havuz + islak yansima -->
+        <ellipse cx="371" cy="678" rx="178" ry="26" fill="url(#gPoolR)" filter="url(#fSoft)"/>
+        <rect x="273" y="676" width="196" height="132"
+              fill="url(#gStreakR)" mask="url(#mStreak)" filter="url(#fSoft)"/>
+        <!-- agiz: en parlak nokta, ince serit + hemen altinda hale -->
+        <ellipse cx="371" cy="433" rx="116" ry="30" fill="url(#gHaloR)" filter="url(#fSoft)"/>
+        <rect x="352" y="420" width="42" height="9" rx="4"
+              fill="#FFD9DE" opacity="1.00" filter="url(#fTight)"/>
+      </g>
+      <!-- Mavi tint: kanal bastirma (multiply) -->
+      <g id="lBlueT" class="tint" opacity="0">
+        <ellipse cx="415" cy="565" rx="230" ry="200" fill="url(#gTintB)" filter="url(#fSoft)"/>
+        <ellipse cx="415" cy="678" rx="190" ry="30" fill="url(#gTintB)" filter="url(#fSoft)"/>
+      </g>
+      <g id="lBlue" class="rig" opacity="0">
+        <!-- havada: koni -->
+        <path d="M374,427 L457,427 L582,676 L272,676 Z"
+              fill="url(#gConeB)" filter="url(#fSoft)"/>
+        <!-- yuzeyde: duvar yikamasi (agzin ALTINDA kaliyor, kaynagin
+             etrafinda hale olusmasin) -->
+        <ellipse cx="415" cy="565" rx="212" ry="188" fill="url(#gWashB)" filter="url(#fSoft)"/>
+        <!-- zeminde: havuz + islak yansima -->
+        <ellipse cx="415" cy="678" rx="178" ry="26" fill="url(#gPoolB)" filter="url(#fSoft)"/>
+        <rect x="317" y="676" width="196" height="132"
+              fill="url(#gStreakB)" mask="url(#mStreak)" filter="url(#fSoft)"/>
+        <!-- agiz: en parlak nokta, ince serit + hemen altinda hale -->
+        <ellipse cx="415" cy="433" rx="116" ry="30" fill="url(#gHaloB)" filter="url(#fSoft)"/>
+        <rect x="394" y="420" width="42" height="9" rx="4"
+              fill="#DCEBFF" opacity="1.00" filter="url(#fTight)"/>
+      </g>
+
+      <!-- urun etiketi: barin sol ucuna -->
       <g class="callout">
         <line x1="346" y1="404" x2="266" y2="354"/>
         <circle cx="346" cy="404" r="2.5"/>
@@ -318,7 +478,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=82" defer></script>
-<script src="assets/js/ui.js?v=82" defer></script>
+<script src="assets/js/scene.js?v=93" defer></script>
+<script src="assets/js/ui.js?v=93" defer></script>
 </body>
 </html>

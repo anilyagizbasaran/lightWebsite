@@ -111,30 +111,18 @@
   function fmt(n) { return n.toFixed(1).replace('.', ','); }
 
 
-  /* ============================================================
-     TEMBEL KARELER. Cakar ve pencere kareleri ilk ekranda gorunmuyor
-     ama <image> etiketi href'i gorur gormez indirmeye basliyor ve
-     taban kareyle yarisiyor. data-src'de bekletip sayfa yuklendikten
-     sonra bagliyoruz: ilk boyama 582 KB, geri kalan 1 MB arkadan
-     geliyor ve kullanici kaydirmaya varana kadar onbellekte.
-     ============================================================ */
-  function lazyFrames() {
-    var n = document.querySelectorAll('#art image[data-src]');
-    Array.prototype.forEach.call(n, function (im) {
-      im.setAttribute('href', im.getAttribute('data-src'));
-      im.removeAttribute('data-src');
-    });
-  }
-  if (document.readyState === 'complete') lazyFrames();
-  else window.addEventListener('load', lazyFrames);
-
   /* ---------- düğümler ---------- */
   var el = {
     /* Isik artik SVG ile cizilmiyor: ayni kameradan uretilmis uc
        fotogercekci kare arasinda gecis yapiliyor. Kareler 1 px icinde
        ortusuyor (olculdu), o yuzden capraz gecis hayalet yapmiyor. */
-    dim:    document.getElementById('dimVeil'),
-    win:    document.getElementById('imgWin'),
+    /* Isik artik fotograf degil, sahnenin uzerine cizilen rig.
+       Taban karede kapi isigi ZATEN acik; lWhite onun USTUNE ekliyor,
+       yani beklemede hicbir sey cizilmiyor, ekranda sadece fotograf
+       var. killWhite ise tersi: alarmda pismis beyazi bastiriyor. */
+    white:  document.getElementById('lWhite'),
+    kill:   document.getElementById('killWhite'),
+    win:    document.getElementById('lWin'),
     acts:   Array.prototype.slice.call(document.querySelectorAll('.act')),
     hud:      document.getElementById('hud'),
     hudState: document.getElementById('hudState'),
@@ -221,18 +209,23 @@
        ama yanik" okunuyordu, foto gecisinde ise neredeyse kapali
        gorunuyor. Kapali kare gercekten karanlik, aradaki fark buyuk. */
     var gain = detected ? 1 : 0.55;
-    if (inWarn && !alarm && !reduced) gain *= 0.76 + 0.24 * Math.sin(now * 0.009);
+    /* Uyari nabzi. Genlik bilerek kisik: eklenen isik 0,55-1,0
+       aralligini 0-1'e actigi icin buradaki her carpan ekranda
+       buyutulmus gorunuyor. 0,76+-0,24 ile deneyince isik tam gucten
+       kisiga inip cikiyordu, nabiz degil ariza gibi okunuyordu. */
+    if (inWarn && !alarm && !reduced) gain *= 0.91 + 0.09 * Math.sin(now * 0.009);
     /* Çakar çalarken beyaz söner — ama ANİDEN değil. Sıfıra kesince
        "ışık kaynağı yok oldu, yerine başka bir şey çıktı" gibi
        okunuyordu. 180 ms'de sönüyor: aynı armatürün mod değiştirmesi.
        Lens ağzı (lensBody) hiç kaybolmuyor, sadece yayım söner. */
     if (alarm) gain *= clamp01(1 - (now - alarmT0) / WHITE_FADE);
-    /* Taban kare zaten ISIK ACIK halini gosteriyor; tamamen isiksiz
-       bir render yok. O yuzden "kisik" hali perdeyle veriliyor: az isik
-       = daha koyu. Perde 0,62 ile sinirli, cunku alarmda gain 0'a
-       inerken tam opak bir leke kapiyi yutuyordu; cakar kareleri
-       zaten ustune biniyor ve beyazi kapatiyor. */
-    if (el.dim) el.dim.setAttribute('opacity', ((1 - gain) * 0.62).toFixed(3));
+    /* gain 0,55 (kisik) -> 1,0 (tam guc). Kisik hali fotografin
+       kendisi oldugu icin eklenen isik 0'dan baslamali: 0,55'te sifir,
+       1,0'da tam. Alarmda gain zaten 0'a dusuyor, yani rig kapaniyor.
+       killWhite ters yonde: gain dustukce pismis beyazi bastiriyor. */
+    var add = clamp01((gain - 0.55) / 0.45);
+    if (el.white) el.white.setAttribute('opacity', add.toFixed(3));
+    if (el.kill)  el.kill.setAttribute('opacity', (clamp01(1 - gain / 0.55) * 0.82).toFixed(3));
 
     /* Evin ışığı: alarmdan 1 sn sonra yanar. "Geri çekildi" boyunca YANIK
        KALIR — ev sahibi lambayı davetsiz misafir gidince hemen kapatmaz.

@@ -206,28 +206,36 @@ img, svg { max-width: 100%; }
    strobu saniyede 4-5 flas atar, web sayfasinda goz yoruyor ve
    WCAG 2.3.1'in saniyede 3 flas sinirini asiyor.
    ============================================================ */
-.stage.is-alarm #imgRed { animation: pulseR 1.2s ease-out infinite; }
-.stage.is-alarm #imgBlue { animation: pulseB 1.2s ease-out infinite; }
+/* Isik rigi eklemeli: 'screen' ile fotografin uzerine ISIK KATIYOR,
+   perde gibi cokmuyor. Fark en cok kapida belli -- huzmenin altinda
+   ahsabin damari okunmaya devam ediyor. */
+.rig, #lWin { mix-blend-mode: screen; }
+/* Tint katmani kanal bastiriyor, o yuzden multiply. Ayri grup olmak
+   zorunda: opacity<1 olan grup izolasyon yaratiyor ve icindeki
+   mix-blend-mode disariyi gormuyor. */
+.tint { mix-blend-mode: multiply; }
+
+.stage.is-alarm #lRed, .stage.is-alarm #lRedT { animation: pulseR 1.2s ease-out infinite; }
+.stage.is-alarm #lBlue, .stage.is-alarm #lBlueT { animation: pulseB 1.2s ease-out infinite; }
 
 @keyframes pulseR {
-  0%   { opacity: .46 }
-  6%   { opacity: 1 }    /* hizli yukselis */
-  38%  { opacity: .46 }  /* yumusak sonus */
-  50%  { opacity: .26 }
-  100% { opacity: .26 }
+  0%   { opacity: 0 }
+  6%   { opacity: 1 }   /* hizli yukselis */
+  38%  { opacity: 0 }   /* yumusak sonus */
+  100% { opacity: 0 }
 }
 @keyframes pulseB {
-  0%   { opacity: .26 }
-  50%  { opacity: .26 }
-  56%  { opacity: 1 }
-  88%  { opacity: .46 }
-  100% { opacity: .26 }
+  0%,50% { opacity: 0 }
+  56%    { opacity: 1 }
+  88%    { opacity: 0 }
+  100%   { opacity: 0 }
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* Cakar donuyor; iki renk birlikte yarim guclu kaliyor ki alarm
      durumu yine okunsun. */
-  .stage.is-alarm #imgRed, .stage.is-alarm #imgBlue {
+  .stage.is-alarm #lRed, .stage.is-alarm #lBlue,
+  .stage.is-alarm #lRedT, .stage.is-alarm #lBlueT {
     animation: none; opacity: .5;
   }
 }
