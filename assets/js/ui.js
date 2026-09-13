@@ -1,33 +1,57 @@
-/* Ses düğmesi ve algılama geometrisi hesabı */
+/* Mobil menü ve algılama geometrisi hesabı */
 
 (function () {
   'use strict';
 
-  /* ---------------- ses ---------------- */
-  var btn   = document.getElementById('soundBtn');
-  var label = btn && btn.querySelector('.sound-label');
-  var hintBtn = document.getElementById('soundHintBtn');
+  /* ---------------- mobil bölüm menüsü ---------------- */
+  /* Geometri bloguna girmeden ONCE durmali: orada erken bir return var,
+     asagiya yazilan her sey #hRange yoksa hic calismaz. */
+  var mBtn = document.getElementById('menuBtn');
+  var mNav = document.getElementById('mobileNav');
 
-  function paint() {
-    var on = window.Siren && window.Siren.isEnabled();
-    if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    if (label) label.textContent = on ? 'Ses açık' : 'Ses kapalı';
+  function setMenu(open) {
+    mNav.hidden = !open;
+    mBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    /* Panel acikken arkadaki 45 ekranlik sayfa kaymasin. */
+    document.documentElement.style.overflow = open ? 'hidden' : '';
   }
 
-  function turnOn() {
-    if (window.Siren && window.Siren.enable()) paint();
-  }
-
-  if (btn) {
-    btn.addEventListener('click', function () {
-      if (!window.Siren) return;
-      if (window.Siren.isEnabled()) window.Siren.disable();
-      else window.Siren.enable();
-      paint();
+  if (mBtn && mNav) {
+    mBtn.addEventListener('click', function () { setMenu(mNav.hidden); });
+    mNav.addEventListener('click', function (e) {
+      /* Baglantiya basilinca kapanmali, yoksa hedef bolum panelin
+         arkasinda kaliyor. Bos alana basmak da kapatir. */
+      var a = e.target.closest('a');
+      if (!a && e.target !== mNav) return;
+      /* Sayfada scroll-behavior: smooth var. Menuden Teknik'e atlamak
+         6700 px demek: yumusak kaydirma saniyeler suruyor ve butun sahne
+         gozun onunden gecip gidiyor. Menu atlamalari aninda olmali.
+         Global stili gecici degistirip geri almak yerine (bir kare sonra
+         geri alma denendi, tetiklenmeyince sayfa smooth'u kalici kaybetti)
+         kaydirmayi burada kendimiz yapiyoruz. Hash sonra yaziliyor:
+         adres cubugu ve geri tusu normal calismaya devam ediyor. */
+      var href = a && a.getAttribute('href');
+      var target = href && href.charAt(0) === '#' && document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        setMenu(false);
+        /* 'auto' CSS'teki scroll-behavior'a duser, yani smooth olur.
+           Aninda atlamanin anahtar kelimesi 'instant'. */
+        target.scrollIntoView({ behavior: 'instant', block: 'start' });
+        location.hash = href;
+        return;
+      }
+      setMenu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !mNav.hidden) { setMenu(false); mBtn.focus(); }
+    });
+    /* Genis ekrana donerken panel acik kalmasin: .menu-btn orada gizli,
+       yani kapatacak dugme de ortadan kayboluyor. */
+    window.addEventListener('resize', function () {
+      if (!mNav.hidden && window.innerWidth > 760) setMenu(false);
     });
   }
-  if (hintBtn) hintBtn.addEventListener('click', turnOn);
-  paint();
 
   /* ---------------- algılama geometrisi (üstten görünüm) ---------------- */
   var range = document.getElementById('hRange');

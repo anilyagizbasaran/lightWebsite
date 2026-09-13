@@ -6,7 +6,7 @@
    0.00  16 m, tüm cephe kadrajda
    0.18  14 m: PIR tetiklenir, ışık tam güce
    0.58  6 m: uyarı, ışık nabız gibi
-   0.72  3 m: ihlal, flaşör + siren, kamera sarsılır
+   0.72  3 m: ihlal, flaşör + siren
    0.90  geri itilir, menzil dışı
    1.00  yeniden bekleme */
 
@@ -43,6 +43,49 @@
      kutuyu icine alacak sekilde kaydiriliyor — zoom degismez, sadece pan.
      Kutu 1064 x 672; en dar kadraj 1280 x 720, yani her zaman siger. */
   var MUST = { x0: -146, y0: 20, x1: 918, y1: 692 };
+
+  /* ============================================================
+     MOBIL KADRAJ. Telefonda tum cepheyi kadrajda tutmak sahneyi
+     ekranin %26'sina sikistiriyordu; konu orada giris ve isik, tum
+     bina degil. Iki kural her zoom seviyesinde ayni:
+       - kapi ekseni (x=386) yatayda TAM ORTADA,
+       - isik havuzunun alt kenari (y=710) ekran yuksekliginin %86'sinda.
+     Ikinci kural olmadan FAR karesinde havuzun altinda 250 birimlik
+     bos zemin kaliyordu; telefonda ekranin dortte biri hicbir sey.
+     Kareler bu iki kuraldan uretiliyor, elle koordinat girilmiyor.
+     ============================================================ */
+  var DOOR_X = 386, POOL_Y = 710, POOL_AT = 0.86, MASP = 960 / 720;
+  function mframe(w) {
+    var h = w * MASP;
+    return { x: DOOR_X - w / 2, y: POOL_Y - POOL_AT * h, w: w, h: h };
+  }
+  /* Mobil dolly miktari. 1 = hic zoom yok: telefonda kaydirma kadraji
+     degistirmiyor, kare bastan sona sabit duruyor. Karar boyle verildi;
+     dar ekranda kayan kadraj rahatsiz ediyordu. Yaklasmayi artik kopya,
+     mesafe sayaci ve isigin kendisi anlatiyor. Masaustunde dolly duruyor
+     (1,22x, VB_FAR -> VB_NEAR). Mobilde tekrar istenirse: 1.3 iyi bir
+     baslangic, gerisi asagidaki mframe'den kendini ayarlar. */
+  var MZOOM    = 1;
+  /* 720 = sabit mobil karenin genisligi. Kucultmek sahneyi yakinlastirir
+     (600 belirgin sekilde daha yakin), buyutmek uzaklastirir. Zoom kapali
+     oldugu icin ziyaretcinin bastan sona gordugu kare bu tek sayi. */
+  var MVB_FAR  = mframe(720);
+  var MVB_NEAR = mframe(720 / MZOOM);
+  /* Kutu isigin CIKTIGI yeri (armatur govdesi y=430) ve DUSTUGU yeri
+     (zemin 676 + isik havuzu 710) ikisini de payla kapsiyor: y 400-730.
+     Yukaridaki iki kuralla bu kutu zaten hep kadrajda; kelepce mobilde
+     devreye girmiyor, sadece emniyet kemeri olarak duruyor. */
+  var MMUST    = { x0: 330, y0: 400, x1: 446, y1: 730 };
+
+  var isMobile = false, FAR = VB_FAR, NEAR = VB_NEAR, BOX = MUST;
+  var lastVB = '';
+  function measureViewport() {
+    isMobile = window.innerWidth <= 760 ||
+               (window.innerWidth / window.innerHeight) < 1.3;
+    FAR  = isMobile ? MVB_FAR  : VB_FAR;
+    NEAR = isMobile ? MVB_NEAR : VB_NEAR;
+    BOX  = isMobile ? MMUST    : MUST;
+  }
 
   var D_START = 19.0;   // m — başlangıç, menzilin iyice dışı
   var D_TRIP  = 3.0;    // m — ihlal eşiği
@@ -83,9 +126,10 @@
   var el = {
     beamW:  document.getElementById('beamW'),
     poolW:  document.getElementById('poolW'),
+    poolHot: document.getElementById('poolHot'),
+    bounceW: document.getElementById('bounceW'),
+    reflDoor: document.getElementById('reflDoor'),
     lens:   document.getElementById('lens'),
-    glow:   document.getElementById('lensGlow'),
-    pir:    document.getElementById('pir'),
     winLit: document.getElementById('winLit'),
     acts:   Array.prototype.slice.call(document.querySelectorAll('.act')),
     hud:      document.getElementById('hud'),
@@ -93,16 +137,17 @@
     hudDist:  document.getElementById('hudDist'),
     hudZone:  document.getElementById('hudZone'),
     hudBar:   document.getElementById('hudBar'),
-    hint:     document.getElementById('soundHint'),
     beats:  Array.prototype.slice.call(document.querySelectorAll('#beats button'))
   };
 
   /* ---------- durum ---------- */
   var progress = 0, alarmOn = false, actIndex = -1, nearOn = null;
-  var lastState = '', lastZone = '', lastDist = '', lastDetected = null;
+  var lastState = '', lastZone = '', lastDist = '';
   /* Pencere isigi gercek zamanli gecikmeyle yanar: alarm baslar,
      1 sn sonra ev sahibi lambaya basar. Kaydirma hizindan bagimsiz. */
   var alarmT0 = 0, WIN_DELAY = 1000, WIN_FADE = 450;
+  /* Beyazin cakara devri: ani kesme "isik kayboldu" gibi okunuyordu. */
+  var WHITE_FADE = 180;
 
   /* metre cinsinden kamera mesafesi */
   function cameraDistance(p) {
@@ -132,29 +177,34 @@
     /* Yaklaşma oranı: 16 m uzak kadraj, 3 m yakın kadraj. */
     var zoom = clamp01((D_START - dist) / (D_START - D_TRIP));
 
-    /* ihlal anında kamera sarsılır */
-    var shakeX = 0, shakeY = 0;
-    if (alarm && !reduced) {
-      /* 14 cok fazlaydi; sadece hissedilecek kadar */
-      var amp = 3 * (1 - track(p, T.trip, T.alarmEnd));
-      shakeX = Math.sin(now * 0.045) * amp;
-      shakeY = Math.cos(now * 0.061) * amp * 0.6;
-    }
-
-    var vw = lerp(VB_FAR.w, VB_NEAR.w, zoom);
-    var vh = lerp(VB_FAR.h, VB_NEAR.h, zoom);
-    var vx = lerp(VB_FAR.x, VB_NEAR.x, zoom) + shakeX;
-    var vy = lerp(VB_FAR.y, VB_NEAR.y, zoom) + shakeY;
+    var vw = lerp(FAR.w, NEAR.w, zoom);
+    var vh = lerp(FAR.h, NEAR.h, zoom);
+    var vx = lerp(FAR.x, NEAR.x, zoom);
+    var vy = lerp(FAR.y, NEAR.y, zoom);
 
     /* kapi + armatur kutusunu kadraja zorla */
-    vx = Math.max(Math.min(vx, MUST.x0), MUST.x1 - vw);
-    vy = Math.max(Math.min(vy, MUST.y0), MUST.y1 - vh);
-    art.setAttribute('viewBox',
-      vx.toFixed(1) + ' ' + vy.toFixed(1) + ' ' + vw.toFixed(1) + ' ' + vh.toFixed(1));
+    vx = Math.max(Math.min(vx, BOX.x0), BOX.x1 - vw);
+    vy = Math.max(Math.min(vy, BOX.y0), BOX.y1 - vh);
+    /* Ayni kareyi tekrar yazmak yok. Mobilde MZOOM=1 oldugundan kare
+       hic degismiyor; her karede setAttribute cagirmak telefonda bosa
+       harcanan bir SVG yeniden cizimi demek. */
+    var vbStr = vx.toFixed(1) + ' ' + vy.toFixed(1) + ' ' +
+                vw.toFixed(1) + ' ' + vh.toFixed(1);
+    if (vbStr !== lastVB) { lastVB = vbStr; art.setAttribute('viewBox', vbStr); }
 
     /* yakın planda ürün etiketi dev gibi büyümesin */
     var near = zoom > 0.55;
     if (near !== nearOn) { nearOn = near; stage.classList.toggle('is-near', near); }
+
+    /* Alarm durumu. Işık hesabından ÖNCE kurulmalı: alarmT0 sonra
+       atanınca ilk karede eski değer okunuyor ve beyaz ışık sıfıra
+       düşüp bir kare sonra yukarı zıplıyordu. */
+    if (alarm !== alarmOn) {
+      alarmOn = alarm;
+      if (alarm) alarmT0 = now;
+      stage.classList.toggle('is-alarm', alarm);
+      if (el.hud) el.hud.classList.toggle('is-alarm', alarm);
+    }
 
     /* algılama: 14 m eşiği */
     var detected = dist <= 14 && p > T.dolly[0];
@@ -163,25 +213,19 @@
     /* ışık gücü: kısık -> tam -> uyarı nabzı */
     var gain = detected ? 1 : 0.42;
     if (inWarn && !alarm && !reduced) gain *= 0.76 + 0.24 * Math.sin(now * 0.009);
-    /* Cakar carken beyaz huzme tam guctte kalirsa rengi seyreltiyor. */
-    if (alarm) gain *= 0.5;
+    /* Çakar çalarken beyaz söner — ama ANİDEN değil. Sıfıra kesince
+       "ışık kaynağı yok oldu, yerine başka bir şey çıktı" gibi
+       okunuyordu. 180 ms'de sönüyor: aynı armatürün mod değiştirmesi.
+       Lens ağzı (lensBody) hiç kaybolmuyor, sadece yayım söner. */
+    if (alarm) gain *= clamp01(1 - (now - alarmT0) / WHITE_FADE);
     if (el.beamW) el.beamW.setAttribute('opacity', gain.toFixed(3));
     if (el.poolW) el.poolW.setAttribute('opacity', gain.toFixed(3));
-    if (el.glow)  el.glow.setAttribute('opacity', (0.3 + 0.5 * gain).toFixed(3));
-    if (el.lens)  el.lens.setAttribute('opacity', (0.5 + 0.5 * gain).toFixed(3));
-    if (el.pir && detected !== lastDetected) {
-      lastDetected = detected;
-      el.pir.setAttribute('stroke', detected ? '#FF2B45' : '#3C5470');
-    }
-
-    /* alarm durumu — pencere zamanlayıcısı buradan kuruluyor */
-    if (alarm !== alarmOn) {
-      alarmOn = alarm;
-      if (alarm) alarmT0 = now;
-      stage.classList.toggle('is-alarm', alarm);
-      if (el.hud) el.hud.classList.toggle('is-alarm', alarm);
-      if (window.Siren) alarm ? window.Siren.start() : window.Siren.stop();
-    }
+    /* Odak lekesi ve duvar yansimasi ayni kazanci izliyor. Yansima
+       daha zayif: geri sacilan isik her zaman gelenden az olur. */
+    if (el.poolHot) el.poolHot.setAttribute('opacity', gain.toFixed(3));
+    if (el.bounceW) el.bounceW.setAttribute('opacity', (gain * 0.85).toFixed(3));
+    if (el.reflDoor) el.reflDoor.setAttribute('opacity', gain.toFixed(3));
+    if (el.lens)  el.lens.setAttribute('opacity', (alarm ? gain : 0.5 + 0.5 * gain).toFixed(3));
 
     /* Evin ışığı: alarmdan 1 sn sonra yanar. "Geri çekildi" boyunca YANIK
        KALIR — ev sahibi lambayı davetsiz misafir gidince hemen kapatmaz.
@@ -218,10 +262,6 @@
       });
     }
 
-    /* sesi aç ipucu yalnızca ses kapalıyken */
-    if (el.hint) {
-      el.hint.classList.toggle('is-hidden', !(window.Siren && !window.Siren.isEnabled()));
-    }
   }
 
   /* ---------- kaydırma -> ilerleme ---------- */
@@ -247,7 +287,6 @@
         alarmOn = false;
         stage.classList.remove('is-alarm');
         if (el.hud) el.hud.classList.remove('is-alarm');
-        if (window.Siren) window.Siren.stop();
       }
       return;
     }
@@ -275,7 +314,12 @@
   });
 
   window.addEventListener('scroll', start, { passive: true });
-  window.addEventListener('resize', start);
+  window.addEventListener('resize', function () {
+    measureViewport();
+    lastVB = '';   /* olcu degisti, onbellekteki kare artik gecersiz */
+    start();
+  });
+  measureViewport();
   readProgress();
   render(0);
   start();

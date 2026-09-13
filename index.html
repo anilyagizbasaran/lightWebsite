@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=37">
+<link rel="stylesheet" href="assets/css/style.css?v=68">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -27,11 +27,24 @@
     <a href="#teknik">Teknik</a>
     <a href="#modeller">Modeller</a>
   </nav>
-  <button class="sound" id="soundBtn" type="button" aria-pressed="false">
-    <span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <span class="sound-label">Ses kapalı</span>
+  <!-- Telefonda .topnav gizli; onsuz bölümlere geçilemiyor, ziyaretci
+       4500 px'lik sahnenin arkasinda kilitli kaliyordu. -->
+  <button class="menu-btn" id="menuBtn" type="button"
+          aria-expanded="false" aria-controls="mobileNav" aria-label="Bölüm menüsü">
+    <span class="menu-ico" aria-hidden="true"><i></i><i></i><i></i></span>
   </button>
 </header>
+
+<div class="mobnav" id="mobileNav" hidden>
+  <nav class="mobnav-in" aria-label="Bölümler">
+    <a href="#caydirma"><span class="mobnav-i">01</span>Caydırma</a>
+    <a href="#algilama"><span class="mobnav-i">02</span>Algılama</a>
+    <a href="#teknik"><span class="mobnav-i">03</span>Teknik</a>
+    <a href="#modeller"><span class="mobnav-i">04</span>Modeller</a>
+    <a href="#kurulum"><span class="mobnav-i">05</span>Kurulum</a>
+  </nav>
+  <p class="mobnav-foot"><a href="mailto:merhaba@nobet.example">merhaba@nobet.example</a></p>
+</div>
 
 <main id="top">
 
@@ -54,6 +67,16 @@
           <stop offset=".55" stop-color="#E8F3FF" stop-opacity=".13"/>
           <stop offset="1"   stop-color="#E8F3FF" stop-opacity="0"/>
         </linearGradient>
+        <linearGradient id="gBeamR" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FF3048" stop-opacity=".72"/>
+          <stop offset=".55" stop-color="#FF3048" stop-opacity=".2"/>
+          <stop offset="1" stop-color="#FF3048" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gBeamB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3384FF" stop-opacity=".84"/>
+          <stop offset=".55" stop-color="#3384FF" stop-opacity=".26"/>
+          <stop offset="1" stop-color="#3384FF" stop-opacity="0"/>
+        </linearGradient>
         <radialGradient id="gPool">
           <stop offset="0" stop-color="#E8F3FF" stop-opacity=".40"/>
           <stop offset=".55" stop-color="#E8F3FF" stop-opacity=".12"/>
@@ -64,7 +87,7 @@
           <stop offset="1" stop-color="#FF2B45" stop-opacity="0"/>
         </radialGradient>
         <radialGradient id="gPoolB">
-          <stop offset="0" stop-color="#2B7BFF" stop-opacity=".46"/>
+          <stop offset="0" stop-color="#2B7BFF" stop-opacity=".56"/>
           <stop offset="1" stop-color="#2B7BFF" stop-opacity="0"/>
         </radialGradient>
         <!-- ic mekan isigi: merkezde sicak amber, kenarlarda koyulasir.
@@ -75,7 +98,7 @@
           <stop offset="1" stop-color="#2A211B"/>
         </radialGradient>
         <linearGradient id="gContact" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#04070C" stop-opacity=".8"/>
+          <stop offset="0" stop-color="#04070C" stop-opacity=".45"/>
           <stop offset="1" stop-color="#04070C" stop-opacity="0"/>
         </linearGradient>
         <!-- Sonuk cam: tepede soluk gok yansimasi. Duz koyu dolgu verince
@@ -91,23 +114,38 @@
           <stop offset=".55" stop-color="#03060C" stop-opacity=".26"/>
           <stop offset="1" stop-color="#03060C" stop-opacity=".48"/>
         </linearGradient>
-        <!-- girintili bayin ic kenar golgeleri -->
-        <linearGradient id="gRevealL" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#05080D" stop-opacity=".85"/>
-          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        <!-- Kule yuzu: one ciktigi icin tepede goge yakin, dipte koyu -->
+        <linearGradient id="gTowerFace" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#39415A" stop-opacity=".34"/>
+          <stop offset=".34" stop-color="#232B38" stop-opacity=".12"/>
+          <stop offset="1" stop-color="#080B11" stop-opacity=".40"/>
         </linearGradient>
-        <linearGradient id="gRevealR" x1="1" y1="0" x2="0" y2="0">
-          <stop offset="0" stop-color="#05080D" stop-opacity=".85"/>
-          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        <!-- Kulenin yan duvarlara dusurdugu golge: dibinde koyu -->
+        <linearGradient id="gTowerShadowR" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#03050A" stop-opacity=".86"/>
+          <stop offset=".30" stop-color="#03050A" stop-opacity=".54"/>
+          <stop offset=".66" stop-color="#03050A" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#03050A" stop-opacity="0"/>
         </linearGradient>
-        <!-- one kademeli sag blogun dusurdugu golge -->
-        <linearGradient id="gStepShadowL" x1="1" y1="0" x2="0" y2="0">
-          <stop offset="0" stop-color="#05080D" stop-opacity=".62"/>
-          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        <linearGradient id="gTowerShadowL" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stop-color="#03050A" stop-opacity=".86"/>
+          <stop offset=".30" stop-color="#03050A" stop-opacity=".54"/>
+          <stop offset=".66" stop-color="#03050A" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#03050A" stop-opacity="0"/>
         </linearGradient>
-        <linearGradient id="gStepShadow" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#05080D" stop-opacity=".62"/>
-          <stop offset="1" stop-color="#05080D" stop-opacity="0"/>
+        <!-- Sacagin altindaki golge nisi -->
+        <linearGradient id="gCanopyShade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#02040A" stop-opacity=".72"/>
+          <stop offset=".55" stop-color="#02040A" stop-opacity=".30"/>
+          <stop offset="1" stop-color="#02040A" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Kat dosemesi: ince golge, altinda aydinlik dudak -->
+        <linearGradient id="gSlab" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#04070C" stop-opacity="0"/>
+          <stop offset=".42" stop-color="#04070C" stop-opacity=".52"/>
+          <stop offset=".62" stop-color="#04070C" stop-opacity=".34"/>
+          <stop offset=".82" stop-color="#5A6478" stop-opacity=".16"/>
+          <stop offset="1" stop-color="#5A6478" stop-opacity="0"/>
         </linearGradient>
         <!-- yanan pencerenin duvara tasan sicak halesi -->
         <radialGradient id="gWinSpill">
@@ -115,15 +153,296 @@
           <stop offset=".55" stop-color="#C9974A" stop-opacity=".14"/>
           <stop offset="1" stop-color="#C9974A" stop-opacity="0"/>
         </radialGradient>
-        <pattern id="pTimber" width="15" height="12" patternUnits="userSpaceOnUse">
-          <rect width="15" height="12" fill="#33251A"/>
-          <rect x="13" width="2" height="12" fill="#241A11"/>
-        </pattern>
+        <!-- ============================================================
+             KAPLAMALAR. Derzler ve lamba araliklari INCE CIZGI DEGIL,
+             GRADYAN. Sebep olculdu: 1 birimlik cizgi uzak kadrajda
+             0,82 piksele dusuyor, yani alt-piksel. Tarayici onu ya
+             atliyor ya da kirik noktalar halinde basiyor -- duvar
+             "piksel piksel" gorunuyordu. Gradyan alt-piksele inince
+             kirilmaz, ortalanarak yumusar.
+             Profil her lamba icin ayni: aydinlik sirt -> govde -> oluk.
+             ============================================================ -->
+        <!-- Tahta golge profili. objectBoundingBox: her tahtanin KENDI
+             genisligine gore olceklenir, tek gradyan yirmi tahtaya
+             yetiyor. Aydinlik sirt -> govde -> oluk. Seffaf oldugu icin
+             altindaki tahta tonunu ezmiyor, sadece golgeliyor. -->
+        <linearGradient id="gPlankShade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0"    stop-color="#FFE3C4" stop-opacity=".07"/>
+          <stop offset=".14"  stop-color="#FFE3C4" stop-opacity=".02"/>
+          <stop offset=".55"  stop-color="#000000" stop-opacity="0"/>
+          <stop offset=".88"  stop-color="#0B0704" stop-opacity=".30"/>
+          <stop offset=".97"  stop-color="#0B0704" stop-opacity=".52"/>
+          <stop offset="1"    stop-color="#2A1E14" stop-opacity=".24"/>
+        </linearGradient>
+        <!-- Palet: --wall-wood, tepede aydinlik tabanda koyu -->
+        <linearGradient id="gWoodLight" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3D2817" stop-opacity=".30"/>
+          <stop offset=".55" stop-color="#2A1B0F" stop-opacity="0"/>
+          <stop offset="1" stop-color="#1F140B" stop-opacity=".42"/>
+        </linearGradient>
+        <!-- Kapida daha hafif: kapi duvardan acik kalmali. -->
+        <linearGradient id="gDoorSheen" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFE2BC" stop-opacity=".10"/>
+          <stop offset=".5" stop-color="#8A6134" stop-opacity="0"/>
+          <stop offset="1" stop-color="#3A2718" stop-opacity=".30"/>
+        </linearGradient>
+        <!-- Palet: --wall-composite -->
+        <linearGradient id="gCompositeFall" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#242930"/>
+          <stop offset="1" stop-color="#13171C"/>
+        </linearGradient>
+        <!-- Panel derzi: saga ve asaga dogru yumusak oluk, kenarda
+             hafif dudak. Iki gradyan ust uste, ikisi de seffaftan baslar. -->
+        <linearGradient id="gJointV" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0"    stop-color="#0F151C" stop-opacity="0"/>
+          <stop offset=".86"  stop-color="#0F151C" stop-opacity="0"/>
+          <stop offset=".955" stop-color="#0F151C" stop-opacity=".52"/>
+          <stop offset="1"    stop-color="#4A5563" stop-opacity=".18"/>
+        </linearGradient>
+        <linearGradient id="gJointH" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#0F151C" stop-opacity="0"/>
+          <stop offset=".86"  stop-color="#0F151C" stop-opacity="0"/>
+          <stop offset=".955" stop-color="#0F151C" stop-opacity=".52"/>
+          <stop offset="1"    stop-color="#4A5563" stop-opacity=".18"/>
+        </linearGradient>
         <pattern id="pPanel" width="120" height="120" patternUnits="userSpaceOnUse">
           <rect width="120" height="120" fill="#2A323D"/>
-          <rect x="118" width="2" height="120" fill="#222933"/>
-          <rect y="118" width="120" height="2" fill="#222933"/>
+          <rect width="120" height="120" fill="url(#gJointV)"/>
+          <rect width="120" height="120" fill="url(#gJointH)"/>
         </pattern>
+
+
+        <!-- Gri blokta derinlik: tepeye ve dis kenara dogru koyulasir. -->
+        <linearGradient id="gPanelFall" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stop-color="#03060C" stop-opacity="0"/>
+          <stop offset=".55" stop-color="#03060C" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#03060C" stop-opacity=".44"/>
+        </linearGradient>
+        <linearGradient id="gPanelSide" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#0A121C" stop-opacity="0"/>
+          <stop offset="1" stop-color="#05090F" stop-opacity=".40"/>
+        </linearGradient>
+        <linearGradient id="gTimberSide" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stop-color="#0A121C" stop-opacity="0"/>
+          <stop offset="1" stop-color="#05090F" stop-opacity=".40"/>
+        </linearGradient>
+
+        <!-- Camda capraz yansima. Tek bant, en fazla %15: gokyuzunun
+             cama vurdugu acili serit. Bu olmadan cam duvarda delik. -->
+        <!-- ============================================================
+             YANSITILAN CEVRE. Referans renderdaki fotogercekcilik
+             hissinin ana kaynagi: camlarda gokyuzu, agac siluetleri ve
+             uzaktaki sicak isiklar gorunuyor. Cam kendi basina koyu bir
+             dikdortgen degil, KARSISINDAKI DUNYAYI gosteriyor.
+             Bu grup bir kez tanimlaniyor, alti pencere <use> ile ayri
+             ayri BASKA BOLGESINI gosteriyor -- ayni yansimayi alti kez
+             basmak yine cikartma etkisi yaratirdi.
+             ============================================================ -->
+        <linearGradient id="gRefSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0C1226"/>
+          <stop offset=".62" stop-color="#1A2340"/>
+          <stop offset=".86" stop-color="#2E3355"/>
+          <stop offset="1" stop-color="#3A3A52"/>
+        </linearGradient>
+        <g id="envRef">
+          <rect width="900" height="520" fill="url(#gRefSky)"/>
+          <!-- Yildizlar kisik: parlak olunca cam yansima degil uzerine
+               basilmis yildiz deseni gibi okunuyor. Yansimayi asil
+               tasiyan sey gok gradyani ve agac kutleleri. -->
+          <g fill="#DCE6FF" opacity=".40">
+          <circle cx="226" cy="310" r="1.49" opacity="0.68"/>
+          <circle cx="298" cy="167" r="1.20" opacity="0.60"/>
+          <circle cx="108" cy="151" r="2.17" opacity="0.82"/>
+          <circle cx="856" cy="126" r="1.36" opacity="0.38"/>
+          <circle cx="721" cy="81" r="0.96" opacity="0.63"/>
+          <circle cx="677" cy="129" r="2.09" opacity="0.30"/>
+          <circle cx="302" cy="120" r="2.34" opacity="0.77"/>
+          <circle cx="161" cy="73" r="2.03" opacity="0.85"/>
+          <circle cx="441" cy="129" r="1.82" opacity="0.78"/>
+          <circle cx="885" cy="201" r="1.04" opacity="0.62"/>
+          <circle cx="413" cy="63" r="0.82" opacity="0.80"/>
+          <circle cx="571" cy="237" r="1.71" opacity="0.29"/>
+          <circle cx="813" cy="257" r="1.90" opacity="0.66"/>
+          <circle cx="131" cy="237" r="1.29" opacity="0.75"/>
+          <circle cx="886" cy="267" r="2.25" opacity="0.79"/>
+          <circle cx="110" cy="80" r="0.87" opacity="0.57"/>
+          <circle cx="365" cy="234" r="1.09" opacity="0.43"/>
+          <circle cx="88" cy="32" r="1.92" opacity="0.77"/>
+          <circle cx="813" cy="99" r="1.98" opacity="0.45"/>
+          <circle cx="440" cy="155" r="1.77" opacity="0.79"/>
+          <circle cx="283" cy="182" r="1.22" opacity="0.32"/>
+          <circle cx="239" cy="11" r="0.91" opacity="0.39"/>
+          <circle cx="20" cy="66" r="1.87" opacity="0.37"/>
+          <circle cx="683" cy="147" r="2.03" opacity="0.56"/>
+          <circle cx="340" cy="136" r="1.81" opacity="0.38"/>
+          <circle cx="445" cy="48" r="1.44" opacity="0.40"/>
+          <circle cx="118" cy="294" r="2.48" opacity="0.73"/>
+          <circle cx="58" cy="271" r="1.04" opacity="0.40"/>
+          <circle cx="885" cy="22" r="2.33" opacity="0.85"/>
+          <circle cx="569" cy="308" r="2.27" opacity="0.37"/>
+          <circle cx="330" cy="241" r="2.50" opacity="0.67"/>
+          <circle cx="206" cy="195" r="2.31" opacity="0.30"/>
+          <circle cx="657" cy="231" r="1.86" opacity="0.59"/>
+          <circle cx="54" cy="114" r="1.27" opacity="0.34"/>
+          </g>
+          <!-- agac siluetleri: yansimada karanlik kutleler -->
+          <path d="M0,520 L0,430 C40,415 70,380 110,372 C150,364 168,392 205,400
+                   C240,408 262,392 300,405 L300,520 Z" fill="#070A12" opacity=".92"/>
+          <path d="M430,520 L430,452 C470,440 492,398 536,392 C580,386 596,420 630,428
+                   C664,436 690,414 720,424 L720,520 Z" fill="#070A12" opacity=".88"/>
+          <path d="M760,520 L760,468 C790,458 812,436 846,432 C880,428 900,452 900,452
+                   L900,520 Z" fill="#070A12" opacity=".85"/>
+          <circle cx="355" cy="412" r="4.5" fill="#FFD79A" opacity="0.86"/>
+          <circle cx="231" cy="440" r="5.4" fill="#FFD79A" opacity="0.78"/>
+          <circle cx="722" cy="432" r="3.1" fill="#FFD79A" opacity="0.60"/>
+          <circle cx="766" cy="436" r="3.5" fill="#FFD79A" opacity="0.88"/>
+          <circle cx="390" cy="450" r="3.5" fill="#FFD79A" opacity="0.68"/>
+          <circle cx="679" cy="419" r="2.9" fill="#FFD79A" opacity="0.90"/>
+          <circle cx="546" cy="461" r="5.3" fill="#FFD79A" opacity="0.62"/>
+        </g>
+        <!-- Aynasi: sol blokta yansima ters yone egik. Alti pencereye
+             ayni acida ayni serit basilinca yuzey cam degil, uzerine
+             cikartma yapistirilmis panel gibi okunuyor. -->
+        <linearGradient id="gGlassDiagL" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#CBDCFF" stop-opacity="0"/>
+          <stop offset=".30"  stop-color="#CBDCFF" stop-opacity="0"/>
+          <stop offset=".38"  stop-color="#CBDCFF" stop-opacity=".07"/>
+          <stop offset=".46"  stop-color="#E4EEFF" stop-opacity=".15"/>
+          <stop offset=".54"  stop-color="#CBDCFF" stop-opacity=".08"/>
+          <stop offset=".66"  stop-color="#CBDCFF" stop-opacity="0"/>
+          <stop offset="1"    stop-color="#CBDCFF" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gGlassDiag" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0"    stop-color="#CBDCFF" stop-opacity="0"/>
+          <stop offset=".30"  stop-color="#CBDCFF" stop-opacity="0"/>
+          <stop offset=".38"  stop-color="#CBDCFF" stop-opacity=".07"/>
+          <stop offset=".46"  stop-color="#E4EEFF" stop-opacity=".15"/>
+          <stop offset=".54"  stop-color="#CBDCFF" stop-opacity=".08"/>
+          <stop offset=".66"  stop-color="#CBDCFF" stop-opacity="0"/>
+          <stop offset="1"    stop-color="#CBDCFF" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- ============================================================
+             ORTAM YANSIMASI (bounce). Isik sadece havada bir ucgen
+             degil: vurdugu yuzeyden geri sacilir ve yakin duvarlari
+             boyar. Uc gradyan da armaturun ALTINDAN baslar -- kaynagin
+             ETRAFINDA hale yok, o daha once kaldirildi.
+             ============================================================ -->
+        <radialGradient id="gBounceW">
+          <stop offset="0" stop-color="#CFE4FF" stop-opacity=".34"/>
+          <stop offset=".45" stop-color="#9FC0E8" stop-opacity=".13"/>
+          <stop offset="1" stop-color="#9FC0E8" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gBounceR">
+          <stop offset="0" stop-color="#FF3048" stop-opacity=".40"/>
+          <stop offset=".5" stop-color="#FF2B45" stop-opacity=".15"/>
+          <stop offset="1" stop-color="#FF2B45" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gBounceB">
+          <stop offset="0" stop-color="#3384FF" stop-opacity=".46"/>
+          <stop offset=".5" stop-color="#2B7BFF" stop-opacity=".18"/>
+          <stop offset="1" stop-color="#2B7BFF" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Zeminde odak lekesi: havuzun icindeki parlak cekirdek. -->
+        <radialGradient id="gPoolHot">
+          <stop offset="0" stop-color="#F2F8FF" stop-opacity=".52"/>
+          <stop offset=".5" stop-color="#DDEBFF" stop-opacity=".18"/>
+          <stop offset="1" stop-color="#DDEBFF" stop-opacity="0"/>
+        </radialGradient>
+        <!-- Binanin oturdugu yerdeki kapali golge (AO). Sahne boyu
+             uzanan eski bant ufuk pusuydu, temas golgesi degil. -->
+        <linearGradient id="gFootAO" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#02040A" stop-opacity=".92"/>
+          <stop offset=".35" stop-color="#02040A" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#02040A" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- ============================================================
+             ISLAK ZEMIN. Referanstaki asfaltin ikinci fotogercekcilik
+             kaynagi: kapinin isigi ve yanan pencereler yerde dikey bir
+             lekeye donuyor. Kuru zeminde isik sadece havuz yapar,
+             yansitmaz; islak zemin AYNA gibi davranir.
+             ============================================================ -->
+        <linearGradient id="gWetSheen" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2A3048" stop-opacity=".42"/>
+          <stop offset=".18" stop-color="#1A2032" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#0A0E16" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Dikey leke: yukarida parlak, asagi dogru dagilarak soner -->
+        <linearGradient id="gSmearW" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFE9C8" stop-opacity=".50"/>
+          <stop offset=".28" stop-color="#F0D9B4" stop-opacity=".22"/>
+          <stop offset=".62" stop-color="#E4CFAC" stop-opacity=".07"/>
+          <stop offset="1" stop-color="#E4CFAC" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Lekenin yanlari maskeyle soluyor: dikdortgen kenari
+             islak zeminde bicak izi gibi durur. -->
+        <linearGradient id="gSmearFade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+          <stop offset=".22" stop-color="#fff" stop-opacity=".75"/>
+          <stop offset=".5" stop-color="#fff" stop-opacity="1"/>
+          <stop offset=".78" stop-color="#fff" stop-opacity=".75"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="mSmear" maskUnits="userSpaceOnUse" x="300" y="670" width="172" height="150">
+          <rect x="300" y="670" width="172" height="150" fill="url(#gSmearFade)"/>
+        </mask>
+        <radialGradient id="gReflR">
+          <stop offset="0" stop-color="#FF3048" stop-opacity=".42"/>
+          <stop offset="1" stop-color="#FF2B45" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gReflB">
+          <stop offset="0" stop-color="#3384FF" stop-opacity=".48"/>
+          <stop offset="1" stop-color="#2B7BFF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gReflWin">
+          <stop offset="0" stop-color="#F4C77A" stop-opacity=".30"/>
+          <stop offset="1" stop-color="#C9974A" stop-opacity="0"/>
+        </radialGradient>
+        <!-- Huzmenin yumusak kenari. Gercek bir gece huzmesinin kenari
+             bicak gibi degil; stdDeviation 7 = 7 cm'lik tuy. -->
+        <filter id="fBeamSoft" x="-12%" y="-12%" width="124%" height="124%"
+                color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="7"/>
+        </filter>
+        <!-- ============================================================
+             HUZMEDE DERINLIK. Armatur ONE CIKAN kulenin yuzunde; kule
+             300-470 arasi. Yan duvarlar daha GERIDE, yani isik kaynagina
+             daha uzak ve kulenin yan donusu onlari kismen golgeliyor.
+             Bu yuzden huzme kule bandinda tam guclu, yan bloklara
+             gectiginde %42'ye dusuyor. Eskiden her yuzeye ayni siddette
+             vuruyordu ve isik duvara CIZILMIS bir resim gibi duruyordu:
+             parlaklik farki olmayinca goz derinligi okuyamiyor.
+             300 ve 470'teki gecis 20 birimde tamamlaniyor -- donusun
+             kenari keskin bir golge sinirdir, yumusak degil.
+             ============================================================ -->
+        <linearGradient id="gDepth" gradientUnits="userSpaceOnUse"
+                        x1="180" y1="0" x2="590" y2="0">
+          <stop offset="0"    stop-color="#fff" stop-opacity=".42"/>
+          <stop offset=".244" stop-color="#fff" stop-opacity=".50"/>
+          <stop offset=".293" stop-color="#fff" stop-opacity="1"/>
+          <stop offset=".707" stop-color="#fff" stop-opacity="1"/>
+          <stop offset=".756" stop-color="#fff" stop-opacity=".50"/>
+          <stop offset="1"    stop-color="#fff" stop-opacity=".42"/>
+        </linearGradient>
+        <mask id="mDepth" maskUnits="userSpaceOnUse" x="-560" y="440" width="2560" height="320">
+          <rect x="-560" y="440" width="2560" height="320" fill="url(#gDepth)"/>
+        </mask>
+
+        <!-- Bulaniklik huzmenin ust kenarini da tuylendiriyor ve isik
+             armaturun UZERINE tasiyordu; kaynagin etrafindaki beyaz hale
+             daha once bilerek kaldirilmisti. Bu kirpici tuyu agzin
+             altinda tutuyor: y=448'in uzerine tek piksel cikmaz. -->
+        <!-- pencere kirpicilari: yansima cam disina tasmasin -->
+        <clipPath id="cWin0"><rect x="556" y="140" width="150" height="200"/></clipPath>
+        <clipPath id="cWin1"><rect x="556" y="428" width="150" height="196"/></clipPath>
+        <clipPath id="cWin2"><rect x="66" y="140" width="150" height="200"/></clipPath>
+        <clipPath id="cWin3"><rect x="66" y="428" width="150" height="196"/></clipPath>
+        <clipPath id="cWin4"><rect x="348" y="170" width="76" height="200"/></clipPath>
+        <clipPath id="cBeam">
+          <rect x="-560" y="448" width="2560" height="320"/>
+        </clipPath>
         <linearGradient id="gWarmWin" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#F4DCA8"/>
           <stop offset=".55" stop-color="#D9B472"/>
@@ -135,18 +454,55 @@
           <stop offset="1" stop-color="#6B4A28"/>
         </linearGradient>
         <radialGradient id="gWashR">
-          <stop offset="0" stop-color="#FF2B45" stop-opacity=".82"/>
+          <stop offset="0" stop-color="#FF2B45" stop-opacity=".68"/>
           <stop offset="1" stop-color="#FF2B45" stop-opacity="0"/>
         </radialGradient>
         <radialGradient id="gWashB">
-          <stop offset="0" stop-color="#2B7BFF" stop-opacity=".82"/>
+          <stop offset="0" stop-color="#2B7BFF" stop-opacity=".80"/>
           <stop offset="1" stop-color="#2B7BFF" stop-opacity="0"/>
         </radialGradient>
-        <radialGradient id="gLens">
-          <stop offset="0" stop-color="#FFFFFF"/>
-          <stop offset=".4" stop-color="#E8F3FF" stop-opacity=".8"/>
-          <stop offset="1" stop-color="#E8F3FF" stop-opacity="0"/>
-        </radialGradient>
+        <!-- ============================================================
+             CAKARIN YATAY GECISI. Iki renkli koni de artik TAM koni;
+             renkleri ayiran is bu maskelerde. Her renk kendi tarafinda
+             tam guclu, karsi tarafa dogru yumusak soner. Boylece x=386
+             ekseninde dikey bir kesik olusmuyor: iki renk ~4,4 m'lik
+             bir bantta birbirine karisiyor. Gercekte de iki LED barinin
+             huzmeleri keskin bir duvarla ayrilmaz, ust uste biner.
+             ============================================================ -->
+        <linearGradient id="gFadeR" gradientUnits="userSpaceOnUse" x1="180" y1="0" x2="620" y2="0">
+          <stop offset="0"   stop-color="#fff" stop-opacity="1"/>
+          <stop offset=".30" stop-color="#fff" stop-opacity=".80"/>
+          <stop offset=".55" stop-color="#fff" stop-opacity=".45"/>
+          <stop offset=".80" stop-color="#fff" stop-opacity=".12"/>
+          <stop offset="1"   stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gFadeB" gradientUnits="userSpaceOnUse" x1="592" y1="0" x2="152" y2="0">
+          <stop offset="0"   stop-color="#fff" stop-opacity="1"/>
+          <stop offset=".30" stop-color="#fff" stop-opacity=".80"/>
+          <stop offset=".55" stop-color="#fff" stop-opacity=".45"/>
+          <stop offset=".80" stop-color="#fff" stop-opacity=".12"/>
+          <stop offset="1"   stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="mFadeR" maskUnits="userSpaceOnUse" x="-140" y="410" width="1080" height="330">
+          <rect x="-140" y="410" width="1080" height="330" fill="url(#gFadeR)"/>
+        </mask>
+        <mask id="mFadeB" maskUnits="userSpaceOnUse" x="-140" y="410" width="1080" height="330">
+          <rect x="-140" y="410" width="1080" height="330" fill="url(#gFadeB)"/>
+        </mask>
+        <!-- Agizda da ayni mantik: renk lensin karsi ucuna dogru soner,
+             boylece parlamanin (drop-shadow) kenari da keskin degil. -->
+        <linearGradient id="gLensR" gradientUnits="userSpaceOnUse" x1="352" y1="0" x2="426" y2="0">
+          <stop offset="0"   stop-color="#FF3048" stop-opacity="1"/>
+          <stop offset=".45" stop-color="#FF3048" stop-opacity=".62"/>
+          <stop offset=".78" stop-color="#FF3048" stop-opacity=".16"/>
+          <stop offset="1"   stop-color="#FF3048" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gLensB" gradientUnits="userSpaceOnUse" x1="420" y1="0" x2="346" y2="0">
+          <stop offset="0"   stop-color="#3384FF" stop-opacity="1"/>
+          <stop offset=".45" stop-color="#3384FF" stop-opacity=".62"/>
+          <stop offset=".78" stop-color="#3384FF" stop-opacity=".16"/>
+          <stop offset="1"   stop-color="#3384FF" stop-opacity="0"/>
+        </linearGradient>
       </defs>
 
       <rect x="-500" y="-300" width="2440" height="1120" fill="url(#gSky)"/>
@@ -174,65 +530,166 @@
       <g id="house">
 
         <!-- ---- sag blok: gri panel ---- -->
-        <rect x="470" y="40" width="440" height="636" fill="url(#pPanel)"/>
+        <rect x="470" y="40" width="440" height="636" fill="url(#gCompositeFall)"/>
+        <rect x="470" y="40" width="440" height="636" fill="url(#pPanel)" opacity=".55"/>
+        <!-- derinlik: tepeye ve dis kenara dogru koyulasma -->
+        <rect x="470" y="40" width="440" height="636" fill="url(#gPanelFall)"/>
+        <rect x="470" y="40" width="440" height="636" fill="url(#gPanelSide)"/>
         <rect x="462" y="20" width="456" height="22" fill="#12161C"/>
         <rect x="462" y="20" width="456" height="3" fill="#39405C"/>
         <rect x="556" y="140" width="150" height="200" fill="url(#gGlassDark)"/>
+        <g clip-path="url(#cWin0)" class="glass-env" opacity="0.40"><use href="#envRef" transform="translate(296.0,120.0) scale(0.50)"/></g>
+        <rect x="556" y="140" width="150" height="200" fill="url(#gGlassDiag)" class="glass-ref" opacity="1"/>
         <g class="win-frame"><rect x="556" y="140" width="150" height="200"/></g>
         <line x1="556" y1="252" x2="706" y2="252" class="win-bar"/>
         <line x1="660" y1="140" x2="660" y2="340" class="win-bar"/>
         <rect x="556" y="428" width="150" height="196" fill="url(#gGlassDark)"/>
+        <g clip-path="url(#cWin1)" class="glass-env" opacity="0.21"><use href="#envRef" transform="translate(486.0,378.0) scale(0.50)"/></g>
+        <rect x="556" y="428" width="150" height="196" fill="url(#gGlassDiag)" class="glass-ref" opacity=".48"/>
         <g class="win-frame"><rect x="556" y="428" width="150" height="196"/></g>
         <line x1="556" y1="516" x2="706" y2="516" class="win-bar"/>
         <line x1="660" y1="428" x2="660" y2="624" class="win-bar"/>
         <rect x="470" y="636" width="440" height="40" fill="#232A33"/>
         <rect x="470" y="630" width="440" height="8" fill="#4A3A28"/>
 
+        <!-- KAT DOSEMESI HIZASI. Bina 636 birim / 2 kat -> doseme
+             y=358'de. Ust ve alt pencere arasindaki 88 birimlik boslukta
+             gozle okunacak bir sey yoktu, iki kat tek yuzey gibiydi. -->
+        <rect x="470" y="352" width="440" height="14" fill="url(#gSlab)"/>
+
         <!-- ---- sol blok: sagin aynasi, dikey ahsap kaplama ---- -->
-        <rect x="-138" y="40" width="440" height="636" fill="url(#pTimber)"/>
+        <!-- Yirmi tahta, her biri ayri tonda. Tek desen yirmi kez
+             tekrarlayinca duvar baskı kumas gibi duruyordu; referanstaki
+             ahsapta her tahtanin rengi farkli. -->
+        <rect x="-138.0" y="40" width="22.00" height="636" fill="#372516"/>
+        <rect x="-116.0" y="40" width="22.00" height="636" fill="#342315"/>
+        <rect x="-94.0" y="40" width="22.00" height="636" fill="#332214"/>
+        <rect x="-72.0" y="40" width="22.00" height="636" fill="#3b2818"/>
+        <rect x="-50.0" y="40" width="22.00" height="636" fill="#352315"/>
+        <rect x="-28.0" y="40" width="22.00" height="636" fill="#46301d"/>
+        <rect x="-6.0" y="40" width="22.00" height="636" fill="#2e1f12"/>
+        <rect x="16.0" y="40" width="22.00" height="636" fill="#2b1d11"/>
+        <rect x="38.0" y="40" width="22.00" height="636" fill="#3c2919"/>
+        <rect x="60.0" y="40" width="22.00" height="636" fill="#3a2718"/>
+        <rect x="82.0" y="40" width="22.00" height="636" fill="#412c1b"/>
+        <rect x="104.0" y="40" width="22.00" height="636" fill="#2d1e11"/>
+        <rect x="126.0" y="40" width="22.00" height="636" fill="#362516"/>
+        <rect x="148.0" y="40" width="22.00" height="636" fill="#382617"/>
+        <rect x="170.0" y="40" width="22.00" height="636" fill="#382617"/>
+        <rect x="192.0" y="40" width="22.00" height="636" fill="#382617"/>
+        <rect x="214.0" y="40" width="22.00" height="636" fill="#3f2b1a"/>
+        <rect x="236.0" y="40" width="22.00" height="636" fill="#3f2b1a"/>
+        <rect x="258.0" y="40" width="22.00" height="636" fill="#432d1c"/>
+        <rect x="280.0" y="40" width="22.00" height="636" fill="#312114"/>
+        <rect x="-138.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="-116.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="-94.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="-72.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="-50.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="-28.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="-6.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="16.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="38.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="60.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="82.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="104.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="126.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="148.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="170.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="192.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="214.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="236.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="258.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="280.0" y="40" width="22.00" height="636" fill="url(#gPlankShade)"/>
+        <rect x="-138" y="40" width="440" height="636" fill="url(#gWoodLight)"/>
         <!-- yukari dogru koyulasan ortam isigi dusumu -->
         <rect x="-138" y="40" width="440" height="636" fill="url(#gTimberFall)"/>
+        <rect x="-138" y="40" width="440" height="636" fill="url(#gTimberSide)"/>
         <rect x="-146" y="20" width="456" height="22" fill="#12161C"/>
         <rect x="-146" y="20" width="456" height="3" fill="#39405C"/>
         <rect x="66" y="140" width="150" height="200" fill="url(#gGlassDark)"/>
+        <g clip-path="url(#cWin2)" class="glass-env" opacity="0.38"><use href="#envRef" transform="translate(46.0,130.0) scale(0.50)"/></g>
+        <rect x="66" y="140" width="150" height="200" fill="url(#gGlassDiagL)" class="glass-ref" opacity=".9"/>
         <g class="win-frame"><rect x="66" y="140" width="150" height="200"/></g>
         <line x1="66" y1="252" x2="216" y2="252" class="win-bar"/>
         <line x1="112" y1="140" x2="112" y2="340" class="win-bar"/>
         <rect x="66" y="428" width="150" height="196" fill="url(#gGlassDark)"/>
+        <g clip-path="url(#cWin3)" class="glass-env" opacity="0.19"><use href="#envRef" transform="translate(-234.0,373.0) scale(0.50)"/></g>
+        <rect x="66" y="428" width="150" height="196" fill="url(#gGlassDiagL)" class="glass-ref" opacity=".42"/>
         <g class="win-frame"><rect x="66" y="428" width="150" height="196"/></g>
         <line x1="66" y1="516" x2="216" y2="516" class="win-bar"/>
         <line x1="112" y1="428" x2="112" y2="624" class="win-bar"/>
+        <rect x="-138" y="352" width="440" height="14" fill="url(#gSlab)"/>
         <rect x="-138" y="636" width="440" height="40" fill="#232A33"/>
         <rect x="-138" y="630" width="440" height="8" fill="#4A3A28"/>
 
-        <!-- ---- orta: girintili giris bayi ---- -->
-        <rect x="300" y="120" width="170" height="556" fill="#171D24"/>
-        <!-- Girintinin ic kenar golgeleri: bunlar olmadan bay girintili
-             degil, sadece daha koyu bir dikdortgen gibi okunuyor. -->
-        <rect x="300" y="120" width="34" height="556" fill="url(#gRevealL)"/>
-        <rect x="436" y="120" width="34" height="556" fill="url(#gRevealR)"/>
-        <rect x="292" y="100" width="186" height="22" fill="#12161C"/>
+        <!-- ============================================================
+             ORTA KUTLE: ONE CIKINTILI GIRIS KULESI.
+             Onceden girintiydi (ic kenarlarda reveal golgeleri vardi) ve
+             bu yuzden yan duvarlarla ayni duzlemde, yapisik okunuyordu.
+             Simdi one cikiyor. Derinligi uc sey tasiyor:
+               1. Kulenin YAN YUZLERI (donusler) gorunuyor: dar, koyu
+                  seritler. Bir kutle one ciktiginda yani gorunur.
+               2. Iki yana DUSEN GOLGE: kulenin dibinde koyu, uzaklasarak
+                  soluyor. Paralaks hissini bu veriyor.
+               3. Kule yuzu arkadaki duvarlardan bir tik AYDINLIK: one
+                  ciktigi icin goge ve armature daha yakin.
+             ============================================================ -->
+        <rect x="300" y="120" width="170" height="556" fill="#1B222B"/>
+        <rect x="300" y="120" width="170" height="556" fill="url(#gTowerFace)"/>
+        <!-- kulenin yan donusleri: one cikan kutlenin gorunen kalinligi -->
+        <rect x="292" y="120" width="8" height="556" fill="#0C1016"/>
+        <rect x="470" y="120" width="8" height="556" fill="#0F141A"/>
+        <!-- kule parapeti, yan bloklarin parapetinin uzerinde -->
+        <rect x="284" y="98" width="202" height="24" fill="#151A21"/>
+        <rect x="284" y="98" width="202" height="3" fill="#3B4358"/>
 
-        <!-- bayin ust kat pencereleri -->
-        <rect x="322" y="196" width="86" height="84" fill="url(#gGlassDark)"/>
-        <g class="win-frame"><rect x="322" y="196" width="86" height="84"/></g>
-        <rect x="322" y="300" width="86" height="84" fill="url(#gGlassDark)"/>
-        <g class="win-frame"><rect x="322" y="300" width="86" height="84"/></g>
+        <!-- Kule penceresi: TEK dusey pencere, kapi ekseninde (x=386).
+             Eskiden iki basik pencere vardi, merkezleri 365'teydi --
+             kapi ekseninden 21 birim kacik, simetri bozuluyordu. -->
+        <rect x="348" y="170" width="76" height="200" fill="url(#gGlassDark)"/>
+        <g clip-path="url(#cWin4)" class="glass-env" opacity="0.30"><use href="#envRef" transform="translate(158.0,140.0) scale(0.50)"/></g>
+        <rect x="348" y="170" width="76" height="200" fill="url(#gGlassDiag)" class="glass-ref" opacity=".62"/>
+        <g class="win-frame"><rect x="348" y="170" width="76" height="200"/></g>
+        <line x1="348" y1="270" x2="424" y2="270" class="win-bar"/>
 
-        <!-- konsol sacak -->
-        <rect x="288" y="398" width="212" height="26" fill="#12161C"/>
-        <rect x="288" y="424" width="212" height="6" fill="#0A0D11"/>
+        <!-- konsol sacak: kuleden de one tasiyor -->
+        <rect x="284" y="398" width="220" height="26" fill="#12161C"/>
+        <rect x="284" y="424" width="220" height="6" fill="#0A0D11"/>
+        <!-- Sacagin kule yuzune dusurdugu golge. Armatur bu golgenin
+             icinde duruyor: govde duvara cizilmis gibi degil, golgeli
+             bir nise oturmus gibi okunuyor. -->
+        <rect x="300" y="430" width="170" height="54" fill="url(#gCanopyShade)"/>
 
         <!-- giris kapisi: ahsap, 0,95 x 2,15 m, ekseni x=386 -->
         <rect x="332" y="455" width="108" height="221" fill="#0D1116"/>
-        <rect x="338" y="461" width="96" height="215" fill="url(#gDoorWood)"/>
+        <!-- Kapi da tahta: alti dusey tahta, ayri tonlarda. -->
+        <rect x="338.0" y="461" width="16.00" height="215" fill="#8f683a"/>
+        <rect x="354.0" y="461" width="16.00" height="215" fill="#886236"/>
+        <rect x="370.0" y="461" width="16.00" height="215" fill="#78552f"/>
+        <rect x="386.0" y="461" width="16.00" height="215" fill="#684926"/>
+        <rect x="402.0" y="461" width="16.00" height="215" fill="#6e4d29"/>
+        <rect x="418.0" y="461" width="16.00" height="215" fill="#8a6438"/>
+        <rect x="338.0" y="461" width="16.00" height="215" fill="url(#gPlankShade)"/>
+        <rect x="354.0" y="461" width="16.00" height="215" fill="url(#gPlankShade)"/>
+        <rect x="370.0" y="461" width="16.00" height="215" fill="url(#gPlankShade)"/>
+        <rect x="386.0" y="461" width="16.00" height="215" fill="url(#gPlankShade)"/>
+        <rect x="402.0" y="461" width="16.00" height="215" fill="url(#gPlankShade)"/>
+        <rect x="418.0" y="461" width="16.00" height="215" fill="url(#gPlankShade)"/>
+        <rect x="338" y="461" width="96" height="215" fill="url(#gDoorSheen)"/>
         <rect x="424" y="500" width="4" height="130" rx="2" fill="#1A1E24"/>
 
         <text x="310" y="446" class="housenum">17</text>
 
-        <!-- Iki yan blok one kademeli: bayin iki kenarina golge dusuruyor. -->
-        <rect x="470" y="120" width="46" height="556" fill="url(#gStepShadow)"/>
-        <rect x="254" y="120" width="46" height="556" fill="url(#gStepShadowL)"/>
+        <!-- ONE CIKAN KULENIN YAN DUVARLARA DUSURDUGU GOLGE.
+             Dibinde neredeyse siyah, 76 birimde soluyor. Onceki 46
+             birimlik zayif gradyan, bounce isigi eklendikten sonra
+             tamamen yenilmisti; bina bu yuzden karton gibi duruyordu.
+             Golge yan pencerelere degmiyor: solda pencere 216'da bitiyor
+             golge 216'da basliyor, sagda golge 554'te bitiyor pencere
+             556'da basliyor. -->
+        <rect x="478" y="120" width="76" height="556" fill="url(#gTowerShadowR)"/>
+        <rect x="216" y="120" width="76" height="556" fill="url(#gTowerShadowL)"/>
       </g>
 
       <!-- ============================================================
@@ -240,6 +697,10 @@
            Butun opaklik scene.js tarafindan suruluyor (alarm + 1 sn).
            ============================================================ -->
       <g id="winLit" opacity="0">
+        <!-- Yanan pencerelerin islak zemindeki yansimasi. Pencere 4 m
+             yukarida ama zemin ayna gibi: leke yerde gorunur. -->
+        <ellipse cx="141" cy="700" rx="150" ry="34" fill="url(#gReflWin)"/>
+        <ellipse cx="631" cy="700" rx="150" ry="34" fill="url(#gReflWin)"/>
         <!-- duvara tasan sicak haleler -->
         <ellipse cx="141" cy="240" rx="230" ry="200" fill="url(#gWinSpill)"/>
         <ellipse cx="631" cy="240" rx="230" ry="200" fill="url(#gWinSpill)"/>
@@ -253,40 +714,90 @@
         <line x1="660" y1="140" x2="660" y2="340" class="win-bar"/>
       </g>
 
+      <!-- ============================================================
+           ORTAM YANSIMASI. Isigin yuzeyden geri sacilan kismi. Uc grup
+           da armaturun ALTINDA kaliyor ve cismin ARKASINDA duruyor:
+           duvar boyanir, kaynagin etrafinda hale olusmaz.
+           Beyaz grup scene.js'ten (beyaz kazancla birlikte), renkliler
+           cakarin kendi nabzindan suruluyor.
+           ============================================================ -->
+      <g id="bounceW" opacity="0">
+        <ellipse cx="386" cy="616" rx="250" ry="150" fill="url(#gBounceW)"/>
+        <ellipse cx="386" cy="640" rx="470" ry="110" fill="url(#gBounceW)" opacity=".55"/>
+      </g>
+      <g id="bounceR" opacity="0">
+        <ellipse cx="300" cy="612" rx="300" ry="165" fill="url(#gBounceR)"/>
+        <ellipse cx="180" cy="648" rx="420" ry="120" fill="url(#gBounceR)" opacity=".6"/>
+      </g>
+      <g id="bounceB" opacity="0">
+        <ellipse cx="472" cy="612" rx="300" ry="165" fill="url(#gBounceB)"/>
+        <ellipse cx="592" cy="648" rx="420" ry="120" fill="url(#gBounceB)" opacity=".6"/>
+      </g>
+
       <!-- Urun: N1. Govde 800 mm, sacagin altinda 2,45 m yuksekliginde. -->
       <g id="fixture">
         <rect x="346" y="430" width="80" height="18" rx="3" fill="#1D242C"/>
         <rect x="346" y="430" width="80" height="4" rx="2" fill="#2C3844"/>
-        <rect x="352" y="442" width="68" height="5.5" rx="2.75" id="lens" fill="#E8F3FF"/>
-        <ellipse cx="386" cy="445" rx="112" ry="22" fill="url(#gLens)" opacity=".5" id="lensGlow"/>
-        <circle cx="386" cy="453" r="4" id="pir" fill="#0E1826" stroke="#3C5470" stroke-width="1.4"/>
 
-        <!-- Cakar emitorleri: kirmizi SOL, mavi SAG -->
-        <g id="fxR" opacity="0">
-          <circle cx="360" cy="453" r="8" fill="#FF2B45"/>
-          <circle cx="360" cy="453" r="3.6" fill="#FFEAEE"/>
-        </g>
-        <g id="fxB" opacity="0">
-          <circle cx="412" cy="453" r="8" fill="#2B7BFF"/>
-          <circle cx="412" cy="453" r="3.6" fill="#E8F1FF"/>
-        </g>
+        <!-- Lens AGZI: her zaman gorunur fiziksel parca. Sonuk difuzor.
+             Bunu gizleyince armaturun agzi yok oluyor ve cakar hiclikten
+             cikiyor gibi duruyordu. -->
+        <rect x="352" y="442" width="68" height="5.5" id="lensBody" fill="#27303B"/>
+        <!-- Beyaz yayim: agzin uzerinde. Alarmda soner ama AGIZ kalir. -->
+        <rect x="352" y="442" width="68" height="5.5" id="lens" fill="#E8F3FF"/>
+
+        <!-- Cakar: isik beyazin ciktigi ayni agizdan cikar. Iki yarim
+             artik agzin TAMAMINI kapliyor ve karsi uca dogru soluyor;
+             ortada bitisik iki blok yerine yumusak bir gecis var. -->
+        <rect x="352" y="442" width="68" height="5.5" id="fxR" fill="url(#gLensR)" opacity="0"/>
+        <rect x="352" y="442" width="68" height="5.5" id="fxB" fill="url(#gLensB)" opacity="0"/>
+
       </g>
 
-      <!-- Cakarin duvara vurdugu yerel leke -->
-      <ellipse cx="352" cy="548" rx="120" ry="142" fill="url(#gWashR)" opacity="0" id="washR"/>
-      <ellipse cx="420" cy="548" rx="120" ry="142" fill="url(#gWashB)" opacity="0" id="washB"/>
+      <!-- Cakarin duvara vurdugu yerel leke, her yarimin altinda -->
+      <ellipse cx="360" cy="530" rx="118" ry="130" fill="url(#gWashR)" opacity="0" id="washR"/>
+      <ellipse cx="412" cy="530" rx="118" ry="130" fill="url(#gWashB)" opacity="0" id="washB"/>
 
-      <!-- Isik konisi: 120 derece huzme, 2,45 m yukseklikten -> zeminde +-4,2 m -->
-      <path id="beamW" d="M352,448 L420,448 L810,676 L-38,676 Z" fill="url(#gBeam)"/>
+      <!-- ============================================================
+           ISIK KONISI: 120 derece huzme, 2,45 m'den, zeminde +-4,2 m.
+           Grup 'screen' harmanliyor -- huzme duvarin uzerine perde gibi
+           cokmuyor, isigi EKLIYOR; altindaki kapi dokusu okunuyor.
+           Kenarlar fBeamSoft ile tuylu, cBeam ile agzin altinda tutulu.
+           ============================================================ -->
+      <g id="beams" clip-path="url(#cBeam)" mask="url(#mDepth)">
+      <path id="beamW" d="M352,448 L420,448 L810,676 L-38,676 Z" fill="url(#gBeam)" filter="url(#fBeamSoft)"/>
+      <!-- Renkli huzmeler beyazin AYNI konisi. Taraf ayrimi geometriyle
+           degil mFadeR / mFadeB maskeleriyle yapiliyor: kirmizi solda
+           tam, saga dogru soluyor; mavi tersi. Eskiden ikisi x=386'da
+           dikey bir cizgiyle kesiliyordu, camda bicak izi gibi. -->
+      <path id="beamR" d="M352,448 L420,448 L810,676 L-38,676 Z" fill="url(#gBeamR)" mask="url(#mFadeR)" filter="url(#fBeamSoft)" opacity="0"/>
+      <path id="beamB" d="M352,448 L420,448 L810,676 L-38,676 Z" fill="url(#gBeamB)" mask="url(#mFadeB)" filter="url(#fBeamSoft)" opacity="0"/>
+      </g>
 
-      <!-- Zemin: sade koyu yuzey. Isik havuzunun uzerine dustugu duzlem
-           ve binanin oturdugu temas golgesi disinda detay yok. -->
+      <!-- Zemin: islak asfalt. Ufka yakin kisim gogu yansittigi icin
+           daha aydinlik, one dogru koyulasiyor. -->
       <rect x="-500" y="676" width="2440" height="380" fill="#0E141C"/>
+      <rect x="-500" y="676" width="2440" height="150" fill="url(#gWetSheen)"/>
       <rect x="-500" y="676" width="2440" height="26" fill="url(#gContact)"/>
 
+      <!-- Kapinin isiginin yerdeki dikey lekesi. Opakligi beyaz kazanci
+           izliyor (scene.js). Kenarlari mSmear ile soluyor. -->
+      <rect id="reflDoor" x="300" y="676" width="172" height="144"
+            fill="url(#gSmearW)" mask="url(#mSmear)"/>
+      <!-- Cakarin yerdeki yansimasi: kirmizi solda, mavi sagda. -->
+      <ellipse id="reflR" cx="286" cy="702" rx="250" ry="46" fill="url(#gReflR)" opacity="0"/>
+      <ellipse id="reflB" cx="486" cy="702" rx="250" ry="46" fill="url(#gReflB)" opacity="0"/>
+
       <ellipse id="poolW" cx="386" cy="678" rx="424" ry="36" fill="url(#gPool)"/>
-      <ellipse id="poolR" cx="348" cy="678" rx="330" ry="32" fill="url(#gPoolR)" opacity="0"/>
-      <ellipse id="poolB" cx="424" cy="678" rx="330" ry="32" fill="url(#gPoolB)" opacity="0"/>
+      <!-- Odak lekesi: havuzun icindeki parlak cekirdek. Tek genis
+           havuz zemini esit aydinlatiyordu, spot gibi durmuyordu. -->
+      <ellipse id="poolHot" cx="386" cy="678" rx="168" ry="20" fill="url(#gPoolHot)"/>
+      <ellipse id="poolR" cx="196" cy="678" rx="252" ry="32" fill="url(#gPoolR)" opacity="0"/>
+      <ellipse id="poolB" cx="576" cy="678" rx="252" ry="32" fill="url(#gPoolB)" opacity="0"/>
+      <!-- Temas golgesi: binanin ayak izi boyunca, havuzun UZERINDE.
+           Duvarin dibine isik giremez; bu olmadan bina zemine degmiyor,
+           uzerinde yuzuyor gibi duruyor. -->
+      <rect x="-166" y="676" width="1104" height="30" fill="url(#gFootAO)"/>
 
       <!-- urun etiketi -->
       <g class="callout">
@@ -331,7 +842,6 @@
       <article class="act" data-act="3">
         <h2>Üç metre.</h2>
         <p>Kademe bitti. İki tonlu 108 desibel siren, kırmızı-mavi flaşörle birlikte çalışıyor. Evin ışığı yandı.</p>
-        <p class="hint" id="soundHint">Sesi duymak için <button type="button" class="inline-btn" id="soundHintBtn">sesi aç</button></p>
       </article>
       <article class="act" data-act="4">
         <h2>Ve bekler.</h2>
@@ -430,7 +940,7 @@
         <tr><th scope="row">Işık dağılımı</th><td>120° yatay, 70° düşey, asimetrik lens</td></tr>
         <tr><th scope="row">Algılama</th><td>PIR, 110° yatay, 3–14 m (montaj yüksekliğine göre)</td></tr>
         <tr><th scope="row">Siren</th><td>108 dB @ 1 m, iki tonlu, 1,7 Hz</td></tr>
-        <tr><th scope="row">Flaşör</th><td>Kırmızı ve mavi LED, dönüşümlü kısa atım, 150 atım/dk (SAE J845 aralığında)</td></tr>
+        <tr><th scope="row">Flaşör</th><td>Kırmızı ve mavi LED, dönüşümlü, 100 atım/dk (SAE J845 aralığında)</td></tr>
         <tr><th scope="row">Güç</th><td>12 V DC — 0,6 W bekleme, 22 W tam güç</td></tr>
         <tr><th scope="row">Gövde</th><td>Anodize alüminyum ekstrüzyon, 800 × 62 × 46 mm</td></tr>
         <tr><th scope="row">Koruma</th><td>IP66 su ve toz, IK08 darbe</td></tr>
@@ -491,8 +1001,7 @@
 
 </main>
 
-<script src="assets/js/siren.js?v=37" defer></script>
-<script src="assets/js/scene.js?v=37" defer></script>
-<script src="assets/js/ui.js?v=37" defer></script>
+<script src="assets/js/scene.js?v=68" defer></script>
+<script src="assets/js/ui.js?v=68" defer></script>
 </body>
 </html>

@@ -66,7 +66,8 @@ img, svg { max-width: 100%; }
 /* ---------------- üst çubuk ---------------- */
 
 .topbar {
-  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  /* 50: mobil menu paneli (45) uzerinde kalmali, kapatma dugmesi burada. */
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
   display: flex; align-items: center; gap: clamp(.75rem, 3vw, 2.5rem);
   padding: .85rem var(--gut);
   background: linear-gradient(to bottom, rgba(4,7,14,.92), rgba(4,7,14,0));
@@ -96,22 +97,56 @@ img, svg { max-width: 100%; }
 }
 .topnav a:hover { color: var(--chalk); border-bottom-color: var(--beam); }
 
-.sound {
-  display: inline-flex; align-items: center; gap: .5rem;
+
+/* ---------------- mobil bölüm menüsü ---------------- */
+/* Telefonda .topnav gizliydi, .beats de gizli: sayfada hicbir gezinme
+   yoktu. Ziyaretci 4500 px'lik sahneyi kaydirmadan urun bilgisine
+   ulasamiyordu. Dugme ikon boyunda, dikey yer harcamiyor. */
+.menu-btn {
+  display: none; align-items: center; justify-content: center;
+  width: 44px; height: 44px; padding: 0;
   background: transparent; color: var(--mute);
   border: 1px solid color-mix(in srgb, var(--haze) 70%, transparent);
-  padding: .42rem .7rem; font: inherit; font-size: .82rem;
-  font-family: var(--mono); cursor: pointer; flex: none;
+  cursor: pointer; flex: none;
 }
-.sound:hover { color: var(--chalk); border-color: var(--beam); }
-.sound[aria-pressed="true"] { color: var(--beam); border-color: var(--beam); }
-.sound-wave { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
-.sound-wave i { width: 2px; height: 3px; background: currentColor; }
-.sound[aria-pressed="true"] .sound-wave i { animation: wave .9s ease-in-out infinite; }
-.sound[aria-pressed="true"] .sound-wave i:nth-child(2) { animation-delay: .12s; }
-.sound[aria-pressed="true"] .sound-wave i:nth-child(3) { animation-delay: .24s; }
-.sound[aria-pressed="true"] .sound-wave i:nth-child(4) { animation-delay: .36s; }
-@keyframes wave { 0%,100% { height: 3px } 50% { height: 12px } }
+.menu-ico { display: grid; gap: 4px; width: 16px; }
+.menu-ico i { height: 1.5px; background: currentColor; transition: transform .2s, opacity .2s; }
+.menu-btn[aria-expanded="true"] { color: var(--beam); border-color: var(--beam); }
+/* Acikken ikon X'e doner: uc cizgi ikiye dusup capraz kesisir. */
+.menu-btn[aria-expanded="true"] .menu-ico i:nth-child(2) { opacity: 0; }
+.menu-btn[aria-expanded="true"] .menu-ico i:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-ico i:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.mobnav {
+  /* z-index topbar'in (50) ALTINDA olmali: kapatma dugmesi topbar'in
+     icinde, panel onun ustune cikarsa menu acildiktan sonra kapatilamaz. */
+  position: fixed; inset: 0; z-index: 45;
+  background: var(--ink);
+  display: grid; align-content: center;
+  padding: 5.5rem var(--gut) 2rem;
+}
+.mobnav[hidden] { display: none; }
+/* Sadece .mobnav-in icindekiler bolum baglantisi. Alttaki e-posta bu
+   olcuyu alirsa 6. bolum gibi okunuyor. */
+.mobnav-in a {
+  display: flex; align-items: baseline; gap: .9rem;
+  color: var(--chalk); text-decoration: none; padding: .9rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--haze) 55%, transparent);
+  font-variation-settings: "wdth" 104, "wght" 700;
+  font-size: 1.55rem; letter-spacing: -.02em; line-height: 1;
+}
+.mobnav-i {
+  font-family: var(--mono); font-size: .72rem; color: var(--faint);
+  font-variation-settings: normal;
+}
+.mobnav-foot {
+  margin: 2.2rem 0 0; font-family: var(--mono); font-size: .84rem;
+  color: var(--faint);
+}
+.mobnav-foot a {
+  color: var(--beam); text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--beam) 45%, transparent);
+}
 
 /* ---------------- kaydırma tüneli + sahne ---------------- */
 
@@ -139,9 +174,6 @@ img, svg { max-width: 100%; }
 .win-frame rect { fill: none; stroke: #0C1016; stroke-width: 7; }
 .win-bar { stroke: #0C1016; stroke-width: 5; }
 
-/* ekim silueti */
-
-
 .housenum {
   fill: #6B7689; font-family: var(--mono); font-size: 13px;
   text-anchor: middle; letter-spacing: .04em;
@@ -158,63 +190,84 @@ img, svg { max-width: 100%; }
 .stage.is-near .callout { opacity: 0; transition: opacity .4s; }
 
 /* ============================================================
-   FLAŞÖR
-   Gercek acil durum cakarlari (SAE J845: 60-240 atim/dk) kisa ve sert
-   atim + duraklama deseni kullanir. Onceki %50 acik / %50 kapali
-   donusum bu yuzden tembel bir yanip sonme gibi okunuyordu.
+   FLAŞÖR — SAKİN SÜRÜM
+   Gerçek acil durum çakarı ritmi (üçlü sert atım, saniyede 5-6 flaş)
+   denendi ve bir web sayfası için fazla çıktı: göz yoruyor, ekranın her
+   yeri parlıyormuş gibi hissettiriyor. Burada karakter korunuyor ama
+   rahatsız etmeyen bir tempoya çekiliyor.
 
-   Ama gercek polis cakari hizi WCAG 2.3.1'i (saniyede en fazla 3 atim)
-   ihlal eder ve fotosensitif epilepsi riski tasir. Bu yuzden hizi degil
-   KARAKTERI taklit ediyoruz:
-     - 0,8 s dongu -> renk basina 1,25 atim/s, toplam 2,5 atim/s (uyumlu)
-     - atim suresi dongunun %8'i (64 ms): sert bir "pat", yanip sonme degil
-     - atimdan sonra duvarda/zeminde sonen renk izi, boylece kisa atim
-       dusuk hizda da okunur
+   - 1,2 s döngü, taraf başına TEK darbe
+     -> renk başına 0,83 darbe/s, toplam 1,67 darbe/s (WCAG 2.3.1 altında)
+   - Hızlı yükseliş (72 ms), yumuşak sönüş (384 ms): dönen bir tepe
+     lambasının süpürmesi gibi, stroboskop gibi değil
+   - TAM EKRAN baskı katmanı kaldırıldı. "Ekranın her yeri parlıyor"
+     hissinin kaynağı oydu; renk artık yalnızca armatürün çevresinde,
+     huzmede ve zeminde kalıyor.
    ============================================================ */
 
-.strobe { position: absolute; inset: 0; pointer-events: none; }
-.strobe i { position: absolute; inset: 0; opacity: 0; display: block; }
-.strobe .s-r {
-  background: radial-gradient(90% 70% at 12% 62%, rgba(255,43,69,.30), rgba(255,43,69,0) 70%);
+.strobe { display: none; }
+
+/* Parıltı: SVG'de box-shadow çalışmaz, karşılığı drop-shadow filtresi. */
+/* ============================================================
+   HARMAN. Isik veren her katman 'screen': altindaki yuzeyin uzerine
+   perde gibi cokmuyor, isigi EKLIYOR. Fark en cok kapida gorunuyor --
+   huzmenin altinda ahsabin dokusu okunmaya devam ediyor.
+   Huzmeler grup olarak harmanliyor (#beams), tek tek degil: grupta
+   clip-path var, clip bir izolasyon grubu yaratiyor; icerideki
+   'screen' o zaman disariyi degil grubun kendi boslugunu harmanlar,
+   yani hicbir ise yaramaz.
+   ============================================================ */
+#beams, #bounceW, #bounceR, #bounceB,
+#poolW, #poolHot, #poolR, #poolB, #reflDoor, #reflR, #reflB,
+#washR, #washB, .glass-ref, .glass-env { mix-blend-mode: screen; }
+
+#fxR {
+  filter: drop-shadow(0 0 6px #FFE3E8) drop-shadow(0 0 16px #FF3048)
+          drop-shadow(0 0 34px rgba(255,48,72,.75));
 }
-.strobe .s-b {
-  background: radial-gradient(90% 70% at 88% 62%, rgba(43,123,255,.30), rgba(43,123,255,0) 70%);
+#fxB {
+  filter: drop-shadow(0 0 6px #DCEAFF) drop-shadow(0 0 16px #3384FF)
+          drop-shadow(0 0 34px rgba(51,132,255,.75));
 }
 
-/* Emitorler cift haleli: yakin bloom + genis sacilma. */
-#fxR { filter: drop-shadow(0 0 8px #FFD5DC) drop-shadow(0 0 20px #FF2B45) drop-shadow(0 0 44px rgba(255,43,69,.8)); }
-#fxB { filter: drop-shadow(0 0 8px #D6E6FF) drop-shadow(0 0 20px #2B7BFF) drop-shadow(0 0 44px rgba(43,123,255,.8)); }
-
-/* --- nokta atimlar: sert, kisa --- */
-.stage.is-alarm #fxR { animation: popR .8s steps(1, end) infinite; }
-.stage.is-alarm #fxB { animation: popB .8s steps(1, end) infinite; }
-@keyframes popR { 0% { opacity: 1 } 8%, 100% { opacity: 0 } }
-@keyframes popB { 0%, 49% { opacity: 0 } 50% { opacity: 1 } 58%, 100% { opacity: 0 } }
-
-/* --- renk izi: atimla birlikte dogar, yumusak soner --- */
-.stage.is-alarm #washR, .stage.is-alarm #poolR,
-.stage.is-alarm .s-r { animation: glowR .8s ease-out infinite; }
-.stage.is-alarm #washB, .stage.is-alarm #poolB,
-.stage.is-alarm .s-b { animation: glowB .8s ease-out infinite; }
-/* Atimdan sonra kisa bir tepe tutusu, sonra sonme. Duz sonme birakinca
-   atim arasi renk cok zayif kaliyordu ve alarm okunmuyordu. */
-@keyframes glowR {
-  0%, 13% { opacity: 1 }
-  46%     { opacity: 0 }
-  100%    { opacity: 0 }
+/* --- kırmızı taraf: tek yumuşak darbe --- */
+.stage.is-alarm #fxR,
+.stage.is-alarm #beamR,
+.stage.is-alarm #bounceR,
+.stage.is-alarm #poolR,
+.stage.is-alarm #reflR,
+.stage.is-alarm #washR {
+  animation: pulseR 1.2s ease-out infinite;
 }
-@keyframes glowB {
-  0%, 49% { opacity: 0 }
-  50%, 63% { opacity: 1 }
-  96%     { opacity: 0 }
+/* --- mavi taraf, yarım döngü sonra --- */
+.stage.is-alarm #fxB,
+.stage.is-alarm #beamB,
+.stage.is-alarm #bounceB,
+.stage.is-alarm #poolB,
+.stage.is-alarm #reflB,
+.stage.is-alarm #washB {
+  animation: pulseB 1.2s ease-out infinite;
+}
+
+@keyframes pulseR {
+  0%   { opacity: 0 }
+  6%   { opacity: 1 }   /* hizli yukselis */
+  38%  { opacity: 0 }   /* yumusak sonus */
+  100% { opacity: 0 }
+}
+@keyframes pulseB {
+  0%, 50% { opacity: 0 }
+  56%     { opacity: 1 }
+  88%     { opacity: 0 }
   100%    { opacity: 0 }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage.is-alarm #fxR, .stage.is-alarm #fxB,
-  .stage.is-alarm #washR, .stage.is-alarm #poolR, .stage.is-alarm .s-r,
-  .stage.is-alarm #washB, .stage.is-alarm #poolB, .stage.is-alarm .s-b {
-    animation: none; opacity: .55;
+  .stage.is-alarm #fxR, .stage.is-alarm #beamR, .stage.is-alarm #bounceR,
+  .stage.is-alarm #poolR, .stage.is-alarm #reflR, .stage.is-alarm #washR,
+  .stage.is-alarm #fxB, .stage.is-alarm #beamB, .stage.is-alarm #bounceB,
+  .stage.is-alarm #poolB, .stage.is-alarm #reflB, .stage.is-alarm #washB {
+    animation: none; opacity: .45;
   }
 }
 
@@ -258,19 +311,13 @@ img, svg { max-width: 100%; }
 @keyframes cueDrop { 0%,100% { transform: scaleY(.4); opacity: .4 } 50% { transform: scaleY(1); opacity: 1 } }
 @media (prefers-reduced-motion: reduce) { .cue::after { animation: none } }
 
-/* Ses acikken sonsuz donen gosterge ve kopya gecisindeki kayma da
-   reduced-motion'da durmali; yalniz opaklik degisimi kalir. */
+/* Kopya gecisindeki kayma reduced-motion'da durmali; yalniz
+   opaklik degisimi kalir. */
 @media (prefers-reduced-motion: reduce) {
-  .sound[aria-pressed="true"] .sound-wave i { animation: none; height: 8px; }
+  .menu-ico i { transition: none; }
   .act { transform: none; transition: opacity .3s ease, visibility .3s; }
 }
 
-.hint { font-family: var(--mono); font-size: .8rem; color: var(--faint); }
-.hint.is-hidden { display: none; }
-.inline-btn {
-  font: inherit; color: var(--beam); background: none; border: 0;
-  border-bottom: 1px solid var(--beam); padding: 0; cursor: pointer;
-}
 
 .btn {
   display: inline-block; text-decoration: none;
@@ -405,8 +452,8 @@ img, svg { max-width: 100%; }
 .v-r { left: 0;  background: radial-gradient(54% 104% at 46% 100%, rgba(255,43,69,.78), rgba(255,43,69,0) 72%); }
 .v-b { right: 0; background: radial-gradient(54% 104% at 54% 100%, rgba(43,123,255,.78), rgba(43,123,255,0) 72%); }
 /* demo gercek cakarla ayni deseni kullanir */
-.step-3:hover .v-r, .step-3:focus-within .v-r { animation: glowR .8s ease-out infinite; }
-.step-3:hover .v-b, .step-3:focus-within .v-b { animation: glowB .8s ease-out infinite; }
+.step-3:hover .v-r, .step-3:focus-within .v-r { animation: pulseR 1.2s ease-out infinite; }
+.step-3:hover .v-b, .step-3:focus-within .v-b { animation: pulseB 1.2s ease-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .step-3:hover .v-r, .step-3:hover .v-b { animation: none }
 }
@@ -439,14 +486,24 @@ img, svg { max-width: 100%; }
   font-family: var(--mono); font-size: 1.05rem; color: var(--beam);
   font-variation-settings: "wght" 500;
 }
+/* Kutunun kendisi 44 px: onceden 2 px'ti ve telefonda tutulamiyordu.
+   Gorunen 2 px'lik cizgi artik ray (track); kutu seffaf ve buyuk. */
 .slider input[type="range"] {
   -webkit-appearance: none; appearance: none;
-  width: 100%; height: 2px; background: var(--haze); cursor: pointer;
+  width: 100%; height: 44px; background: transparent; cursor: pointer;
+  margin: -.7rem 0;   /* buyuyen kutu dikey ritmi bozmasin */
+}
+.slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px; background: var(--haze);
+}
+.slider input[type="range"]::-moz-range-track {
+  height: 2px; background: var(--haze);
 }
 .slider input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
   width: 18px; height: 18px; border-radius: 50%;
   background: var(--beam); border: 0; cursor: grab;
+  margin-top: -8px;   /* 2 px'lik rayin uzerinde ortalanir */
 }
 .slider input[type="range"]::-moz-range-thumb {
   width: 18px; height: 18px; border-radius: 50%;
@@ -565,42 +622,55 @@ img, svg { max-width: 100%; }
   .stage-copy { width: min(40ch, 52vw); }
 }
 
-/* Dar ya da uzun ekranda çizim kendi 16:9 oranında sahnenin altına oturur;
-   üstteki boşluğu .stage'in gökyüzü degradesi doldurur. */
+/* MOBIL SAHNE. Cizim alt serit olarak dururken ana konu ekranin sadece
+   %26'sini aliyor, ortada %26 olu bosluk kaliyordu. Simdi sahne tum
+   ekrani kapliyor; kopya ve HUD onun uzerine biniyor. Kadraj girise
+   odakli (scene.js MVB_FAR/MVB_NEAR), yanlar kirpiliyor. */
 @media (max-width: 760px), (min-width: 761px) and (max-aspect-ratio: 13/10) {
-  .stage-art { inset: auto 0 0 0; height: auto; }
-  .hud { bottom: calc(56.25vw + 0.9rem); }
+  .stage-art { inset: 0; height: 100%; }
+  .hud { bottom: 1rem; }
 }
 
 @media (max-width: 760px) {
   .topnav { display: none; }
+  .menu-btn { display: inline-flex; }
   /* mobilde kopya tam genislikte, perde de yukaridan asagi */
   .copy-scrim {
     background: linear-gradient(to bottom,
-      rgba(7,12,20,.86) 0%, rgba(7,12,20,.62) 46%, rgba(7,12,20,0) 62%);
+      rgba(7,12,20,.92) 0%, rgba(7,12,20,.80) 28%,
+      rgba(7,12,20,.40) 48%, rgba(7,12,20,0) 64%);
   }
   /* dar ekranda kopya ve HUD ile cakisiyor, alani da yok */
   .beats { display: none; }
-  .sound { margin-left: auto; }
+  /* Urun etiketi dar kadrajda soldan kirpilip bozuk metin gibi duruyordu;
+     bu yakinlikta armatur zaten belli. */
+  .callout { display: none; }
+  .menu-btn { margin-left: auto; }
 
   .tunnel { height: 560vh; }
 
+  /* Yazi mobilde cok yer kapliyordu: tip kuculdu, satir araligi sikildi,
+     paragraf daraltildi. Amac ana konunun (giris + isik) one gecmesi. */
   .stage-copy {
-    top: clamp(4.6rem, 12vh, 7rem);
+    top: clamp(4.2rem, 10vh, 6rem);
     left: var(--gut); right: var(--gut);
     width: auto;
   }
-  .act h1 { font-size: clamp(2.1rem, 10.5vw, 3.1rem); }
-  .act h2 { font-size: clamp(1.85rem, 9vw, 2.6rem); }
-  .act p { font-size: .95rem; max-width: 38ch; }
-  .act p:not(.cue):not(.hint):not(.act-cta) { max-width: 34ch; }
+  .act h1 { font-size: clamp(1.85rem, 8.4vw, 2.5rem); line-height: .96; }
+  .act h2 { font-size: clamp(1.65rem, 7.4vw, 2.2rem); line-height: .98; }
+  .act p {
+    font-size: .86rem; line-height: 1.5; margin-bottom: .6em;
+    max-width: 30ch;
+  }
+  .act p:not(.cue):not(.act-cta) { max-width: 28ch; }
+  .cue { font-size: .76rem; }
 
   .hud {
     /* bottom'i BURADA verme: ustteki kural seridin yuksekligini hesaplayip
        HUD'u onun ustune koyuyor, buradaki sabit deger onu eziyordu. */
     left: var(--gut); right: var(--gut); width: auto;
     display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: .1rem .8rem; font-size: .68rem;
+    gap: .1rem .8rem; font-size: .74rem;
     background: linear-gradient(to top, rgba(4,7,14,.85), rgba(4,7,14,.35));
     padding: .5rem .6rem;
   }
@@ -615,8 +685,8 @@ img, svg { max-width: 100%; }
 }
 
 @media (max-width: 420px) {
-  .act p.hint, .act p.cue { font-size: .72rem; }
-  .act p:not(.cue):not(.hint):not(.act-cta) { max-width: 30ch; }
+  .act p.cue { font-size: .74rem; }
+  .act p:not(.cue):not(.act-cta) { max-width: 30ch; }
 }
 
 /* yatay mobil: kopya ile çizim çakışmasın */
@@ -625,4 +695,20 @@ img, svg { max-width: 100%; }
   .act h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
   .act p { font-size: .9rem; }
   .hud { bottom: .8rem; }
+}
+
+/* ============================================================
+   DOKUNMATIK. Fare ile 20 px'lik bir baglanti sorun degil, parmakla
+   degil: olculen hedefler marka 106x20, e-posta 218x20 idi.
+   Hepsi >= 44 px. Sadece (hover: none) altinda, ki masaustu
+   ritmi degismesin.
+   ============================================================ */
+@media (hover: none) {
+  .brand { min-height: 44px; }
+  .topnav a { padding-block: .85rem; }
+  .foot-mail a { display: inline-block; padding-block: .75rem; }
+  .slider input[type="range"]::-webkit-slider-thumb {
+    width: 26px; height: 26px; margin-top: -12px;
+  }
+  .slider input[type="range"]::-moz-range-thumb { width: 26px; height: 26px; }
 }
