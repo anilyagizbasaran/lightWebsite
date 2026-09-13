@@ -30,13 +30,15 @@
      kalmadi: kadraj eve daha yakin sarildi. Ev y 20..676; kadraj
      -100..780, yani ustte gokyuzu altta 1 m zemin payi. */
   var VB_FAR  = { x: -396, y: -100, w: 1564, h: 880 };
-  /* Kapi merkezi x=386. Yakin kadrajda kapiyi sola aliyoruz ki sagdaki
-     kopya kolonu karanlik kalsin — ortada dururken aydinlatilmis kapinin
-     ustune biniyordu ve metin okunmuyordu. */
-  /* Yakin kadraj artik kapiya dalmiyor. Maksat urunu tanitmak ve iki katin
-     alarmda bile gorunur kalmasi; bu yuzden zoom 1742 -> 1280, yani sadece
-     1,36 kat. Sakin ve surekli bir yaklasma. */
-  var VB_NEAR = { x: -254, y: 10, w: 1280, h: 720 };
+  /* ZOOM KAPALI. Kaydirma kadraji degistirmiyor; sahne bastan sona
+     ayni kareden izleniyor ve hikayeyi ISIGIN kendisi anlatiyor:
+     kisik beyaz -> tam guc -> kirmizi/mavi cakar -> evin isigi.
+     Sabit kamera bir guvenlik kamerasi gorusu gibi de okunuyor.
+     Yan fayda: ornekleme orani da sabit kaliyor, yani hicbir anda
+     resim buyutulmuyor. VB_NEAR = VB_FAR oldugu icin asagidaki lerp
+     hep FAR'i veriyor; dolly geri istenirse buraya daha dar bir
+     kadraj yazmak yeterli (orn. w 1280, h 720). */
+  var VB_NEAR = VB_FAR;
 
   /* Tum ev (iki kat, garaj, kapi ve isik kaynagi) zoom boyunca HER ZAMAN
      kadrajda kalmali. Sayilarin denk gelmesine guvenmek yerine kadraj bu
@@ -109,12 +111,29 @@
   function fmt(n) { return n.toFixed(1).replace('.', ','); }
 
 
+  /* ============================================================
+     TEMBEL KARELER. Cakar ve pencere kareleri ilk ekranda gorunmuyor
+     ama <image> etiketi href'i gorur gormez indirmeye basliyor ve
+     taban kareyle yarisiyor. data-src'de bekletip sayfa yuklendikten
+     sonra bagliyoruz: ilk boyama 582 KB, geri kalan 1 MB arkadan
+     geliyor ve kullanici kaydirmaya varana kadar onbellekte.
+     ============================================================ */
+  function lazyFrames() {
+    var n = document.querySelectorAll('#art image[data-src]');
+    Array.prototype.forEach.call(n, function (im) {
+      im.setAttribute('href', im.getAttribute('data-src'));
+      im.removeAttribute('data-src');
+    });
+  }
+  if (document.readyState === 'complete') lazyFrames();
+  else window.addEventListener('load', lazyFrames);
+
   /* ---------- düğümler ---------- */
   var el = {
     /* Isik artik SVG ile cizilmiyor: ayni kameradan uretilmis uc
        fotogercekci kare arasinda gecis yapiliyor. Kareler 1 px icinde
        ortusuyor (olculdu), o yuzden capraz gecis hayalet yapmiyor. */
-    white:  document.getElementById('imgWhite'),
+    dim:    document.getElementById('dimVeil'),
     win:    document.getElementById('imgWin'),
     acts:   Array.prototype.slice.call(document.querySelectorAll('.act')),
     hud:      document.getElementById('hud'),
@@ -178,6 +197,8 @@
     if (vbStr !== lastVB) { lastVB = vbStr; art.setAttribute('viewBox', vbStr); }
 
     /* yakın planda ürün etiketi dev gibi büyümesin */
+    /* Kadraj sabit oldugu icin etiket artik buyumuyor; yine de
+       alarma dogru gizleniyor, sahnenin onunde durmasin. */
     var near = zoom > 0.55;
     if (near !== nearOn) { nearOn = near; stage.classList.toggle('is-near', near); }
 
@@ -206,10 +227,12 @@
        okunuyordu. 180 ms'de sönüyor: aynı armatürün mod değiştirmesi.
        Lens ağzı (lensBody) hiç kaybolmuyor, sadece yayım söner. */
     if (alarm) gain *= clamp01(1 - (now - alarmT0) / WHITE_FADE);
-    /* Tek opaklik butun beyaz isigi suruyor: huzme, kapinin uzerindeki
-       aydinlik, zemindeki havuz ve islak yansima hepsi karenin icinde
-       pismis durumda. Eskiden bunlar alti ayri SVG katmaniydi. */
-    if (el.white) el.white.setAttribute('opacity', gain.toFixed(3));
+    /* Taban kare zaten ISIK ACIK halini gosteriyor; tamamen isiksiz
+       bir render yok. O yuzden "kisik" hali perdeyle veriliyor: az isik
+       = daha koyu. Perde 0,62 ile sinirli, cunku alarmda gain 0'a
+       inerken tam opak bir leke kapiyi yutuyordu; cakar kareleri
+       zaten ustune biniyor ve beyazi kapatiyor. */
+    if (el.dim) el.dim.setAttribute('opacity', ((1 - gain) * 0.62).toFixed(3));
 
     /* Evin ışığı: alarmdan 1 sn sonra yanar. "Geri çekildi" boyunca YANIK
        KALIR — ev sahibi lambayı davetsiz misafir gidince hemen kapatmaz.
