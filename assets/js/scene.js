@@ -123,7 +123,10 @@
        Taban karede kapi isigi ZATEN acik; lWhite onun USTUNE ekliyor,
        yani beklemede hicbir sey cizilmiyor, ekranda sadece fotograf
        var. killWhite ise tersi: alarmda pismis beyazi bastiriyor. */
-    white:  document.getElementById('lWhite'),
+    /* Beyaz isik ARTIK CIZILMIYOR: taban fotograf onu tam gucte
+       gosteriyor. Perde iki is yapiyor: beklemede kismi (kisik mod),
+       alarmda tam (beyaz soner, yerini cakar alir). */
+    veil:   document.getElementById('veil'),
     acts:   Array.prototype.slice.call(document.querySelectorAll('.act')),
     hud:      document.getElementById('hud'),
     hudState: document.getElementById('hudState'),
@@ -230,11 +233,11 @@
        kendisi oldugu icin eklenen isik 0'dan baslamali: 0,55'te sifir,
        1,0'da tam. Alarmda gain zaten 0'a dusuyor, yani rig kapaniyor.
        killWhite ters yonde: gain dustukce pismis beyazi bastiriyor. */
-    /* Taban karede hic isik yok, yani KISIK hali de cizim. Rig
-       dogrudan gain'i izliyor: 0,55 kisik -> 1,0 tam guc. Alarmda
-       gain 180 ms'de 0'a dustugu icin beyaz kendiliginden soner,
-       bastirma perdesine gerek kalmadi. */
-    if (el.white) el.white.setAttribute('opacity', gain.toFixed(3));
+    /* Fotograf "tam guc"; perde "kisik". gain 1,0'da perde yok,
+       0,55'te kismi, alarmda (gain -> 0) neredeyse tam: beyaz soner.
+       0,88 ile sinirli, yoksa kapi tamamen siyah bir leke oluyor ve
+       armaturun yeri kayboluyor. */
+    if (el.veil) el.veil.setAttribute('opacity', (clamp01(1 - gain) * 0.88).toFixed(3));
 
 
     /* telemetri */
