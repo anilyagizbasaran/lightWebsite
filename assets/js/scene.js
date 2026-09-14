@@ -96,14 +96,17 @@
      (asagidaki STOPS), yani her olay bir akt sinirina yapisik. */
   var ACT = 0.2;
   var T = {
-    trip:     0.6,    /* ihlal: akt 3 basliyor */
-    alarmEnd: 0.8     /* alarm bitiyor, akt 4 basliyor */
+    trip:     0.4,    /* ihlal: akt 2 (Alarm) basliyor */
+    alarmEnd: 0.6     /* alarm bitiyor, akt 3 (Sifirlama) basliyor */
   };
 
   /* Mesafe duraklari: [p, metre]. Aradaki her parca kendi icinde
      yumusatiliyor, ama DURAKLAR akt sinirlarinda oldugu icin esikler
      her zaman tam yerinde. */
-  var STOPS = [[0.0, 19.0], [0.2, 14.0], [0.4, 6.0], [0.6, 3.0], [0.8, 3.0], [1.0, 16.5]];
+  /* Acilista ziyaretci ZATEN menzilin icinde: 14 m, yani PIR esigi.
+     Boylece siteye girildigi an durum "Algilandi" oluyor. Bekleme
+     (19 m) sona gecti; urun oraya DONUYOR. */
+  var STOPS = [[0.0, 14.0], [0.2, 6.0], [0.4, 3.0], [0.6, 3.0], [0.8, 16.5], [1.0, 19.0]];
 
   /* ---------- yardımcılar ---------- */
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -243,10 +246,13 @@
     /* telemetri */
     var state, zone;
     if (alarm)                            { state = 'Alarm';         zone = dist <= 6 ? 'İhlal' : '—'; }
-    else if (p >= T.alarmEnd && p < 0.96) { state = 'Geri çekildi';  zone = '—'; }
+    else if (p >= T.alarmEnd && p < 0.8)  { state = 'Geri çekildi';  zone = '—'; }
     else if (!detected)                   { state = 'Bekleme';       zone = '—'; }
-    else if (dist <= 3.2)                 { state = 'Uyarı';         zone = 'B1 / 3 m'; }
-    else if (inWarn)                      { state = 'Yaklaşıyor';    zone = 'B2 / 6 m'; }
+    /* 6-3 m bandi tek durum: "Uyari". Onceden 3,2 m altinda
+       "Uyari", ustunde "Yaklasiyor" diye ikiye ayriliyordu; sol
+       listedeki asama "Uyari" yazip turuncu yanarken telemetrinin
+       "Yaklasiyor" demesi tutarsiz duruyordu. */
+    else if (inWarn)                      { state = 'Uyarı';         zone = 'B2 / 6 m'; }
     else                                  { state = 'Algılandı';     zone = 'B3 / 14 m'; }
 
     var distText = dist <= 14.2 ? fmt(dist) + ' m' : '—';
@@ -262,7 +268,7 @@
       /* Uyari fazi (akt 2) icin sahneye sinif: alarmin kirmizisi
          .stage.is-alarm'dan geliyor, uyarinin turuncusu da ayni
          desenle .stage.is-warn'dan gelsin. */
-      stage.classList.toggle('is-warn', ai === 2);
+      stage.classList.toggle('is-warn', ai === 1);
       el.acts.forEach(function (a, i) { a.classList.toggle('is-on', i === ai); });
       el.beats.forEach(function (b, i) {
         if (i === ai) b.setAttribute('aria-current', 'true');
