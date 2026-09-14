@@ -259,6 +259,10 @@
     var ai = actFor(p);
     if (ai !== actIndex) {
       actIndex = ai;
+      /* Uyari fazi (akt 2) icin sahneye sinif: alarmin kirmizisi
+         .stage.is-alarm'dan geliyor, uyarinin turuncusu da ayni
+         desenle .stage.is-warn'dan gelsin. */
+      stage.classList.toggle('is-warn', ai === 2);
       el.acts.forEach(function (a, i) { a.classList.toggle('is-on', i === ai); });
       el.beats.forEach(function (b, i) {
         if (i === ai) b.setAttribute('aria-current', 'true');

@@ -12,6 +12,10 @@
   --beam:       #E8F3FF;
   --window:     #F0C879;
   --alarm-red:  #FF2B45;
+  /* Uyari fazi: alarmin kirmizisindan once gelen kademe. Turuncu
+     ikisinin arasinda duruyor ve "henuz alarm degil ama yaklasti"
+     okunuyor. */
+  --warn-amber: #FF9A2E;
   --alarm-blue: #2B7BFF;
 
   --chalk: #D7E2F0;
@@ -388,6 +392,9 @@ img, svg { max-width: 100%; }
 .beats button[aria-current="true"]::before { width: 1.1rem; }
 .hud.is-alarm ~ .beats button[aria-current="true"],
 .stage.is-alarm .beats button[aria-current="true"] { color: var(--alarm-red); }
+/* Uyari fazinda aktif asama turuncu. Cizgisi de renkle gelsin,
+   yoksa yazi renk degistirirken tire mavi kaliyor. */
+.stage.is-warn .beats button[aria-current="true"] { color: var(--warn-amber); }
 
 /* ---------------- telemetri ---------------- */
 
