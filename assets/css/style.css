@@ -197,40 +197,16 @@ img, svg { max-width: 100%; }
 .anno line { stroke: var(--mute); stroke-width: 1; opacity: .7; }
 .anno circle { fill: var(--beam); }
 .anno text {
-  fill: var(--chalk); font-family: var(--mono); font-size: 13px;
-  letter-spacing: .01em;
+  fill: var(--chalk); font-family: var(--mono); font-size: 12px;
+  letter-spacing: .02em;
   text-shadow: 0 1px 4px rgba(4,7,14,.95), 0 0 10px rgba(4,7,14,.8);
 }
-.anno .anno-sub { fill: var(--mute); font-size: 11px; }
+.anno .anno-sub { fill: var(--mute); font-size: 10.5px; }
 /* Alarmda etiketin ucu ve cizgisi kirmiziya donuyor: sahne kirmizi
    yanarken mavi bir nokta yabanci duruyor. */
 .stage.is-alarm .anno circle { fill: var(--alarm-red); }
 .stage.is-warn .anno circle { fill: var(--warn-amber); }
 
-/* ============================================================
-   TELEFON BILDIRIMI. Sahnenin parcasi degil, ustune binen arayuz
-   ogesi. Alarm baslayinca beliriyor ve alarm boyunca kaliyor.
-   ============================================================ */
-.notif { opacity: 0; visibility: hidden; transition: opacity .32s ease, visibility .32s; }
-.stage.is-alarm .notif { opacity: 1; visibility: visible; }
-.notif > rect:first-of-type {
-  fill: rgba(10,14,22,.94);
-  stroke: color-mix(in srgb, var(--haze) 80%, transparent);
-  stroke-width: 1;
-}
-.notif .notif-ico { fill: var(--alarm-red); }
-.notif .notif-mark { fill: #0A0E16; }
-.notif text {
-  fill: var(--chalk); font-family: var(--sans); font-size: 15px;
-  font-variation-settings: "wght" 620;
-}
-.notif .notif-body {
-  fill: var(--mute); font-size: 13px; font-variation-settings: "wght" 400;
-}
-.notif .notif-time {
-  fill: var(--faint); font-family: var(--mono); font-size: 11px;
-  font-variation-settings: normal;
-}
 
 /* ============================================================
    FLAŞÖR — SAKİN SÜRÜM
@@ -320,18 +296,18 @@ img, svg { max-width: 100%; }
    KOPYANIN YERI FAZA GORE DEGISIYOR.
    Bes akt da ayni noktada cikiyordu ve kaydirma monoton
    duruyordu. Yerlesim rastgele degil, hikayeyi izliyor:
-   ziyaretci yaklastikca kopya asagi iniyor (0 -> 7 -> 14 -> 21vh),
-   geri cekilince yukari donuyor (5vh). Yatayda da kucuk bir
-   zikzak var; 2,5rem'i gecmiyor, cunku daha fazlasi metni
-   aydinlatilmis kapinin uzerine tasiyor ve okunmuyor.
+   ziyaretci yaklastikca kopya asagi iniyor (0 -> 4 -> 8 -> 12vh),
+   geri cekilince yukari donuyor (3vh). Genlik kasitli olarak
+   kucuk: 21vh'lik inis ve yatay zikzak denendi, monotonlugu
+   kiriyordu ama sayfanin butunlugunu de bozuyordu.
    top/right gecise dahil degil: her akt ayri eleman oldugu icin
    kendi yerinde beliriyor, kayarak gitmiyor.
    ============================================================ */
 .act[data-act="0"] { top: 0;    right: 0; }
-.act[data-act="1"] { top: 7vh;  right: 2.5rem; }
-.act[data-act="2"] { top: 14vh; right: 0; }
-.act[data-act="3"] { top: 21vh; right: 2rem; }
-.act[data-act="4"] { top: 5vh;  right: 1rem; }
+.act[data-act="1"] { top: 4vh;  right: 0; }
+.act[data-act="2"] { top: 8vh;  right: 0; }
+.act[data-act="3"] { top: 12vh; right: 0; }
+.act[data-act="4"] { top: 3vh;  right: 0; }
 
 .act h1, .act h2 {
   margin: 0 0 .7em;
