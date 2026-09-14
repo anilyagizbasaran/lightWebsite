@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="tr">
+{{html_dil}}
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nöbet N1 — kapı önü güvenlik armatürü</title>
-<meta name="description" content="Nöbet N1: kapı önünü 14 metreye kadar tarayan ince lineer LED armatür. Işıkla uyarır, yaklaşmaya devam edene kırmızı-mavi flaşör — ve telefonuna anında bildirim.">
+{{meta_baslik}}
+{{meta_aciklama}}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=134">
+{{css}}
 </head>
 <body>
-<a class="skiplink" href="#caydirma">İçeriğe geç</a>
+{{atla}}
 
 <header class="topbar">
   <a class="brand" href="#top">
@@ -19,31 +19,19 @@
       <rect x="1" y="2" width="32" height="5" rx="1.5"/>
       <path d="M5 9 L29 9 L33 19 L1 19 Z" class="brand-beam"/>
     </svg>
-    <span class="brand-name">Nöbet</span>
+    {{marka}}
   </a>
-  <nav class="topnav" aria-label="Bölümler">
-    <a href="#caydirma">Caydırma</a>
-    <a href="#algilama">Algılama</a>
-    <a href="#teknik">Teknik</a>
-    <a href="#modeller">Modeller</a>
-  </nav>
+  {{topnav}}
   <!-- Telefonda .topnav gizli; onsuz bölümlere geçilemiyor, ziyaretci
        4500 px'lik sahnenin arkasinda kilitli kaliyordu. -->
   <button class="menu-btn" id="menuBtn" type="button"
-          aria-expanded="false" aria-controls="mobileNav" aria-label="Bölüm menüsü">
+          {{menu_buton}}
     <span class="menu-ico" aria-hidden="true"><i></i><i></i><i></i></span>
   </button>
 </header>
 
 <div class="mobnav" id="mobileNav" hidden>
-  <nav class="mobnav-in" aria-label="Bölümler">
-    <a href="#caydirma"><span class="mobnav-i">01</span>Caydırma</a>
-    <a href="#algilama"><span class="mobnav-i">02</span>Algılama</a>
-    <a href="#teknik"><span class="mobnav-i">03</span>Teknik</a>
-    <a href="#modeller"><span class="mobnav-i">04</span>Modeller</a>
-    <a href="#kurulum"><span class="mobnav-i">05</span>Kurulum</a>
-  </nav>
-  <p class="mobnav-foot"><a href="mailto:merhaba@nobet.example">merhaba@nobet.example</a></p>
+  {{mobnav}}
 </div>
 
 <!-- ============================================================
@@ -222,8 +210,7 @@
            Zoom kapali: bu kadraj bastan sona sabit.
            ============================================================ -->
       <rect x="-900" y="-500" width="3200" height="1800" fill="#0A0E16"/>
-      <image href="assets/art/sahne.webp" x="-557.8" y="-221"
-             width="1894.5" height="1057.4" preserveAspectRatio="none"/>
+      {{sahne_resmi}}
 
       <rect id="vignette" x="-900" y="-500" width="3200" height="1800"
             fill="#04070D" opacity=".76" mask="url(#mVig)"/>
@@ -309,8 +296,7 @@
         <rect class="anno-plate" x="64" y="442" width="180" height="42" rx="8"/>
         <circle cx="318" cy="498" r="2.5"/>
         <line x1="314" y1="498" x2="240" y2="463"/>
-        <text x="234" y="459" text-anchor="end">Nabız modu</text>
-        <text x="234" y="477" text-anchor="end" class="anno-sub">Tam güç, 1,4 Hz</text>
+        {{etiket_1}}
       </g>
 
       <g class="anno anno-2">
@@ -322,8 +308,7 @@
         <rect class="anno-plate" x="74" y="368" width="196" height="42" rx="8"/>
         <circle cx="344" cy="424" r="2.5"/>
         <line x1="340" y1="424" x2="266" y2="389"/>
-        <text x="260" y="385" text-anchor="end">Kırmızı-mavi flaşör</text>
-        <text x="260" y="403" text-anchor="end" class="anno-sub">100 atım/dk</text>
+        {{etiket_2}}
       </g>
 
       <g class="anno anno-3">
@@ -335,8 +320,7 @@
         <rect class="anno-plate" x="-6" y="621" width="176" height="42" rx="8"/>
         <circle cx="240" cy="676" r="2.5"/>
         <line x1="236" y1="676" x2="166" y2="642"/>
-        <text x="160" y="638" text-anchor="end">Menzil 14 metre</text>
-        <text x="160" y="656" text-anchor="end" class="anno-sub">Dışına çıkınca söner</text>
+        {{etiket_3}}
       </g>
 
       <g class="anno anno-4">
@@ -348,8 +332,7 @@
         <rect class="anno-plate" x="92" y="365" width="180" height="42" rx="8"/>
         <circle cx="346" cy="421" r="2.5"/>
         <line x1="342" y1="421" x2="268" y2="386"/>
-        <text x="262" y="382" text-anchor="end">Kısık mod</text>
-        <text x="262" y="400" text-anchor="end" class="anno-sub">0,6 watt, sessiz</text>
+        {{etiket_4}}
       </g>
 
     </svg>
@@ -359,13 +342,7 @@
     <!-- Bolum gostergesi: 6 ekranlik tunelde nerede oldugunu soyler ve
          tiklayinca o ana atlar. Zeminden kaldirilan mesafe esiklerinin
          yerini de dolduruyor. -->
-    <nav class="beats" id="beats" aria-label="Sahne aşamaları">
-      <button type="button" data-p="0.10" aria-current="true">Algılandı</button>
-      <button type="button" data-p="0.30">Uyarı</button>
-      <button type="button" data-p="0.50">Alarm</button>
-      <button type="button" data-p="0.70">Sıfırlama</button>
-      <button type="button" data-p="0.90">Bekleme</button>
-    </nav>
+    {{beatler}}
 
     <!-- Okunabilirlik perdesi iki katman: kolon icin sagdan,
          kapak icin yukaridan. Tek elemanda gradyani degistirmek
@@ -387,41 +364,15 @@
            Isigin ne yaptigi burada anlatilmiyor: o scrollun isi.
            ============================================================ -->
       <article class="act act-cover is-on" data-act="0">
-        <p class="cover-eyebrow">Nöbet N1 — hareket sensörlü kapı armatürü</p>
-        <h1>Işık uyarır.<br>Telefonun haber verir.</h1>
-        <p class="cover-lede">Kimse yokken 0,6 watt kısık ışık. Biri kapıya yaklaşınca tam güce çıkar, kırmızı-mavi flaşöre geçer ve telefonuna bildirim gönderir. Siren yok.</p>
-        <ul class="cover-spec">
-          <li><b>2400 lm</b><span>5000 K, tam güç</span></li>
-          <li><b>14 m</b><span>algılama menzili</span></li>
-          <li><b>IP66</b><span>dış mekân gövde</span></li>
-          <li><b>0,6 W</b><span>bekleme gücü</span></li>
-        </ul>
+        {{kapak}}
       </article>
 
     <div class="stage-copy">
-      <article class="act" data-act="1">
-        <h2>Yaklaşmaya devam ediyorsun.</h2>
-        <p>6 metre eşiği geçildi. Işık nabız gibi atmaya başladı. Bu bir uyarı: fark edildin, kayıt altındasın.</p>
-      </article>
-      <article class="act" data-act="2">
-        <h2>Üç metre.</h2>
-        <p>Kademe bitti. Kırmızı-mavi flaşör çalışıyor — ve telefonuna bildirim düştü. Kapı önü artık bir uyarı alanı, sen neredeysen ol.</p>
-      </article>
-      <article class="act" data-act="3">
-        <h2>Geri çekildin.</h2>
-        <p>Otuz saniye sonra flaşör kapanır. Menzilin dışına çıktın — N1 arkandan bakmayı bırakıyor.</p>
-      </article>
-      <article class="act" data-act="4">
-        <h2>Ve yeniden bekler.</h2>
-        <p>Beyaz ışık kısık moda döndü: 0,6 watt, sessiz, hazır. Bir sonraki ziyaretçiye kadar hiçbir şey yapmıyor.</p>
-        <p class="act-cta"><a class="btn" href="#modeller">Modelleri gör</a> <a class="btn btn-ghost" href="#teknik">Teknik değerler</a></p>
-      </article>
+      {{aktlar}}
     </div>
 
     <div class="hud" id="hud" role="status" aria-live="off">
-      <div class="hud-row"><span class="hud-k">Durum</span><span class="hud-v" id="hudState">Bekleme</span></div>
-      <div class="hud-row"><span class="hud-k">Mesafe</span><span class="hud-v" id="hudDist">—</span></div>
-      <div class="hud-row"><span class="hud-k">Bölge</span><span class="hud-v" id="hudZone">—</span></div>
+      {{hud}}
       <div class="hud-bar"><i id="hudBar"></i></div>
     </div>
   </div>
@@ -430,28 +381,10 @@
 <!-- ============ CAYDIRMA ============ -->
 <section class="band" id="caydirma">
   <div class="wrap">
-    <h2 class="band-h">Tek bir armatür, üç kademe</h2>
-    <p class="band-lede">Sürekli yanan bir projektör caydırmaz, alışkanlık yaratır. N1 tepkiyi tehdide göre büyütür.</p>
+    {{caydirma_basi}}
 
     <ol class="ladder">
-      <li class="step step-1">
-        <div class="step-viz" aria-hidden="true"><span class="v-glow"></span></div>
-        <h3>Kısık ışık</h3>
-        <p class="step-meta">400 lümen, sürekli</p>
-        <p>Kapı önü hiçbir zaman tamamen karanlık değil. Basamakları görürsün, kamera yüzü görür.</p>
-      </li>
-      <li class="step step-2">
-        <div class="step-viz" aria-hidden="true"><span class="v-glow v-full"></span></div>
-        <h3>Tam güç</h3>
-        <p class="step-meta">2400 lümen, hareketle</p>
-        <p>Sensör tetiklenince 40 milisaniyede tam güce çıkar. Gölge kalmaz.</p>
-      </li>
-      <li class="step step-3">
-        <div class="step-viz" aria-hidden="true"><span class="v-flash v-r"></span><span class="v-flash v-b"></span></div>
-        <h3>Flaşör ve bildirim</h3>
-        <p class="step-meta">Kırmızı-mavi — telefona anında</p>
-        <p>Son kademe. Ses yok — gürültü komşuyu uyandırır, bildirim seni. Gecikmeyi sen seçersin: anında, 3 saniye sonra, ya da hiç.</p>
-      </li>
+      {{kademeler}}
     </ol>
   </div>
 </section>
@@ -460,26 +393,23 @@
 <section class="band band-alt" id="algilama">
   <div class="wrap geo">
     <div class="geo-text">
-      <h2 class="band-h">Montaj yüksekliği menzili belirler</h2>
-      <p>PIR sensörü ısı farkını yatayda tarar. Yükseğe monte edersen alan büyür ama armatürün hemen altında kör bir daire kalır. Kaydırıcıyı oynat, kapı önünün gerçek kapsamasını gör.</p>
+      {{algilama_metin}}
 
       <label class="slider">
         <span class="slider-top">
-          <span class="slider-name">Montaj yüksekliği</span>
+          {{kaydirici}}
           <output id="hOut">2,4 m</output>
         </span>
         <input type="range" id="hRange" min="2" max="3.5" step="0.1" value="2.4">
       </label>
 
       <dl class="geo-figs">
-        <div><dt>Menzil</dt><dd id="figReach">11,8 m</dd></div>
-        <div><dt>Kapsanan alan</dt><dd id="figArea">133 m²</dd></div>
-        <div><dt>Kör daire</dt><dd id="figBlind">1,0 m</dd></div>
+        {{geo_figurler}}
       </dl>
     </div>
 
     <svg class="geo-art" id="geoArt" viewBox="0 0 520 460" role="img" aria-labelledby="geoTitle">
-      <title id="geoTitle">Üstten görünüm: 110 derecelik algılama konisi ve kör daire</title>
+      {{geo_baslik}}
       <g class="geo-grid" id="geoGrid"></g>
       <path id="geoWedge" class="geo-wedge" d=""/>
       <path id="geoEdgeL" class="geo-edge" d=""/>
@@ -500,22 +430,11 @@
 <!-- ============ TEKNIK ============ -->
 <section class="band" id="teknik">
   <div class="wrap">
-    <h2 class="band-h">Teknik değerler</h2>
+    {{teknik_basi}}
     <table class="spec">
-      <caption class="sr-only">Nöbet N1-A teknik özellikleri</caption>
+      {{teknik_caption}}
       <tbody>
-        <tr><th scope="row">Işık gücü</th><td>2400 lümen, 5000 K nötr beyaz</td></tr>
-        <tr><th scope="row">Işık dağılımı</th><td>120° yatay, 70° düşey, asimetrik lens</td></tr>
-        <tr><th scope="row">Algılama</th><td>PIR, 110° yatay, 3–14 m (montaj yüksekliğine göre)</td></tr>
-        <tr><th scope="row">Bildirim</th><td>Uygulamaya anında push — Wi-Fi 2,4 GHz</td></tr>
-        <tr><th scope="row">Uyarı nabzı</th><td>1,4 Hz, tam güçte kesintili (flaşör öncesi kademe)</td></tr>
-        <tr><th scope="row">Flaşör</th><td>Kırmızı ve mavi LED, dönüşümlü, 100 atım/dk (SAE J845 aralığında)</td></tr>
-        <tr><th scope="row">Sönme gecikmesi</th><td>Hareket kesildikten 30 saniye sonra kısık moda döner</td></tr>
-        <tr><th scope="row">Güç</th><td>12 V DC — 0,6 W bekleme, 22 W tam güç</td></tr>
-        <tr><th scope="row">Gövde</th><td>Anodize alüminyum ekstrüzyon, 800 × 62 × 46 mm</td></tr>
-        <tr><th scope="row">Koruma</th><td>IP66 su ve toz, IK08 darbe</td></tr>
-        <tr><th scope="row">Çalışma sıcaklığı</th><td>−25 °C ile +50 °C arası</td></tr>
-        <tr><th scope="row">Çıkış</th><td>Kuru kontak, NO/NC — NVR veya alarm paneline</td></tr>
+        {{teknik_satirlar}}
       </tbody>
     </table>
   </div>
@@ -524,26 +443,9 @@
 <!-- ============ MODELLER ============ -->
 <section class="band band-alt" id="modeller">
   <div class="wrap">
-    <h2 class="band-h">Üç model</h2>
+    {{modeller_basi}}
     <div class="models">
-      <article class="model">
-        <h3>N1</h3>
-        <p class="model-what">Işık ve sensör</p>
-        <p>Kapı önünü aydınlatır, hareketle tam güce çıkar. Flaşör ve bildirim yok.</p>
-        <p class="model-power">12 V DC</p>
-      </article>
-      <article class="model model-lead">
-        <h3>N1-A</h3>
-        <p class="model-what">Işık, sensör, flaşör, bildirim</p>
-        <p>Üç kademenin tamamı. Sahnede gördüğün model bu.</p>
-        <p class="model-power">12 V DC, kuru kontak çıkışı</p>
-      </article>
-      <article class="model">
-        <h3>N1-P</h3>
-        <p class="model-what">Tek kabloyla</p>
-        <p>PoE besleme ve veri aynı kablodan. Mevcut kayıt cihazına bağlanır.</p>
-        <p class="model-power">802.3at PoE+</p>
-      </article>
+      {{modeller}}
     </div>
   </div>
 </section>
@@ -551,28 +453,21 @@
 <!-- ============ KURULUM ============ -->
 <section class="band" id="kurulum">
   <div class="wrap narrow">
-    <h2 class="band-h">Kurulum</h2>
+    {{kurulum_basi}}
     <ol class="howto">
-      <li><h3>Yüksekliği seç</h3><p>Kapının 30 cm üstüne, zeminden 2,4–3,0 m arasına monte et. Daha yükseği menzili büyütür, kör daireyi de.</p></li>
-      <li><h3>Kabloyu geçir</h3><p>12 V besleme ve kuru kontak kablosu arka plakadaki kanaldan geçer. Sıva altı ya da üstü, ikisi de olur.</p></li>
-      <li><h3>Menzili ayarla</h3><p>Kapı önünde yürü — uygulama tetiklenmeyi anında gösterir. Vidayla koniyi daralt ya da genişlet.</p></li>
-      <li><h3>Bildirimi ayarla</h3><p>Flaşörün ve bildirimin ne zaman devreye gireceğini belirle: anında, 3 saniye sonra ya da kapalı.</p></li>
+      {{kurulum_adimlar}}
     </ol>
   </div>
 </section>
 
 <footer class="foot">
   <div class="wrap foot-in">
-    <p class="foot-brand">Nöbet</p>
-    <p class="foot-note">Numune, fiyat listesi ve bayilik için yazın.</p>
-    <p class="foot-mail"><a href="mailto:merhaba@nobet.example">merhaba@nobet.example</a></p>
+    {{alt}}
   </div>
 </footer>
 
 </main>
 
-<script>window.NOBET={"alan":"m²","bolgeler":{"b1":"B1 / 3 m","b2":"B2 / 6 m","b3":"B3 / 14 m"},"bos":"—","dil":"tr","durumlar":{"alarm":"Alarm","algilandi":"Algılandı","bekleme":"Bekleme","cekildi":"Geri çekildi","ihlal":"İhlal","uyari":"Uyarı"},"metre":"m","ondalik":","};</script>
-<script src="assets/js/scene.js?v=134" defer></script>
-<script src="assets/js/ui.js?v=134" defer></script>
+{{betikler}}
 </body>
 </html>

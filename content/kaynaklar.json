@@ -1,0 +1,29 @@
+{
+  "_": "Dilden bagimsiz ayarlar: arka plan resmi, olcum ve surum. Metin icin content/tr.json.",
+
+  "surum": "134",
+  "_surum": "Onbellek kirici. CSS/JS degistikce artir; kur.py bunu ?v=... olarak yaziyor.",
+
+  "sahne": {
+    "_": "ARKA PLAN RESMINI DEGISTIRME. Yeni bir render koyduktan sonra asagidaki dort sayiyi yeni resme gore olcun; kur.py yerlesimi (x/y/genislik/yukseklik) bunlardan HESAPLIYOR, elle girmeniz gereken bir sey yok.",
+    "dosya": "assets/art/sahne.webp",
+
+    "resim_px": { "genislik": 2752, "yukseklik": 1536 },
+
+    "olcum": {
+      "_": "Hepsi YENI resmin pikselinde olculur.",
+      "px_metre": 145.2626,
+      "_px_metre": "Bir metrenin kac piksele denk geldigi. En kolay yol: kapiyi olc. Bu resimde kapi 138 x 263 px ve gercekte 0,96 x 1,81 m -> 263/1,81 = 145,3. Bu resim icin ince ayar yapilmis deger: 145,2626.",
+      "kapi_ekseni_px": 1371,
+      "_kapi_ekseni_px": "Kapinin DUSEY ORTA EKSENININ yatay pikseli. Isik da bu eksenden cikiyor, kadraj da buna gore ortalaniyor.",
+      "zemin_px": 1303,
+      "_zemin_px": "Kapinin zemine degdigi satirin pikseli."
+    },
+
+    "dunya": {
+      "_": "Sahnenin kendi koordinat sistemi; DEGISTIRMEYIN. 100 birim = 1 metre. Isik, flasor ve etiketler bu sayilara gore yerlesmis durumda; degistirmek hepsini kaydirir.",
+      "kapi_ekseni": 386,
+      "zemin": 676
+    }
+  }
+}

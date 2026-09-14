@@ -1,0 +1,218 @@
+{
+  "_": "Turkce icerik. Sayfadaki BUTUN metin burada; index.html bu dosyadan uretiliyor (python tools/kur.py). Ingilizce icin bu dosyayi en.json olarak kopyalayip cevirin; yapiyi bozmayin, sadece deger tarafini degistirin.",
+
+  "dil": "tr",
+  "marka": "Nöbet",
+  "eposta": "merhaba@nobet.example",
+
+  "meta": {
+    "baslik": "Nöbet N1 — kapı önü güvenlik armatürü",
+    "aciklama": "Nöbet N1: kapı önünü 14 metreye kadar tarayan ince lineer LED armatür. Işıkla uyarır, yaklaşmaya devam edene kırmızı-mavi flaşör — ve telefonuna anında bildirim."
+  },
+
+  "atla": "İçeriğe geç",
+
+  "menu": {
+    "etiket": "Bölümler",
+    "buton": "Bölüm menüsü",
+    "_": "masaustu:false olan oge yalnizca telefon menusunde cikar.",
+    "ogeler": [
+      { "id": "caydirma", "ad": "Caydırma", "masaustu": true },
+      { "id": "algilama", "ad": "Algılama", "masaustu": true },
+      { "id": "teknik",   "ad": "Teknik",   "masaustu": true },
+      { "id": "modeller", "ad": "Modeller", "masaustu": true },
+      { "id": "kurulum",  "ad": "Kurulum",  "masaustu": false }
+    ]
+  },
+
+  "sahne": {
+    "beat_etiketi": "Sahne aşamaları",
+    "_beatler": "Soldaki faz listesi. p degeri o faza atlama noktasi; sirasi aktlarla ayni olmali.",
+    "beatler": [
+      { "p": "0.10", "ad": "Algılandı" },
+      { "p": "0.30", "ad": "Uyarı" },
+      { "p": "0.50", "ad": "Alarm" },
+      { "p": "0.70", "ad": "Sıfırlama" },
+      { "p": "0.90", "ad": "Bekleme" }
+    ],
+
+    "kapak": {
+      "_": "Acilis ekrani. baslik iki satir; her oge ayri satira geliyor.",
+      "eyebrow": "Nöbet N1 — hareket sensörlü kapı armatürü",
+      "baslik": ["Işık uyarır.", "Telefonun haber verir."],
+      "lede": "Kimse yokken 0,6 watt kısık ışık. Biri kapıya yaklaşınca tam güce çıkar, kırmızı-mavi flaşöre geçer ve telefonuna bildirim gönderir. Siren yok.",
+      "degerler": [
+        { "deger": "2400 lm", "etiket": "5000 K, tam güç" },
+        { "deger": "14 m",    "etiket": "algılama menzili" },
+        { "deger": "IP66",    "etiket": "dış mekân gövde" },
+        { "deger": "0,6 W",   "etiket": "bekleme gücü" }
+      ]
+    },
+
+    "_aktlar": "Kapaktan sonraki dort faz. Sirasi beatlerle ayni.",
+    "aktlar": [
+      {
+        "baslik": "Yaklaşmaya devam ediyorsun.",
+        "govde": "6 metre eşiği geçildi. Işık nabız gibi atmaya başladı. Bu bir uyarı: fark edildin, kayıt altındasın."
+      },
+      {
+        "baslik": "Üç metre.",
+        "govde": "Kademe bitti. Kırmızı-mavi flaşör çalışıyor — ve telefonuna bildirim düştü. Kapı önü artık bir uyarı alanı, sen neredeysen ol."
+      },
+      {
+        "baslik": "Geri çekildin.",
+        "govde": "Otuz saniye sonra flaşör kapanır. Menzilin dışına çıktın — N1 arkandan bakmayı bırakıyor."
+      },
+      {
+        "baslik": "Ve yeniden bekler.",
+        "govde": "Beyaz ışık kısık moda döndü: 0,6 watt, sessiz, hazır. Bir sonraki ziyaretçiye kadar hiçbir şey yapmıyor."
+      }
+    ],
+
+    "cta": [
+      { "ad": "Modelleri gör",   "hedef": "#modeller", "ikincil": false },
+      { "ad": "Teknik değerler", "hedef": "#teknik",   "ikincil": true }
+    ],
+
+    "_etiketler": "Sahnenin uzerindeki kilavuz cizgili etiketler; akt 1'den 4'e. Arkalarindaki golge plakasinin genisligi metne gore OTOMATIK hesaplaniyor (scene.js), yani ceviride uzayan metin kirpilmiyor.",
+    "etiketler": [
+      { "ust": "Nabız modu",          "alt": "Tam güç, 1,4 Hz" },
+      { "ust": "Kırmızı-mavi flaşör", "alt": "100 atım/dk" },
+      { "ust": "Menzil 14 metre",     "alt": "Dışına çıkınca söner" },
+      { "ust": "Kısık mod",           "alt": "0,6 watt, sessiz" }
+    ],
+
+    "_hud": "Sag alttaki telemetri paneli. durumlar ve bolgeler scene.js'e verilir.",
+    "hud": {
+      "durum": "Durum",
+      "mesafe": "Mesafe",
+      "bolge": "Bölge",
+      "bos": "—"
+    },
+    "durumlar": {
+      "bekleme": "Bekleme",
+      "algilandi": "Algılandı",
+      "uyari": "Uyarı",
+      "alarm": "Alarm",
+      "cekildi": "Geri çekildi",
+      "ihlal": "İhlal"
+    },
+    "bolgeler": {
+      "b1": "B1 / 3 m",
+      "b2": "B2 / 6 m",
+      "b3": "B3 / 14 m"
+    },
+    "birim_metre": "m",
+    "_ondalik": "Ondalık ayracı. Ingilizce sürümde \".\" olmalı.",
+    "ondalik": ","
+  },
+
+  "caydirma": {
+    "baslik": "Tek bir armatür, üç kademe",
+    "lede": "Sürekli yanan bir projektör caydırmaz, alışkanlık yaratır. N1 tepkiyi tehdide göre büyütür.",
+    "kademeler": [
+      {
+        "ad": "Kısık ışık",
+        "deger": "400 lümen, sürekli",
+        "govde": "Kapı önü hiçbir zaman tamamen karanlık değil. Basamakları görürsün, kamera yüzü görür."
+      },
+      {
+        "ad": "Tam güç",
+        "deger": "2400 lümen, hareketle",
+        "govde": "Sensör tetiklenince 40 milisaniyede tam güce çıkar. Gölge kalmaz."
+      },
+      {
+        "ad": "Flaşör ve bildirim",
+        "deger": "Kırmızı-mavi — telefona anında",
+        "govde": "Son kademe. Ses yok — gürültü komşuyu uyandırır, bildirim seni. Gecikmeyi sen seçersin: anında, 3 saniye sonra, ya da hiç."
+      }
+    ]
+  },
+
+  "algilama": {
+    "baslik": "Montaj yüksekliği menzili belirler",
+    "govde": "PIR sensörü ısı farkını yatayda tarar. Yükseğe monte edersen alan büyür ama armatürün hemen altında kör bir daire kalır. Kaydırıcıyı oynat, kapı önünün gerçek kapsamasını gör.",
+    "kaydirici": "Montaj yüksekliği",
+    "figurler": {
+      "menzil": "Menzil",
+      "alan": "Kapsanan alan",
+      "kor": "Kör daire"
+    },
+    "gorsel_baslik": "Üstten görünüm: 110 derecelik algılama konisi ve kör daire",
+    "sensor_etiketi": "N1",
+    "birim_alan": "m²"
+  },
+
+  "teknik": {
+    "baslik": "Teknik değerler",
+    "caption": "Nöbet N1-A teknik özellikleri",
+    "_": "KANONIK LISTE. Ayni sayi kapak deger seridinde, sahne etiketlerinde ve kopyada da goruntulenir; bir deger degisince oralari da guncelle.",
+    "satirlar": [
+      { "ad": "Işık gücü",         "deger": "2400 lümen, 5000 K nötr beyaz" },
+      { "ad": "Işık dağılımı",     "deger": "120° yatay, 70° düşey, asimetrik lens" },
+      { "ad": "Algılama",          "deger": "PIR, 110° yatay, 3–14 m (montaj yüksekliğine göre)" },
+      { "ad": "Bildirim",          "deger": "Uygulamaya anında push — Wi-Fi 2,4 GHz" },
+      { "ad": "Uyarı nabzı",       "deger": "1,4 Hz, tam güçte kesintili (flaşör öncesi kademe)" },
+      { "ad": "Flaşör",            "deger": "Kırmızı ve mavi LED, dönüşümlü, 100 atım/dk (SAE J845 aralığında)" },
+      { "ad": "Sönme gecikmesi",   "deger": "Hareket kesildikten 30 saniye sonra kısık moda döner" },
+      { "ad": "Güç",               "deger": "12 V DC — 0,6 W bekleme, 22 W tam güç" },
+      { "ad": "Gövde",             "deger": "Anodize alüminyum ekstrüzyon, 800 × 62 × 46 mm" },
+      { "ad": "Koruma",            "deger": "IP66 su ve toz, IK08 darbe" },
+      { "ad": "Çalışma sıcaklığı", "deger": "−25 °C ile +50 °C arası" },
+      { "ad": "Çıkış",             "deger": "Kuru kontak, NO/NC — NVR veya alarm paneline" }
+    ]
+  },
+
+  "modeller": {
+    "baslik": "Üç model",
+    "kartlar": [
+      {
+        "ad": "N1",
+        "ne": "Işık ve sensör",
+        "govde": "Kapı önünü aydınlatır, hareketle tam güce çıkar. Flaşör ve bildirim yok.",
+        "guc": "12 V DC",
+        "one_cikan": false
+      },
+      {
+        "ad": "N1-A",
+        "ne": "Işık, sensör, flaşör, bildirim",
+        "govde": "Üç kademenin tamamı. Sahnede gördüğün model bu.",
+        "guc": "12 V DC, kuru kontak çıkışı",
+        "one_cikan": true
+      },
+      {
+        "ad": "N1-P",
+        "ne": "Tek kabloyla",
+        "govde": "PoE besleme ve veri aynı kablodan. Mevcut kayıt cihazına bağlanır.",
+        "guc": "802.3at PoE+",
+        "one_cikan": false
+      }
+    ]
+  },
+
+  "kurulum": {
+    "baslik": "Kurulum",
+    "adimlar": [
+      {
+        "ad": "Yüksekliği seç",
+        "govde": "Kapının 30 cm üstüne, zeminden 2,4–3,0 m arasına monte et. Daha yükseği menzili büyütür, kör daireyi de."
+      },
+      {
+        "ad": "Kabloyu geçir",
+        "govde": "12 V besleme ve kuru kontak kablosu arka plakadaki kanaldan geçer. Sıva altı ya da üstü, ikisi de olur."
+      },
+      {
+        "ad": "Menzili ayarla",
+        "govde": "Kapı önünde yürü — uygulama tetiklenmeyi anında gösterir. Vidayla koniyi daralt ya da genişlet."
+      },
+      {
+        "ad": "Bildirimi ayarla",
+        "govde": "Flaşörün ve bildirimin ne zaman devreye gireceğini belirle: anında, 3 saniye sonra ya da kapalı."
+      }
+    ]
+  },
+
+  "alt": {
+    "not": "Numune, fiyat listesi ve bayilik için yazın."
+  }
+}

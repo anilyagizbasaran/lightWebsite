@@ -3,6 +3,13 @@
 (function () {
   'use strict';
 
+  /* Birimler ve ondalik ayraci sayfadan geliyor (window.NOBET);
+     bu dosyada cevrilecek dizgi yok. */
+  var M = window.NOBET || {};
+  var BIRIM_M = M.metre || 'm';
+  var BIRIM_A = M.alan || 'm\u00b2';
+  var ONDALIK = M.ondalik || ',';
+
   /* ---------------- mobil bölüm menüsü ---------------- */
   /* Geometri bloguna girmeden ONCE durmali: orada erken bir return var,
      asagiya yazilan her sey #hRange yoksa hic calismaz. */
@@ -76,7 +83,7 @@
   function pt(r, theta) {
     return [CX + r * Math.sin(theta), CY + r * Math.cos(theta)];
   }
-  function tr(n, d) { return n.toFixed(d).replace('.', ','); }
+  function tr(n, d) { return n.toFixed(d).replace('.', ONDALIK); }
 
   /* 5 m ve 10 m mesafe halkaları */
   (function grid() {
@@ -97,7 +104,7 @@
       var t = document.createElementNS(ns, 'text');
       t.setAttribute('x', (CX + 6).toFixed(1));
       t.setAttribute('y', (CY + r - 5).toFixed(1));
-      t.textContent = m + ' m';
+      t.textContent = m + ' ' + BIRIM_M;
       g.appendChild(t);
     });
   })();
@@ -120,12 +127,12 @@
 
     if (dim) {
       dim.setAttribute('y', (CY + R + 18).toFixed(1));
-      dim.textContent = tr(reach, 1) + ' m';
+      dim.textContent = tr(reach, 1) + ' ' + BIRIM_M;
     }
-    if (out)    out.textContent = tr(h, 1) + ' m';
-    if (fReach) fReach.textContent = tr(reach, 1) + ' m';
-    if (fArea)  fArea.textContent = Math.round(area) + ' m²';
-    if (fBlind) fBlind.textContent = tr(rb, 1) + ' m';
+    if (out)    out.textContent = tr(h, 1) + ' ' + BIRIM_M;
+    if (fReach) fReach.textContent = tr(reach, 1) + ' ' + BIRIM_M;
+    if (fArea)  fArea.textContent = Math.round(area) + ' ' + BIRIM_A;
+    if (fBlind) fBlind.textContent = tr(rb, 1) + ' ' + BIRIM_M;
   }
 
   range.addEventListener('input', update);

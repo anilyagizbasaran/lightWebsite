@@ -1,0 +1,308 @@
+{
+  "_": "Turkce icerik. Sayfadaki BUTUN metin burada; index.html bu dosyadan uretiliyor (python tools/kur.py). Ingilizce icin bu dosyayi en.json olarak kopyalayip cevirin; yapiyi bozmayin, sadece deger tarafini degistirin.",
+  "dil": "en",
+  "marka": "Nöbet",
+  "eposta": "merhaba@nobet.example",
+  "meta": {
+    "baslik": "Nobet N1 - motion-activated entrance luminaire",
+    "aciklama": "Nobet N1: a slim linear LED luminaire that watches your entrance up to 14 metres. It warns with light, then red-blue strobe - and an instant notification on your phone."
+  },
+  "atla": "Skip to content",
+  "menu": {
+    "etiket": "Sections",
+    "buton": "Section menu",
+    "_": "masaustu:false olan oge yalnizca telefon menusunde cikar.",
+    "ogeler": [
+      {
+        "id": "caydirma",
+        "ad": "Deterrence",
+        "masaustu": true
+      },
+      {
+        "id": "algilama",
+        "ad": "Detection",
+        "masaustu": true
+      },
+      {
+        "id": "teknik",
+        "ad": "Specifications",
+        "masaustu": true
+      },
+      {
+        "id": "modeller",
+        "ad": "Models",
+        "masaustu": true
+      },
+      {
+        "id": "kurulum",
+        "ad": "Installation",
+        "masaustu": false
+      }
+    ]
+  },
+  "sahne": {
+    "beat_etiketi": "Scene stages",
+    "_beatler": "Soldaki faz listesi. p degeri o faza atlama noktasi; sirasi aktlarla ayni olmali.",
+    "beatler": [
+      {
+        "p": "0.10",
+        "ad": "Detected"
+      },
+      {
+        "p": "0.30",
+        "ad": "Warning"
+      },
+      {
+        "p": "0.50",
+        "ad": "Alarm"
+      },
+      {
+        "p": "0.70",
+        "ad": "Reset"
+      },
+      {
+        "p": "0.90",
+        "ad": "Standby"
+      }
+    ],
+    "kapak": {
+      "_": "Acilis ekrani. baslik iki satir; her oge ayri satira geliyor.",
+      "eyebrow": "Nobet N1 - motion-activated entrance luminaire",
+      "baslik": [
+        "Light warns first.",
+        "Your phone tells you next."
+      ],
+      "lede": "Draws 0,6 watts while nobody is there. The moment somebody approaches your door it steps to full output, switches to a red-blue strobe and pushes a notification to your phone. No siren.",
+      "degerler": [
+        {
+          "deger": "2400 lm",
+          "etiket": "5000 K, full output"
+        },
+        {
+          "deger": "14 m",
+          "etiket": "detection range"
+        },
+        {
+          "deger": "IP66",
+          "etiket": "outdoor housing"
+        },
+        {
+          "deger": "0.6 W",
+          "etiket": "standby draw"
+        }
+      ]
+    },
+    "_aktlar": "Kapaktan sonraki dort faz. Sirasi beatlerle ayni.",
+    "aktlar": [
+      {
+        "baslik": "You keep coming closer.",
+        "govde": "The six-metre threshold is crossed. The light has started to pulse. This is a warning: you have been noticed and you are being recorded."
+      },
+      {
+        "baslik": "Three metres.",
+        "govde": "The ladder is finished. The red-blue strobe is running - and a notification has landed on your phone. The entrance is a warning zone now, wherever you happen to be."
+      },
+      {
+        "baslik": "You backed away.",
+        "govde": "Thirty seconds later the strobe shuts off. You have left the range - N1 stops watching your back."
+      },
+      {
+        "baslik": "And it waits again.",
+        "govde": "The white light returned to its dimmed mode: 0.6 watts, silent, ready. Until the next visitor it does absolutely nothing."
+      }
+    ],
+    "cta": [
+      {
+        "ad": "See the models",
+        "hedef": "#modeller",
+        "ikincil": false
+      },
+      {
+        "ad": "Full specifications",
+        "hedef": "#teknik",
+        "ikincil": true
+      }
+    ],
+    "_etiketler": "Sahnenin uzerindeki kilavuz cizgili etiketler; akt 1'den 4'e. Arkalarindaki golge plakasinin genisligi metne gore OTOMATIK hesaplaniyor (scene.js), yani ceviride uzayan metin kirpilmiyor.",
+    "etiketler": [
+      {
+        "ust": "Pulse mode",
+        "alt": "Full output, 1.4 Hz"
+      },
+      {
+        "ust": "Red-blue strobe",
+        "alt": "100 flashes/min"
+      },
+      {
+        "ust": "Range 14 metres",
+        "alt": "Switches off outside"
+      },
+      {
+        "ust": "Dimmed mode",
+        "alt": "0.6 watts, silent"
+      }
+    ],
+    "_hud": "Sag alttaki telemetri paneli. durumlar ve bolgeler scene.js'e verilir.",
+    "hud": {
+      "durum": "State",
+      "mesafe": "Distance",
+      "bolge": "Zone",
+      "bos": "—"
+    },
+    "durumlar": {
+      "bekleme": "Standby",
+      "algilandi": "Detected",
+      "uyari": "Warning",
+      "alarm": "Alarm",
+      "cekildi": "Withdrawn",
+      "ihlal": "Breach"
+    },
+    "bolgeler": {
+      "b1": "B1 / 3 m",
+      "b2": "B2 / 6 m",
+      "b3": "B3 / 14 m"
+    },
+    "birim_metre": "m",
+    "_ondalik": "Ondalık ayracı. Ingilizce sürümde \".\" olmalı.",
+    "ondalik": "."
+  },
+  "caydirma": {
+    "baslik": "One luminaire, three stages",
+    "lede": "A floodlight that stays on does not deter anybody, it creates a habit. N1 scales its response to the threat.",
+    "kademeler": [
+      {
+        "ad": "Dimmed light",
+        "deger": "400 lumens, continuous",
+        "govde": "The entrance is never completely dark. You can see the steps, the camera can see a face."
+      },
+      {
+        "ad": "Full output",
+        "deger": "2400 lumens, on motion",
+        "govde": "Forty milliseconds after the sensor trips it is at full output. No shadow is left."
+      },
+      {
+        "ad": "Strobe and notification",
+        "deger": "Red-blue - instantly to your phone",
+        "govde": "The last stage. No sound - noise wakes the neighbours, a notification wakes you. You choose the delay: instant, after three seconds, or never."
+      }
+    ]
+  },
+  "algilama": {
+    "baslik": "Mounting height sets the range",
+    "govde": "The PIR sensor scans for heat differences horizontally. Mount it higher and the area grows, but a blind circle is left directly underneath. Drag the slider to see the real coverage of your entrance.",
+    "kaydirici": "Mounting height",
+    "figurler": {
+      "menzil": "Range",
+      "alan": "Covered area",
+      "kor": "Blind circle"
+    },
+    "gorsel_baslik": "Top view: the 110-degree detection cone and the blind circle",
+    "sensor_etiketi": "N1",
+    "birim_alan": "m²"
+  },
+  "teknik": {
+    "baslik": "Specifications",
+    "caption": "Nobet N1-A specifications",
+    "_": "KANONIK LISTE. Ayni sayi kapak deger seridinde, sahne etiketlerinde ve kopyada da goruntulenir; bir deger degisince oralari da guncelle.",
+    "satirlar": [
+      {
+        "ad": "Light output",
+        "deger": "2400 lümen, 5000 K nötr beyaz"
+      },
+      {
+        "ad": "Light distribution",
+        "deger": "120° yatay, 70° düşey, asimetrik lens"
+      },
+      {
+        "ad": "Detection",
+        "deger": "PIR, 110° yatay, 3–14 m (montaj yüksekliğine göre)"
+      },
+      {
+        "ad": "Notification",
+        "deger": "Uygulamaya anında push — Wi-Fi 2,4 GHz"
+      },
+      {
+        "ad": "Warning pulse",
+        "deger": "1,4 Hz, tam güçte kesintili (flaşör öncesi kademe)"
+      },
+      {
+        "ad": "Strobe",
+        "deger": "Kırmızı ve mavi LED, dönüşümlü, 100 atım/dk (SAE J845 aralığında)"
+      },
+      {
+        "ad": "Switch-off delay",
+        "deger": "Hareket kesildikten 30 saniye sonra kısık moda döner"
+      },
+      {
+        "ad": "Power",
+        "deger": "12 V DC — 0,6 W bekleme, 22 W tam güç"
+      },
+      {
+        "ad": "Housing",
+        "deger": "Anodize alüminyum ekstrüzyon, 800 × 62 × 46 mm"
+      },
+      {
+        "ad": "Protection",
+        "deger": "IP66 su ve toz, IK08 darbe"
+      },
+      {
+        "ad": "Operating temperature",
+        "deger": "−25 °C ile +50 °C arası"
+      },
+      {
+        "ad": "Output",
+        "deger": "Kuru kontak, NO/NC — NVR veya alarm paneline"
+      }
+    ]
+  },
+  "modeller": {
+    "baslik": "Three models",
+    "kartlar": [
+      {
+        "ad": "N1",
+        "ne": "Light and sensor",
+        "govde": "Lights the entrance, steps to full output on motion. No strobe, no notification.",
+        "guc": "12 V DC",
+        "one_cikan": false
+      },
+      {
+        "ad": "N1-A",
+        "ne": "Light, sensor, strobe, notification",
+        "govde": "All three stages. This is the model you saw in the scene.",
+        "guc": "12 V DC, dry contact output",
+        "one_cikan": true
+      },
+      {
+        "ad": "N1-P",
+        "ne": "A single cable",
+        "govde": "PoE carries power and data on the same cable. Connects to your existing recorder.",
+        "guc": "802.3at PoE+",
+        "one_cikan": false
+      }
+    ]
+  },
+  "kurulum": {
+    "baslik": "Installation",
+    "adimlar": [
+      {
+        "ad": "Pick the height",
+        "govde": "Mount it 30 cm above the door, 2.4-3.0 m off the ground. Higher grows the range, and the blind circle with it."
+      },
+      {
+        "ad": "Run the cable",
+        "govde": "The 12 V supply and the dry contact cable run through the channel in the back plate. Flush or surface, either works."
+      },
+      {
+        "ad": "Adjust the range",
+        "govde": "Walk in front of the door - the app shows the trip instantly. Narrow or widen the cone with the screw."
+      },
+      {
+        "ad": "Set the notification",
+        "govde": "Decide when the strobe and the notification come in: instantly, after three seconds, or off."
+      }
+    ]
+  },
+  "alt": {
+    "not": "Write to us for samples, price lists and dealership."
+  }
+}

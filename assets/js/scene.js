@@ -20,6 +20,19 @@
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- metin ----------
+     Bu dosyada cevrilecek dizgi YOK: durum adlari, bolge
+     etiketleri, birimler ve ondalik ayraci sayfaya gomulu
+     window.NOBET'ten geliyor (content/<dil>.json -> tools/kur.py).
+     Asagidaki varsayilanlar yalnizca betik o paket olmadan
+     acilirsa devreye giriyor. */
+  var M       = window.NOBET || {};
+  var DURUM   = M.durumlar || {};
+  var BOLGE   = M.bolgeler || {};
+  var BIRIM_M = M.metre || 'm';
+  var ONDALIK = M.ondalik || ',';
+  var BOS     = M.bos || '\u2014';
+
   /* ---------- kamera ----------
      Uzak kadraj tüm sahne; yakın kadraj kapıya odaklı. İkisinin de oranı
      16:9 olmalı, yoksa preserveAspectRatio kırpması zoom'u kaydırır. */
@@ -129,7 +142,7 @@
   function track(p, a, b) { return clamp01((p - a) / (b - a)); }
   function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-  function fmt(n) { return n.toFixed(1).replace('.', ','); }
+  function fmt(n) { return n.toFixed(1).replace('.', ONDALIK); }
 
 
   /* ---------- düğümler ---------- */
@@ -268,17 +281,17 @@
 
     /* telemetri */
     var state, zone;
-    if (alarm)                            { state = 'Alarm';         zone = dist <= 6 ? 'İhlal' : '—'; }
-    else if (p >= T.alarmEnd && p < 0.8)  { state = 'Geri çekildi';  zone = '—'; }
-    else if (!detected)                   { state = 'Bekleme';       zone = '—'; }
+    if (alarm)                            { state = DURUM.alarm;     zone = dist <= 6 ? DURUM.ihlal : BOS; }
+    else if (p >= T.alarmEnd && p < 0.8)  { state = DURUM.cekildi;   zone = BOS; }
+    else if (!detected)                   { state = DURUM.bekleme;   zone = BOS; }
     /* 6-3 m bandi tek durum: "Uyari". Onceden 3,2 m altinda
        "Uyari", ustunde "Yaklasiyor" diye ikiye ayriliyordu; sol
        listedeki asama "Uyari" yazip turuncu yanarken telemetrinin
        "Yaklasiyor" demesi tutarsiz duruyordu. */
-    else if (inWarn)                      { state = 'Uyarı';         zone = 'B2 / 6 m'; }
-    else                                  { state = 'Algılandı';     zone = 'B3 / 14 m'; }
+    else if (inWarn)                      { state = DURUM.uyari;     zone = BOLGE.b2; }
+    else                                  { state = DURUM.algilandi; zone = BOLGE.b3; }
 
-    var distText = dist <= 14.2 ? fmt(dist) + ' m' : '—';
+    var distText = dist <= 14.2 ? fmt(dist) + ' ' + BIRIM_M : BOS;
     if (el.hudState && state !== lastState)   { el.hudState.textContent = state; lastState = state; }
     if (el.hudZone  && zone  !== lastZone)    { el.hudZone.textContent  = zone;  lastZone  = zone; }
     if (el.hudDist  && distText !== lastDist) { el.hudDist.textContent = distText; lastDist = distText; }
@@ -361,6 +374,42 @@
       });
     }
 
+  }
+
+  /* ---------- etiket plakalarini metne gore olc ----------
+     Plakalar elle olculmus genisliklerle duruyordu; ceviride ya da
+     metin degisince yazi plakanin disina tasiyordu. Simdi her plaka
+     kendi metninin gercek kutusuna oturuyor.
+     Yazi tipi yuklendikten sonra bir kez daha olculuyor: yedek yazi
+     tipiyle alinan genislik yanlis. */
+  function plakalariOlc() {
+    var gruplar = document.querySelectorAll('.anno');
+    for (var i = 0; i < gruplar.length; i++) {
+      var g = gruplar[i];
+      var plaka = g.querySelector('.anno-plate');
+      var yazi = g.querySelectorAll('text');
+      if (!plaka || !yazi.length) continue;
+      var sol = Infinity, sag = -Infinity, ust = Infinity, altt = -Infinity;
+      for (var k = 0; k < yazi.length; k++) {
+        var b;
+        try { b = yazi[k].getBBox(); } catch (e) { b = null; }
+        if (!b || !b.width) continue;
+        if (b.x < sol) sol = b.x;
+        if (b.x + b.width > sag) sag = b.x + b.width;
+        if (b.y < ust) ust = b.y;
+        if (b.y + b.height > altt) altt = b.y + b.height;
+      }
+      if (sol === Infinity) continue;
+      var PY = 7, PX = 9;          /* harflerin cevresindeki pay */
+      plaka.setAttribute('x', (sol - PX).toFixed(1));
+      plaka.setAttribute('y', (ust - PY).toFixed(1));
+      plaka.setAttribute('width', (sag - sol + PX * 2).toFixed(1));
+      plaka.setAttribute('height', (altt - ust + PY * 2).toFixed(1));
+    }
+  }
+  plakalariOlc();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(plakalariOlc);
   }
 
   /* ---------- kaydırma -> ilerleme ---------- */
