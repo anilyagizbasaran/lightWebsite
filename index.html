@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=98">
+<link rel="stylesheet" href="assets/css/style.css?v=100">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -213,7 +213,7 @@
         </radialGradient>
         <mask id="mVig" maskUnits="userSpaceOnUse" x="-900" y="-500" width="3200" height="1800">
           <rect x="-900" y="-500" width="3200" height="1800" fill="#fff"/>
-          <ellipse cx="393" cy="560" rx="560" ry="470" fill="url(#gVigHole)"/>
+          <ellipse cx="393" cy="560" rx="470" ry="400" fill="url(#gVigHole)"/>
         </mask>
 
         <!-- Multiply tint: renkli isigin yuzeyde DIGER kanallari
@@ -259,7 +259,7 @@
 
       <!-- Cevreyi kis, odak kapi ustundeki isik olsun -->
       <rect id="vignette" x="-900" y="-500" width="3200" height="1800"
-            fill="#04070D" opacity=".62" mask="url(#mVig)"/>
+            fill="#04070D" opacity=".76" mask="url(#mVig)"/>
 
 
 
@@ -282,7 +282,7 @@
         <!-- 6. KAYNAK: uc kademeli bloom + patlak agiz. Gece
                 fotografinda "bu sey isik yayiyor" hissini en cok bu
                 veriyor; tek halka yeterli olmuyor. -->
-        <ellipse cx="393" cy="430" rx="245" ry="82" fill="url(#gBloomW)" filter="url(#fSoft)" opacity="0.20"/>
+        <ellipse cx="393" cy="430" rx="300" ry="100" fill="url(#gBloomW)" filter="url(#fSoft)" opacity="0.30"/>
         <ellipse cx="393" cy="430" rx="142" ry="48" fill="url(#gBloomW)" filter="url(#fSoft)"/>
         <ellipse cx="393" cy="430" rx="74" ry="26" fill="url(#gBloomW)" filter="url(#fMed)"/>
         <rect x="352" y="420" width="83" height="9" rx="4"
@@ -312,7 +312,7 @@
         <!-- 6. KAYNAK: uc kademeli bloom + patlak agiz. Gece
                 fotografinda "bu sey isik yayiyor" hissini en cok bu
                 veriyor; tek halka yeterli olmuyor. -->
-        <ellipse cx="371" cy="430" rx="245" ry="82" fill="url(#gBloomR)" filter="url(#fSoft)" opacity="0.26"/>
+        <ellipse cx="371" cy="430" rx="310" ry="104" fill="url(#gBloomR)" filter="url(#fSoft)" opacity="0.38"/>
         <ellipse cx="371" cy="430" rx="142" ry="48" fill="url(#gBloomR)" filter="url(#fSoft)"/>
         <ellipse cx="371" cy="430" rx="74" ry="26" fill="url(#gBloomR)" filter="url(#fMed)"/>
         <rect x="352" y="420" width="42" height="9" rx="4"
@@ -342,7 +342,7 @@
         <!-- 6. KAYNAK: uc kademeli bloom + patlak agiz. Gece
                 fotografinda "bu sey isik yayiyor" hissini en cok bu
                 veriyor; tek halka yeterli olmuyor. -->
-        <ellipse cx="415" cy="430" rx="245" ry="82" fill="url(#gBloomB)" filter="url(#fSoft)" opacity="0.28"/>
+        <ellipse cx="415" cy="430" rx="310" ry="104" fill="url(#gBloomB)" filter="url(#fSoft)" opacity="0.40"/>
         <ellipse cx="415" cy="430" rx="142" ry="48" fill="url(#gBloomB)" filter="url(#fSoft)"/>
         <ellipse cx="415" cy="430" rx="74" ry="26" fill="url(#gBloomB)" filter="url(#fMed)"/>
         <rect x="394" y="420" width="42" height="9" rx="4"
@@ -551,7 +551,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=98" defer></script>
-<script src="assets/js/ui.js?v=98" defer></script>
+<script src="assets/js/scene.js?v=100" defer></script>
+<script src="assets/js/ui.js?v=100" defer></script>
 </body>
 </html>

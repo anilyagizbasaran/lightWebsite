@@ -262,9 +262,33 @@ img, svg { max-width: 100%; }
   /* Tunel kisaldi (akt basina ~389 px): 0,45 s'lik gecis, fazin
      kendisi ekrandan gecerken tamamlanamiyordu. 0,26 s'de kopya hizli
      bir jestte de okunacak kadar yerlesiyor. */
+  /* CIKIS hizli, GIRIS daha yavas (asagida .is-on). Aktlar artik
+     farkli yerlerde durdugu icin gecis aninda ikisi yan yana
+     gorunuyor; eskiden ust uste olduklari icin farkedilmiyordu.
+     Cikisi 0,14 s'e cekmek ortusme penceresini yariya indiriyor. */
+  transition: opacity .14s ease, transform .14s ease, visibility .14s;
+}
+.act.is-on {
+  opacity: 1; visibility: visible; transform: none;
   transition: opacity .26s ease, transform .26s ease, visibility .26s;
 }
-.act.is-on { opacity: 1; visibility: visible; transform: none; }
+
+/* ============================================================
+   KOPYANIN YERI FAZA GORE DEGISIYOR.
+   Bes akt da ayni noktada cikiyordu ve kaydirma monoton
+   duruyordu. Yerlesim rastgele degil, hikayeyi izliyor:
+   ziyaretci yaklastikca kopya asagi iniyor (0 -> 7 -> 14 -> 21vh),
+   geri cekilince yukari donuyor (5vh). Yatayda da kucuk bir
+   zikzak var; 2,5rem'i gecmiyor, cunku daha fazlasi metni
+   aydinlatilmis kapinin uzerine tasiyor ve okunmuyor.
+   top/right gecise dahil degil: her akt ayri eleman oldugu icin
+   kendi yerinde beliriyor, kayarak gitmiyor.
+   ============================================================ */
+.act[data-act="0"] { top: 0;    right: 0; }
+.act[data-act="1"] { top: 7vh;  right: 2.5rem; }
+.act[data-act="2"] { top: 14vh; right: 0; }
+.act[data-act="3"] { top: 21vh; right: 2rem; }
+.act[data-act="4"] { top: 5vh;  right: 1rem; }
 
 .act h1, .act h2 {
   margin: 0 0 .7em;
@@ -652,6 +676,13 @@ img, svg { max-width: 100%; }
     max-width: 30ch;
   }
   .act p:not(.cue):not(.act-cta) { max-width: 28ch; }
+  /* Telefonda kopya tam genislikte: yatay kaydirma yok, dusey de
+     daha kisik (ekran kisa, sahne hemen altta). */
+  .act[data-act="0"] { top: 0;    right: 0; }
+  .act[data-act="1"] { top: 3vh;  right: 0; }
+  .act[data-act="2"] { top: 6vh;  right: 0; }
+  .act[data-act="3"] { top: 9vh;  right: 0; }
+  .act[data-act="4"] { top: 2vh;  right: 0; }
   .cue { font-size: .76rem; }
 
   .hud {
