@@ -269,6 +269,9 @@
          .stage.is-alarm'dan geliyor, uyarinin turuncusu da ayni
          desenle .stage.is-warn'dan gelsin. */
       stage.classList.toggle('is-warn', ai === 1);
+      /* Faz etiketleri CSS'ten aciliyor: hangi fazda oldugumuzu
+         sahneye yazmak yeterli. */
+      stage.dataset.act = ai;
       el.acts.forEach(function (a, i) { a.classList.toggle('is-on', i === ai); });
       el.beats.forEach(function (b, i) {
         if (i === ai) b.setAttribute('aria-current', 'true');

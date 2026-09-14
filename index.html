@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nöbet N1 — kapı önü güvenlik armatürü</title>
-<meta name="description" content="Nöbet N1: kapı önünü 14 metreye kadar tarayan ince lineer LED armatür. Işıkla uyarır, yaklaşmaya devam edene kırmızı-mavi flaşör ve 108 dB siren.">
+<meta name="description" content="Nöbet N1: kapı önünü 14 metreye kadar tarayan ince lineer LED armatür. Işıkla uyarır, yaklaşmaya devam edene kırmızı-mavi flaşör — ve telefonuna anında bildirim.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=119">
+<link rel="stylesheet" href="assets/css/style.css?v=121">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -252,12 +252,74 @@
         <ellipse cx="408" cy="730" rx="280" ry="110" fill="url(#gTintB)" filter="url(#fSoft)"/>
       </g>
 
-      <g class="callout">
-        <line x1="346" y1="421" x2="265" y2="369"/>
+      <!-- ============================================================
+           FAZA GORE ETIKETLER. Bilgi duz metinde degil, sahnenin
+           ilgili yerine bakan bir cizgide. Hepsi OLCULEN noktalari
+           gosteriyor: armatur x 349..433 / y 419..440, difuzor
+           424..432, kapi 338..434 / 495..676, zemin 676, isik
+           ekseni 387. Gorunurlugu .stage[data-act] suruyor.
+           ============================================================ -->
+      <g class="anno anno-0">
+        <line x1="346" y1="421" x2="258" y2="362"/>
         <circle cx="346" cy="421" r="2.5"/>
-        <text x="263" y="365" text-anchor="end">N1 gövde</text>
-        <text x="263" y="383" text-anchor="end" class="callout-sub">800 × 62 × 46 mm</text>
+        <text x="252" y="358" text-anchor="end">N1 gövde</text>
+        <text x="252" y="376" text-anchor="end" class="anno-sub">800 × 62 × 46 mm</text>
+
+        <line x1="330" y1="700" x2="176" y2="756"/>
+        <circle cx="330" cy="700" r="2.5"/>
+        <text x="168" y="752" text-anchor="end">2400 lümen</text>
+        <text x="168" y="770" text-anchor="end" class="anno-sub">5000 K — hareketle tam güç</text>
       </g>
+
+      <g class="anno anno-1">
+        <line x1="300" y1="540" x2="196" y2="376"/>
+        <circle cx="300" cy="540" r="2.5"/>
+        <text x="190" y="372" text-anchor="end">Nabız modu</text>
+        <text x="190" y="390" text-anchor="end" class="anno-sub">Fark edildin</text>
+
+        <line x1="290" y1="694" x2="170" y2="754"/>
+        <circle cx="290" cy="694" r="2.5"/>
+        <text x="162" y="750" text-anchor="end">B2 — 6 metre</text>
+        <text x="162" y="768" text-anchor="end" class="anno-sub">PIR, 110° yatay</text>
+      </g>
+
+      <g class="anno anno-2">
+        <line x1="318" y1="470" x2="186" y2="742"/>
+        <circle cx="318" cy="470" r="2.5"/>
+        <text x="178" y="738" text-anchor="end">Kırmızı-mavi flaşör</text>
+        <text x="178" y="756" text-anchor="end" class="anno-sub">100 atım/dk — SAE J845</text>
+      </g>
+
+      <g class="anno anno-3">
+        <line x1="196" y1="676" x2="150" y2="748"/>
+        <circle cx="196" cy="676" r="2.5"/>
+        <text x="142" y="744" text-anchor="end">Menzil 14 metre</text>
+        <text x="142" y="762" text-anchor="end" class="anno-sub">Dışına çıktın</text>
+      </g>
+
+      <g class="anno anno-4">
+        <line x1="346" y1="421" x2="258" y2="362"/>
+        <circle cx="346" cy="421" r="2.5"/>
+        <text x="252" y="358" text-anchor="end">0,6 watt</text>
+        <text x="252" y="376" text-anchor="end" class="anno-sub">Sessiz, hazır</text>
+      </g>
+
+      <!-- ============================================================
+           TELEFON BILDIRIMI. Urunun sesi yok; alarmda telefona push
+           atiyor. Bunu cumleyle anlatmak yerine sahnede gostermek
+           daha dogrudan. Sahnenin bir parcasi degil, ustune binen bir
+           arayuz ogesi — o yuzden bos ve koyu bir alana oturuyor.
+           ============================================================ -->
+      <g class="notif">
+        <rect x="30" y="120" width="330" height="92" rx="14"/>
+        <rect class="notif-ico" x="48" y="138" width="40" height="40" rx="10"/>
+        <path class="notif-mark" d="M58,162 L78,162 L82,172 L54,172 Z"/>
+        <rect class="notif-mark" x="58" y="152" width="20" height="5" rx="2"/>
+        <text x="102" y="154">Nöbet</text>
+        <text x="102" y="176" class="notif-body">Kapı önünde hareket — 3 m</text>
+        <text x="102" y="196" class="notif-time">şimdi</text>
+      </g>
+
     </svg>
 
     <div class="strobe" id="strobe" aria-hidden="true"><i class="s-r"></i><i class="s-b"></i></div>
@@ -279,7 +341,7 @@
 
     <div class="stage-copy">
       <article class="act is-on" data-act="0">
-        <h1>Işık uyarır.<br>Siren bitirir.</h1>
+        <h1>Işık uyarır.<br>Telefonun haber verir.</h1>
         <p>Sen bu sayfayı açarken N1 seni çoktan gördü. 14 metrede PIR tetiklendi, armatür kısık moddan tam güce — 2400 lümene — geçti. Çoğu ziyaretçi tam burada geri döner.</p>
         <p class="cue">Aşağı kaydır</p>
       </article>
@@ -289,11 +351,11 @@
       </article>
       <article class="act" data-act="2">
         <h2>Üç metre.</h2>
-        <p>Kademe bitti. İki tonlu 108 desibel siren, kırmızı-mavi flaşörle birlikte çalışıyor. Kapı önü artık bir uyarı alanı.</p>
+        <p>Kademe bitti. Kırmızı-mavi flaşör çalışıyor — ve telefonuna bildirim düştü. Kapı önü artık bir uyarı alanı, sen neredeysen ol.</p>
       </article>
       <article class="act" data-act="3">
         <h2>Geri çekildin.</h2>
-        <p>Otuz saniye sonra siren susar, flaşör kapanır. Menzilin dışına çıktın; N1 arkandan bakmayı bırakıyor.</p>
+        <p>Otuz saniye sonra flaşör kapanır. Menzilin dışına çıktın — N1 arkandan bakmayı bırakıyor.</p>
       </article>
       <article class="act" data-act="4">
         <h2>Ve yeniden bekler.</h2>
@@ -332,9 +394,9 @@
       </li>
       <li class="step step-3">
         <div class="step-viz" aria-hidden="true"><span class="v-flash v-r"></span><span class="v-flash v-b"></span></div>
-        <h3>Flaşör ve siren</h3>
-        <p class="step-meta">108 dB, kırmızı-mavi</p>
-        <p>Son kademe. Gecikmeyi sen seçersin: anında, 3 saniye sonra, ya da hiç.</p>
+        <h3>Flaşör ve bildirim</h3>
+        <p class="step-meta">Kırmızı-mavi — telefona anında</p>
+        <p>Son kademe. Ses yok — gürültü komşuyu uyandirir, bildirim seni. Gecikmeyi sen seçersin: anında, 3 saniye sonra, ya da hiç.</p>
       </li>
     </ol>
   </div>
@@ -391,7 +453,7 @@
         <tr><th scope="row">Işık gücü</th><td>2400 lümen, 5000 K nötr beyaz</td></tr>
         <tr><th scope="row">Işık dağılımı</th><td>120° yatay, 70° düşey, asimetrik lens</td></tr>
         <tr><th scope="row">Algılama</th><td>PIR, 110° yatay, 3–14 m (montaj yüksekliğine göre)</td></tr>
-        <tr><th scope="row">Siren</th><td>108 dB @ 1 m, iki tonlu, 1,7 Hz</td></tr>
+        <tr><th scope="row">Bildirim</th><td>Uygulamaya anında push — Wi-Fi 2,4 GHz</td></tr>
         <tr><th scope="row">Flaşör</th><td>Kırmızı ve mavi LED, dönüşümlü, 100 atım/dk (SAE J845 aralığında)</td></tr>
         <tr><th scope="row">Güç</th><td>12 V DC — 0,6 W bekleme, 22 W tam güç</td></tr>
         <tr><th scope="row">Gövde</th><td>Anodize alüminyum ekstrüzyon, 800 × 62 × 46 mm</td></tr>
@@ -411,12 +473,12 @@
       <article class="model">
         <h3>N1</h3>
         <p class="model-what">Işık ve sensör</p>
-        <p>Kapı önünü aydınlatır, hareketle tam güce çıkar. Flaşör ve siren yok.</p>
+        <p>Kapı önünü aydınlatır, hareketle tam güce çıkar. Flaşör ve bildirim yok.</p>
         <p class="model-power">12 V DC</p>
       </article>
       <article class="model model-lead">
         <h3>N1-A</h3>
-        <p class="model-what">Işık, sensör, flaşör, siren</p>
+        <p class="model-what">Işık, sensör, flaşör, bildirim</p>
         <p>Üç kademenin tamamı. Sahnede gördüğün model bu.</p>
         <p class="model-power">12 V DC, kuru kontak çıkışı</p>
       </article>
@@ -437,8 +499,8 @@
     <ol class="howto">
       <li><h3>Yüksekliği seç</h3><p>Kapının 30 cm üstüne, zeminden 2,4–3,0 m arasına monte et. Daha yükseği menzili büyütür, kör daireyi de.</p></li>
       <li><h3>Kabloyu geçir</h3><p>12 V besleme ve kuru kontak kablosu arka plakadaki kanaldan geçer. Sıva altı ya da üstü, ikisi de olur.</p></li>
-      <li><h3>Menzili ayarla</h3><p>Kapı önünde yürü, sensör tetiklendiğinde gövdedeki LED kırmızı yanar. Vidayla koniyi daralt ya da genişlet.</p></li>
-      <li><h3>Gecikmeyi seç</h3><p>Sirenin ne zaman devreye gireceğini belirle: anında, 3 saniye sonra ya da kapalı.</p></li>
+      <li><h3>Menzili ayarla</h3><p>Kapı önünde yürü — uygulama tetiklenmeyi anında gösterir. Vidayla koniyi daralt ya da genişlet.</p></li>
+      <li><h3>Bildirimi ayarla</h3><p>Flaşörün ve bildirimin ne zaman devreye gireceğini belirle: anında, 3 saniye sonra ya da kapalı.</p></li>
     </ol>
   </div>
 </section>
@@ -453,7 +515,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=119" defer></script>
-<script src="assets/js/ui.js?v=119" defer></script>
+<script src="assets/js/scene.js?v=121" defer></script>
+<script src="assets/js/ui.js?v=121" defer></script>
 </body>
 </html>

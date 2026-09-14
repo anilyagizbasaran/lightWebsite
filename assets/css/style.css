@@ -181,17 +181,56 @@ img, svg { max-width: 100%; }
 /* pencere dograma ve kayitlari: referanstaki ince siyah cerceveler */
 
 
-.callout line { stroke: var(--mute); stroke-width: 1; opacity: .75; }
-.callout circle { fill: var(--beam); }
-.callout text {
-  text-shadow: 0 1px 4px rgba(4,7,14,.95), 0 0 10px rgba(4,7,14,.7);
-  fill: var(--mute); font-family: var(--mono); font-size: 13px; letter-spacing: .01em;
-}
-/* Fotografin uzerinde --faint okunmuyor; bir kademe yukari. */
-.callout .callout-sub { fill: var(--mute); font-size: 11px; opacity: .8; }
+/* ============================================================
+   FAZ ETIKETLERI. Bilgiyi metne gommek yerine sahnenin ilgili
+   yerini gosteren cizgi + kisa etiket. Her faz kendi etiketlerini
+   aciyor; gorunurluk .stage[data-act] ile suruluyor, yani kopya ile
+   ayni anda degisiyor.
+   ============================================================ */
+.anno { opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .3s; }
+.stage[data-act="0"] .anno-0,
+.stage[data-act="1"] .anno-1,
+.stage[data-act="2"] .anno-2,
+.stage[data-act="3"] .anno-3,
+.stage[data-act="4"] .anno-4 { opacity: 1; visibility: visible; }
 
-/* Yaklaşırken etiket dev gibi büyüyordu; yakın planda gizleniyor. */
-.stage.is-near .callout { opacity: 0; transition: opacity .4s; }
+.anno line { stroke: var(--mute); stroke-width: 1; opacity: .7; }
+.anno circle { fill: var(--beam); }
+.anno text {
+  fill: var(--chalk); font-family: var(--mono); font-size: 13px;
+  letter-spacing: .01em;
+  text-shadow: 0 1px 4px rgba(4,7,14,.95), 0 0 10px rgba(4,7,14,.8);
+}
+.anno .anno-sub { fill: var(--mute); font-size: 11px; }
+/* Alarmda etiketin ucu ve cizgisi kirmiziya donuyor: sahne kirmizi
+   yanarken mavi bir nokta yabanci duruyor. */
+.stage.is-alarm .anno circle { fill: var(--alarm-red); }
+.stage.is-warn .anno circle { fill: var(--warn-amber); }
+
+/* ============================================================
+   TELEFON BILDIRIMI. Sahnenin parcasi degil, ustune binen arayuz
+   ogesi. Alarm baslayinca beliriyor ve alarm boyunca kaliyor.
+   ============================================================ */
+.notif { opacity: 0; visibility: hidden; transition: opacity .32s ease, visibility .32s; }
+.stage.is-alarm .notif { opacity: 1; visibility: visible; }
+.notif > rect:first-of-type {
+  fill: rgba(10,14,22,.94);
+  stroke: color-mix(in srgb, var(--haze) 80%, transparent);
+  stroke-width: 1;
+}
+.notif .notif-ico { fill: var(--alarm-red); }
+.notif .notif-mark { fill: #0A0E16; }
+.notif text {
+  fill: var(--chalk); font-family: var(--sans); font-size: 15px;
+  font-variation-settings: "wght" 620;
+}
+.notif .notif-body {
+  fill: var(--mute); font-size: 13px; font-variation-settings: "wght" 400;
+}
+.notif .notif-time {
+  fill: var(--faint); font-family: var(--mono); font-size: 11px;
+  font-variation-settings: normal;
+}
 
 /* ============================================================
    FLAŞÖR — SAKİN SÜRÜM
@@ -662,9 +701,10 @@ img, svg { max-width: 100%; }
   }
   /* dar ekranda kopya ve HUD ile cakisiyor, alani da yok */
   .beats { display: none; }
-  /* Urun etiketi dar kadrajda soldan kirpilip bozuk metin gibi duruyordu;
-     bu yakinlikta armatur zaten belli. */
-  .callout { display: none; }
+  /* Etiketler dar kadrajda soldan kirpilip bozuk metin gibi duruyordu;
+     telefonda bilgi zaten kopyada. Bildirim karti kaliyor -- o sahnenin
+     parcasi degil, arayuz ogesi ve kirpilmiyor. */
+  .anno { display: none; }
   .menu-btn { margin-left: auto; }
 
   .tunnel { height: 400vh; }
