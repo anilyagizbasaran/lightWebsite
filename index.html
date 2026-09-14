@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=112">
+<link rel="stylesheet" href="assets/css/style.css?v=113">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -75,10 +75,14 @@
           <stop offset=".45" stop-color="#FF2536" stop-opacity=".54"/>
           <stop offset="1" stop-color="#FF2536" stop-opacity="0"/>
         </radialGradient>
+        <!-- Olculen sonme: y 500..660 arasinda 181 -> 90, yani
+             2,0 kat. Ters-kare 10 kat dusururdu; duvar isigin
+             eksenine paralel oldugu icin gelis acisi siyirtma
+             ve sonme cok daha yumusak. -->
         <linearGradient id="gFanR" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FF2536" stop-opacity=".62"/>
-          <stop offset=".42" stop-color="#FF2536" stop-opacity=".40"/>
-          <stop offset="1" stop-color="#A50F22" stop-opacity=".22"/>
+          <stop offset="0" stop-color="#FF2536" stop-opacity=".60"/>
+          <stop offset=".5" stop-color="#FF2536" stop-opacity=".44"/>
+          <stop offset="1" stop-color="#FF2536" stop-opacity=".30"/>
         </linearGradient>
         <radialGradient id="gGndR">
           <stop offset="0" stop-color="#FF3A48" stop-opacity=".62"/>
@@ -108,10 +112,14 @@
           <stop offset=".45" stop-color="#2472FF" stop-opacity=".54"/>
           <stop offset="1" stop-color="#2472FF" stop-opacity="0"/>
         </radialGradient>
+        <!-- Olculen sonme: y 500..660 arasinda 181 -> 90, yani
+             2,0 kat. Ters-kare 10 kat dusururdu; duvar isigin
+             eksenine paralel oldugu icin gelis acisi siyirtma
+             ve sonme cok daha yumusak. -->
         <linearGradient id="gFanB" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#2472FF" stop-opacity=".62"/>
-          <stop offset=".42" stop-color="#2472FF" stop-opacity=".40"/>
-          <stop offset="1" stop-color="#0E39A8" stop-opacity=".22"/>
+          <stop offset="0" stop-color="#2472FF" stop-opacity=".60"/>
+          <stop offset=".5" stop-color="#2472FF" stop-opacity=".44"/>
+          <stop offset="1" stop-color="#2472FF" stop-opacity=".30"/>
         </linearGradient>
         <radialGradient id="gGndB">
           <stop offset="0" stop-color="#3C8AFF" stop-opacity=".62"/>
@@ -155,7 +163,7 @@
         </radialGradient>
         <mask id="mVig" maskUnits="userSpaceOnUse" x="-900" y="-500" width="3200" height="1800">
           <rect x="-900" y="-500" width="3200" height="1800" fill="#fff"/>
-          <ellipse cx="391" cy="580" rx="470" ry="400" fill="url(#gVigHole)"/>
+          <ellipse cx="387" cy="580" rx="470" ry="400" fill="url(#gVigHole)"/>
         </mask>
       </defs>
 
@@ -174,14 +182,14 @@
             fill="#04070D" opacity=".76" mask="url(#mVig)"/>
 
       <!-- Kisik mod ve alarmda beyazi bastirma: tek perde iki is. -->
-      <ellipse id="veil" cx="391" cy="545" rx="330" ry="290"
+      <ellipse id="veil" cx="387" cy="545" rx="330" ry="290"
                fill="url(#gVeil)" opacity="0"/>
 
       <g id="lRed" class="rig" opacity="0">
         <!-- 1. zeminde ONE uzayan havuz: olculen katki y=685'te 124,
                 y=835'te 44. Genis ve one dogru, dar elips degil. -->
-        <ellipse cx="372" cy="742" rx="300" ry="120" fill="url(#gGndR)" filter="url(#fSoft)"/>
-        <ellipse cx="372" cy="700" rx="168" ry="48" fill="url(#gGndHotR)" filter="url(#fMed)"/>
+        <ellipse cx="367" cy="742" rx="300" ry="120" fill="url(#gGndR)" filter="url(#fSoft)"/>
+        <ellipse cx="367" cy="700" rx="168" ry="48" fill="url(#gGndHotR)" filter="url(#fMed)"/>
         <!-- 2. DUVARDAKI YELPAZE. Olculen yanal yayilim:
                 y=500 -> x 210..570,  y=620 -> x 180..630.
                 Yani agizda dar, asagi dogru genisliyor. Elips
@@ -189,25 +197,29 @@
                 o yuzden yanlari kavisli bir yol. Dikey gradyan
                 olculen sonmeyi izliyor: tepe 186 -> kapi dibi 70,
                 yani %38. -->
-        <path d="M330,440 L414,440 C488,512 556,598 590,676
-                 L167,676 C198,598 264,512 330,440 Z"
+        <!-- Yelpaze, OLCULEN yari genisliklerle:
+             y=440 -> 42,  y=500 -> 180,  y=620 -> 225,  y=676 -> 245.
+             Armaturun hemen altinda hizla aciliyor, sonra yavas
+             genisliyor: duvar yikayici armaturun imzasi. -->
+        <path d="M325,440 C187,500 142,620 122,676
+                 L612,676 C592,620 547,500 409,440 Z"
               fill="url(#gFanR)" filter="url(#fSoft)"/>
         <!-- 3. agzin hemen altindaki tepe (olculen tepe y=460) -->
-        <ellipse cx="372" cy="462" rx="116" ry="60" fill="url(#gNearR)" filter="url(#fMed)"/>
+        <ellipse cx="367" cy="462" rx="116" ry="60" fill="url(#gNearR)" filter="url(#fMed)"/>
         <!-- 4. kaynak: uc kademeli bloom + patlak agiz -->
-        <ellipse cx="372" cy="430" rx="240" ry="78" fill="url(#gBloomR)" filter="url(#fSoft)" opacity=".34"/>
-        <ellipse cx="372" cy="430" rx="126" ry="42" fill="url(#gBloomR)" filter="url(#fSoft)"/>
-        <rect x="349" y="424" width="42" height="13" rx="5" fill="#FFFFFF" filter="url(#fTight)"/>
+        <ellipse cx="367" cy="430" rx="240" ry="78" fill="url(#gBloomR)" filter="url(#fSoft)" opacity=".34"/>
+        <ellipse cx="367" cy="430" rx="126" ry="42" fill="url(#gBloomR)" filter="url(#fSoft)"/>
+        <rect x="345" y="424" width="42" height="13" rx="5" fill="#FFFFFF" filter="url(#fTight)"/>
       </g>
       <g id="lRedT" class="tint" opacity="0">
-        <ellipse cx="372" cy="556" rx="224" ry="182" fill="url(#gTintR)" filter="url(#fSoft)"/>
-        <ellipse cx="372" cy="730" rx="280" ry="110" fill="url(#gTintR)" filter="url(#fSoft)"/>
+        <ellipse cx="367" cy="556" rx="224" ry="182" fill="url(#gTintR)" filter="url(#fSoft)"/>
+        <ellipse cx="367" cy="730" rx="280" ry="110" fill="url(#gTintR)" filter="url(#fSoft)"/>
       </g>
       <g id="lBlue" class="rig" opacity="0">
         <!-- 1. zeminde ONE uzayan havuz: olculen katki y=685'te 124,
                 y=835'te 44. Genis ve one dogru, dar elips degil. -->
-        <ellipse cx="412" cy="742" rx="300" ry="120" fill="url(#gGndB)" filter="url(#fSoft)"/>
-        <ellipse cx="412" cy="700" rx="168" ry="48" fill="url(#gGndHotB)" filter="url(#fMed)"/>
+        <ellipse cx="407" cy="742" rx="300" ry="120" fill="url(#gGndB)" filter="url(#fSoft)"/>
+        <ellipse cx="407" cy="700" rx="168" ry="48" fill="url(#gGndHotB)" filter="url(#fMed)"/>
         <!-- 2. DUVARDAKI YELPAZE. Olculen yanal yayilim:
                 y=500 -> x 210..570,  y=620 -> x 180..630.
                 Yani agizda dar, asagi dogru genisliyor. Elips
@@ -215,24 +227,28 @@
                 o yuzden yanlari kavisli bir yol. Dikey gradyan
                 olculen sonmeyi izliyor: tepe 186 -> kapi dibi 70,
                 yani %38. -->
-        <path d="M370,440 L454,440 C528,512 596,598 630,676
-                 L207,676 C238,598 304,512 370,440 Z"
+        <!-- Yelpaze, OLCULEN yari genisliklerle:
+             y=440 -> 42,  y=500 -> 180,  y=620 -> 225,  y=676 -> 245.
+             Armaturun hemen altinda hizla aciliyor, sonra yavas
+             genisliyor: duvar yikayici armaturun imzasi. -->
+        <path d="M365,440 C227,500 182,620 162,676
+                 L652,676 C632,620 587,500 449,440 Z"
               fill="url(#gFanB)" filter="url(#fSoft)"/>
         <!-- 3. agzin hemen altindaki tepe (olculen tepe y=460) -->
-        <ellipse cx="412" cy="462" rx="116" ry="60" fill="url(#gNearB)" filter="url(#fMed)"/>
+        <ellipse cx="407" cy="462" rx="116" ry="60" fill="url(#gNearB)" filter="url(#fMed)"/>
         <!-- 4. kaynak: uc kademeli bloom + patlak agiz -->
-        <ellipse cx="412" cy="430" rx="240" ry="78" fill="url(#gBloomB)" filter="url(#fSoft)" opacity=".34"/>
-        <ellipse cx="412" cy="430" rx="126" ry="42" fill="url(#gBloomB)" filter="url(#fSoft)"/>
-        <rect x="391" y="424" width="42" height="13" rx="5" fill="#FFFFFF" filter="url(#fTight)"/>
+        <ellipse cx="407" cy="430" rx="240" ry="78" fill="url(#gBloomB)" filter="url(#fSoft)" opacity=".34"/>
+        <ellipse cx="407" cy="430" rx="126" ry="42" fill="url(#gBloomB)" filter="url(#fSoft)"/>
+        <rect x="387" y="424" width="42" height="13" rx="5" fill="#FFFFFF" filter="url(#fTight)"/>
       </g>
       <g id="lBlueT" class="tint" opacity="0">
-        <ellipse cx="412" cy="556" rx="224" ry="182" fill="url(#gTintB)" filter="url(#fSoft)"/>
-        <ellipse cx="412" cy="730" rx="280" ry="110" fill="url(#gTintB)" filter="url(#fSoft)"/>
+        <ellipse cx="407" cy="556" rx="224" ry="182" fill="url(#gTintB)" filter="url(#fSoft)"/>
+        <ellipse cx="407" cy="730" rx="280" ry="110" fill="url(#gTintB)" filter="url(#fSoft)"/>
       </g>
 
       <g class="callout">
-        <line x1="349" y1="428" x2="268" y2="376"/>
-        <circle cx="349" cy="428" r="2.5"/>
+        <line x1="345" y1="428" x2="264" y2="376"/>
+        <circle cx="345" cy="428" r="2.5"/>
         <text x="262" y="372" text-anchor="end">N1 gövde</text>
         <text x="262" y="390" text-anchor="end" class="callout-sub">800 × 62 × 46 mm</text>
       </g>
@@ -431,7 +447,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=112" defer></script>
-<script src="assets/js/ui.js?v=112" defer></script>
+<script src="assets/js/scene.js?v=113" defer></script>
+<script src="assets/js/ui.js?v=113" defer></script>
 </body>
 </html>
