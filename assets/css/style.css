@@ -187,13 +187,15 @@ img, svg { max-width: 100%; }
    aciyor; gorunurluk .stage[data-act] ile suruluyor, yani kopya ile
    ayni anda degisiyor.
    ============================================================ */
-.anno { opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .3s; }
-.stage[data-act="0"] .anno-0,
-.stage[data-act="1"] .anno-1,
-.stage[data-act="2"] .anno-2,
-.stage[data-act="3"] .anno-3,
-.stage[data-act="4"] .anno-4 { opacity: 1; visibility: visible; }
+.anno { opacity: 0; visibility: hidden; }
+/* Etiketlerin opakligi scene.js'te kendi aktinin egrisiyle
+   suruluyor. Kapakta etiket yok: kapak sayfasinda kilavuz cizgisi
+   yabanci duruyor ve kapagin isi genel bilgi vermek. */
 
+/* Golge plakasi: harfin arkasini karartiyor. W3C G18 teknigi --
+   arka plan desenliyse harflerin arkasi golgelenerek 4,5:1 korunur.
+   Alfasi hesapla bulundu (0,72), bulanikligi kutu izlenimini siliyor. */
+.anno-plate { fill: #04070D; opacity: .72; filter: url(#fPlate); }
 .anno line { stroke: var(--mute); stroke-width: 1; opacity: .7; }
 .anno circle { fill: var(--beam); }
 .anno text {
@@ -201,7 +203,9 @@ img, svg { max-width: 100%; }
   letter-spacing: .02em;
   text-shadow: 0 1px 4px rgba(4,7,14,.95), 0 0 10px rgba(4,7,14,.8);
 }
-.anno .anno-sub { fill: var(--mute); font-size: 10.5px; }
+/* --mute fotografin uzerinde 1,54:1 veriyordu (bagil luminansi arka
+   planin parlak yerinden yuksek degil). Bu ton plakayla 4,8:1. */
+.anno .anno-sub { fill: #B8C4D6; font-size: 10.5px; }
 /* Alarmda etiketin ucu ve cizgisi kirmiziya donuyor: sahne kirmizi
    yanarken mavi bir nokta yabanci duruyor. */
 .stage.is-alarm .anno circle { fill: var(--alarm-red); }
@@ -274,23 +278,16 @@ img, svg { max-width: 100%; }
   width: min(44ch, 44vw);
 }
 
+/* Opaklik/gorunurluk/transform artik scene.js'te p'den suruluyor:
+   gecis scrollun hiziyla oluyor. Burada CSS gecisi YOK -- olsaydi
+   her karede yeni bir hedefe gecis baslatip hareketi geciktirirdi.
+   Baslangic degerleri yalniz JS gelmeden onceki ilk kare icin. */
 .act {
   position: absolute; top: 0; right: 0; width: 100%;
   opacity: 0; visibility: hidden;
-  transform: translateY(14px);
-  /* Tunel kisaldi (akt basina ~389 px): 0,45 s'lik gecis, fazin
-     kendisi ekrandan gecerken tamamlanamiyordu. 0,26 s'de kopya hizli
-     bir jestte de okunacak kadar yerlesiyor. */
-  /* CIKIS hizli, GIRIS daha yavas (asagida .is-on). Aktlar artik
-     farkli yerlerde durdugu icin gecis aninda ikisi yan yana
-     gorunuyor; eskiden ust uste olduklari icin farkedilmiyordu.
-     Cikisi 0,14 s'e cekmek ortusme penceresini yariya indiriyor. */
-  transition: opacity .14s ease, transform .14s ease, visibility .14s;
 }
-.act.is-on {
-  opacity: 1; visibility: visible; transform: none;
-  transition: opacity .26s ease, transform .26s ease, visibility .26s;
-}
+/* is-on yalnizca "gecerli akt" isareti; gorunurlugu surmuyor. */
+.act.is-on { }
 
 /* ============================================================
    KOPYANIN YERI FAZA GORE DEGISIYOR.
@@ -336,7 +333,7 @@ img, svg { max-width: 100%; }
    opaklik degisimi kalir. */
 @media (prefers-reduced-motion: reduce) {
   .menu-ico i { transition: none; }
-  .act { transform: none; transition: opacity .3s ease, visibility .3s; }
+  /* Surukleme scene.js'te reduced bayragiyla kapatiliyor. */
 }
 
 
@@ -353,15 +350,98 @@ img, svg { max-width: 100%; }
 .btn-ghost:hover { background: transparent; border-color: var(--beam); color: var(--beam); }
 .act-cta { display: flex; flex-wrap: wrap; gap: .6rem; }
 
+/* ============================================================
+   KAPAK (akt 0). Acilis bir urun kapagi gibi kuruluyor: kolon
+   degil, kadrajin tamamina yayilan ortalanmis bir blok.
+   NEDEN ORTADA: kapi kadrajin tam merkezinde (dunya x=386,
+   viewBox merkezi 386) ve fotografin parlaklik merkezi ondan
+   sadece 6 birim sapiyor. Buna karsin sag kolonlu acilista
+   ekrandaki yazi murekkebinin agirlik merkezi %75,6'ya
+   dusuyordu ve kapi merkezden kaymis gibi okunuyordu.
+   Ortalanan blok bu farki kapatiyor.
+   Blok ustteki KARANLIK banda oturuyor: armatur kadrajin
+   %59 yuksekliginde, yani ustteki yarim ekran bos duvar.
+   ============================================================ */
+/* Kapak .stage-copy'nin DISINDA duruyor. Onceden kapsayici akt 0'da
+   ortalanip sonra dar kolona doniyordu; cozunme sirasinda iki akt
+   birden gorundugu icin kapak fade olurken aniden kolon genisligine
+   sicriyordu. Simdi kapagin kendi kutusu var, kolon hep kolon. */
+.act.act-cover {
+  left: var(--gut); right: var(--gut); width: auto;
+  top: clamp(4.25rem, 10vh, 7.5rem);
+  text-align: center; z-index: 2;
+}
+.act-cover > * { margin-inline: auto; }
+.act-cover p { max-width: none; }
+
+.act-cover .cover-eyebrow {
+  font-family: var(--mono); font-size: .74rem;
+  letter-spacing: .16em; text-transform: uppercase;
+  /* --faint (L=0,104) burada 1,47:1 veriyordu ve saf siyaha karsi
+     bile ust siniri 2,96:1 -- perdeyle cozulemez. Olculen esik
+     L>=0,383; bu ton 4,55:1. */
+  color: #A2B0C4;
+  margin: 0 auto 1.35rem;
+}
+/* Kapak basligi kolon basligindan buyuk, ama iki satirda kalsin:
+   <br> zaten satiri boluyor, max-width uzun ekranda ucuncu satiri
+   engelliyor. */
+.act-cover h1 {
+  font-size: clamp(2.5rem, 6.2vw, 5.4rem);
+  margin: 0 auto 1rem;
+  max-width: 21ch;
+}
+.act-cover .cover-lede {
+  color: var(--chalk); max-width: 62ch;
+  font-size: clamp(1rem, 1.28vw, 1.18rem); line-height: 1.5;
+  margin: 0 auto 1.6rem;
+}
+
+/* Dort deger: kapsayici bilgiyi tek bakista veren serit. Sayi
+   iri, etiketi altinda kucuk -- teknik tablonun kapak ozeti. */
+.cover-spec {
+  list-style: none; margin: 0 auto; padding: 0;
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: .9rem 2.5rem;
+}
+.cover-spec li { display: flex; flex-direction: column; gap: .2rem; }
+.cover-spec b {
+  font-variation-settings: "wdth" 104, "wght" 680;
+  font-size: 1.32rem; letter-spacing: -.02em; color: var(--chalk);
+}
+.cover-spec span {
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .06em;
+  /* Olculen esik L>=0,482 (bu satir kadrajin parlak bolgesine denk
+     geliyor); bu ton 5,03:1. Hiyerarsi renkle degil punto ve
+     kalinlikla korunuyor: 11 px mono vs 21 px yari kalin. */
+  color: #B8C4D6;
+}
+
+/* Beat listesinin kapakta gizlenmesi de scene.js'te. */
+
+
+
 /* Kopya kolonunun arkasindaki perde. Kapi kadrajin merkezinde oldugu ve
    aydinlatildigi icin metin herhangi bir anda parlak zemine denk gelebilir. */
 .copy-scrim {
   position: absolute; inset: 0; pointer-events: none;
-  /* fazla koyu olunca garaji yutuyordu: daha gec basla, daha hafif */
-  /* sag ust pencere yaninca kopya onun uzerine dusuyor: perde guclendi */
+}
+/* fazla koyu olunca garaji yutuyordu: daha gec basla, daha hafif */
+/* sag ust pencere yaninca kopya onun uzerine dusuyor: perde guclendi */
+.scrim-side {
   background: linear-gradient(to right,
     rgba(7,12,20,0) 46%, rgba(7,12,20,.64) 68%, rgba(7,12,20,.86) 100%);
 }
+/* Kapakta metin ortada: sag perde asimetri yaratiyor, perde
+   yukaridan iniyor. Koyuluk olculdu -- bkz. asagidaki not. */
+.scrim-cover {
+  opacity: 0;
+  background: linear-gradient(to bottom,
+    rgba(6,10,17,.80) 0%, rgba(6,10,17,.72) 30%,
+    rgba(6,10,17,.50) 46%, rgba(6,10,17,.16) 60%,
+    rgba(6,10,17,0) 72%);
+}
+/* Opaklik scene.js'te p'den suruluyor; burada gecis yok. */
 
 /* ---------------- bölüm göstergesi ---------------- */
 
@@ -707,6 +787,40 @@ img, svg { max-width: 100%; }
   .act[data-act="3"] { top: 9vh;  right: 0; }
   .act[data-act="4"] { top: 2vh;  right: 0; }
   .cue { font-size: .76rem; }
+
+  /* Kapak telefonda: ust bant kisa, blok armaturun ustunde
+     kalmali. Masaustu clamp'inin 2,5rem tabani 375 px'te
+     basligi satirdan cikariyordu, o yuzden burada ayri clamp. */
+  .act.act-cover {
+    top: clamp(5rem, 11vh, 7rem);
+    left: var(--gut); right: var(--gut); width: auto;
+  }
+  .act-cover .cover-eyebrow {
+    font-size: .6rem; letter-spacing: .09em;
+    margin-bottom: .95rem; max-width: 32ch;
+  }
+  .act-cover h1 {
+    font-size: clamp(1.62rem, 7.1vw, 2.1rem);
+    margin-bottom: .8rem; max-width: none;
+  }
+  .act-cover .cover-lede {
+    font-size: .84rem; line-height: 1.45;
+    max-width: 34ch; margin-bottom: 1.2rem;
+  }
+  /* Dar ekranda dort hucre tek satira sigmiyor: 2x2 izgara.
+     Hucre icinde sola dayali, cunku ortalanmis iki satirli
+     hucreler izgarada dagilmis gibi duruyor. */
+  .cover-spec {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: .75rem 1rem; max-width: 20rem; text-align: left;
+  }
+  .cover-spec b { font-size: 1.04rem; }
+  .cover-spec span { font-size: .62rem; letter-spacing: .04em; }
+
+  /* Perde mobilde tek katman (bkz. cue.py notu): ustteki
+     .copy-scrim kurali iki katmani da yakaliyor ve capraz
+     gecis perdeyi hafifletiyordu. */
+  .scrim-cover { display: none; }
 
   .hud {
     /* bottom'i BURADA verme: ustteki kural seridin yuksekligini hesaplayip

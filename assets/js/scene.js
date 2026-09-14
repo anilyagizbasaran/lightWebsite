@@ -95,6 +95,21 @@
   /* Akt izgarasi: bes esit besli. Mesafe egrisi buna gore uretiliyor
      (asagidaki STOPS), yani her olay bir akt sinirina yapisik. */
   var ACT = 0.2;
+  /* Bir rampanin uzunlugu, p biriminde. 0,078 -> akt bandinin
+     (0,2) %39'u; 340vh'lik tunelde ~170 px kaydirma. Sinirin iki
+     yaninda birer rampa oldugu icin devrin tamami ~340 px, yani
+     uc-dort tekerlek tiki: yavas kaydiranda da gorunur bir
+     cozunme. */
+  var FADE = 0.078;
+  /* Sinirdaki kucuk ortusme. Ilk deneme 0,012 idi; ekranda
+     goruldu ki 86 px'lik beyaz baslik koyu zeminde %5 opaklikta
+     bile okunuyor ve iki farkli duzen (ortali kapak / sag kolon)
+     hayalet gibi ust uste biniyordu. 0,004 -> sinirda %0,7:
+     gozle gorunmez, ama rampalar smoothstep oldugu icin gecis
+     yine yumusak. */
+  var OV = 0.004;
+  /* Dogrusal alfa rampanin basinda ve sonunda kesik hissettiriyor. */
+  function ramp(x) { x = clamp01(x); return x * x * (3 - 2 * x); }
   var T = {
     trip:     0.4,    /* ihlal: akt 2 (Alarm) basliyor */
     alarmEnd: 0.6     /* alarm bitiyor, akt 3 (Sifirlama) basliyor */
@@ -136,7 +151,15 @@
     hudDist:  document.getElementById('hudDist'),
     hudZone:  document.getElementById('hudZone'),
     hudBar:   document.getElementById('hudBar'),
-    beats:  Array.prototype.slice.call(document.querySelectorAll('#beats button'))
+    beats:  Array.prototype.slice.call(document.querySelectorAll('#beats button')),
+    /* Faz etiketleri akt sirasinda: 0 numarali yok (kapakta etiket
+       olmuyor), o yuzden dizi basina null konuyor. */
+    annos:  [null].concat([1, 2, 3, 4].map(function (i) {
+              return document.querySelector('.anno-' + i);
+            })),
+    scrimS: document.querySelector('.scrim-side'),
+    scrimC: document.querySelector('.scrim-cover'),
+    beatBox: document.getElementById('beats')
   };
 
   /* ---------- durum ---------- */
@@ -261,7 +284,64 @@
     if (el.hudDist  && distText !== lastDist) { el.hudDist.textContent = distText; lastDist = distText; }
     if (el.hudBar)  el.hudBar.style.width = (p * 100).toFixed(1) + '%';
 
-    /* kopya katmanları */
+    /* ---------- kopya: scrolla bağlı sürekli çözünme ----------
+       Sınıf anahtarlama yerine opaklığı doğrudan p'den sürüyoruz.
+       Her akt kendi bandının (ACT) kenarlarında ±FADE genişliğinde
+       bir pencerede çözünür; komşu aktlar o pencerede üst üste
+       geçer. Böylece geçişin süresi kaydırmanın hızıyla belirlenir
+       ve geri kaydırınca geri sarar.
+       İlk ve son akt uçta solmaz: kapak p=0'da tam görünür
+       olmalı, kapanış da p=1'de. */
+    var kapak = 0;
+    for (var k = 0; k < el.acts.length; k++) {
+      var a0 = k * ACT, a1 = a0 + ACT;
+      /* Giriş sınırdan SONRA, çıkış sınıra KADAR. İkisi sınırda
+         yalnızca OV kadar örtüşüyor. */
+      var tin  = (k === 0) ? 1 : ramp((p - (a0 - OV)) / (FADE + OV));
+      var tout = (k === el.acts.length - 1) ? 1 : ramp(((a1 + OV) - p) / (FADE + OV));
+      var t = tin < tout ? tin : tout;
+      var dir = (t >= 0.999) ? 0 : (tout < tin ? -1 : 1);
+      var node = el.acts[k];
+      if (t <= 0.001) {
+        if (node.style.visibility !== 'hidden') {
+          node.style.visibility = 'hidden'; node.style.opacity = '0';
+        }
+      } else {
+        node.style.visibility = 'visible';
+        node.style.opacity = t.toFixed(3);
+        node.style.transform = (reduced || !dir) ? 'none'
+          : 'translateY(' + (dir * (1 - t) * 18).toFixed(1) + 'px)';
+      }
+
+      /* Etiket, kendi aktinin kopyasiyla AYNI egriyi izliyor. */
+      var an = el.annos[k];
+      if (an) {
+        if (t <= 0.001) { an.style.visibility = 'hidden'; an.style.opacity = '0'; }
+        else { an.style.visibility = 'visible'; an.style.opacity = t.toFixed(3); }
+      }
+      if (k === 0) kapak = t;
+    }
+
+    /* Perde de ayni t ile capraz geciyor: kapakta ust perde, kolonda
+       sag perde. Sinifla yapildiginda gecis scrollun degil CSS'in
+       saatinde kosuyor ve geri kaydirinca geri sarmiyordu. */
+    if (isMobile) {
+      /* Mobilde perde tek katman: orada zaten yukaridan asagi
+         iniyor ve kapak/kolon ayrimi yok. Iki yarim saydam
+         katmani ust uste bindirmek perdeyi hafifletiyordu. */
+      if (el.scrimS) el.scrimS.style.opacity = '1';
+    } else {
+      if (el.scrimC) el.scrimC.style.opacity = kapak.toFixed(3);
+      if (el.scrimS) el.scrimS.style.opacity = (1 - kapak).toFixed(3);
+    }
+    /* Beat listesi kapakta yok: deger seridiyle ayni yuksekligi
+       paylasiyorlar ve kapak sayfasinda faz listesi henuz bir sey
+       ifade etmiyor. */
+    if (el.beatBox) {
+      el.beatBox.style.opacity = (1 - kapak).toFixed(3);
+      el.beatBox.style.visibility = kapak > 0.999 ? 'hidden' : 'visible';
+    }
+
     var ai = actFor(p);
     if (ai !== actIndex) {
       actIndex = ai;
@@ -272,6 +352,8 @@
       /* Faz etiketleri CSS'ten aciliyor: hangi fazda oldugumuzu
          sahneye yazmak yeterli. */
       stage.dataset.act = ai;
+      /* is-on artik opakligi surmuyor (yukarida p'den suruluyor);
+         yalnizca hangi aktin "gecerli" oldugunu isaretliyor. */
       el.acts.forEach(function (a, i) { a.classList.toggle('is-on', i === ai); });
       el.beats.forEach(function (b, i) {
         if (i === ai) b.setAttribute('aria-current', 'true');

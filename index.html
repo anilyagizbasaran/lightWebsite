@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=122">
+<link rel="stylesheet" href="assets/css/style.css?v=131">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -61,6 +61,11 @@
         <filter id="fMed" x="-35%" y="-35%" width="170%" height="170%"
                 color-interpolation-filters="sRGB">
           <feGaussianBlur stdDeviation="4"/>
+        </filter>
+        <!-- Etiket golge plakasi icin: kenari dagitan bulaniklik -->
+        <filter id="fPlate" x="-20%" y="-40%" width="140%" height="180%"
+                color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="7"/>
         </filter>
         <filter id="fTight" x="-80%" y="-500%" width="260%" height="1100%"
                 color-interpolation-filters="sRGB">
@@ -259,21 +264,26 @@
            424..432, kapi 338..434 / 495..676, zemin 676, isik
            ekseni 387. Gorunurlugu .stage[data-act] suruyor.
            ============================================================ -->
-      <g class="anno anno-0">
-        <circle cx="346" cy="421" r="2.5"/>
-        <line x1="342" y1="421" x2="268" y2="386"/>
-        <text x="262" y="382" text-anchor="end">N1 gövde</text>
-        <text x="262" y="400" text-anchor="end" class="anno-sub">800 × 62 × 46 mm</text>
-      </g>
-
       <g class="anno anno-1">
+        <!-- Golge plakasi: W3C G18. Olculdu, arka planin en
+             parlak yerinde saf beyaz bile 3,48:1 kaliyordu;
+             a=0,72 ile —chalk 6,4:1, alt satir 4,8:1 oluyor.
+             Bulanik, cunku keskin kutu fotografin uzerinde
+             yabanci duruyor. -->
+        <rect class="anno-plate" x="64" y="442" width="180" height="42" rx="8"/>
         <circle cx="318" cy="498" r="2.5"/>
         <line x1="314" y1="498" x2="240" y2="463"/>
         <text x="234" y="459" text-anchor="end">Nabız modu</text>
-        <text x="234" y="477" text-anchor="end" class="anno-sub">Kısık değil, uyarı</text>
+        <text x="234" y="477" text-anchor="end" class="anno-sub">Tam güç, 1,4 Hz</text>
       </g>
 
       <g class="anno anno-2">
+        <!-- Golge plakasi: W3C G18. Olculdu, arka planin en
+             parlak yerinde saf beyaz bile 3,48:1 kaliyordu;
+             a=0,72 ile —chalk 6,4:1, alt satir 4,8:1 oluyor.
+             Bulanik, cunku keskin kutu fotografin uzerinde
+             yabanci duruyor. -->
+        <rect class="anno-plate" x="74" y="368" width="196" height="42" rx="8"/>
         <circle cx="344" cy="424" r="2.5"/>
         <line x1="340" y1="424" x2="266" y2="389"/>
         <text x="260" y="385" text-anchor="end">Kırmızı-mavi flaşör</text>
@@ -281,17 +291,29 @@
       </g>
 
       <g class="anno anno-3">
+        <!-- Golge plakasi: W3C G18. Olculdu, arka planin en
+             parlak yerinde saf beyaz bile 3,48:1 kaliyordu;
+             a=0,72 ile —chalk 6,4:1, alt satir 4,8:1 oluyor.
+             Bulanik, cunku keskin kutu fotografin uzerinde
+             yabanci duruyor. -->
+        <rect class="anno-plate" x="-6" y="621" width="176" height="42" rx="8"/>
         <circle cx="240" cy="676" r="2.5"/>
         <line x1="236" y1="676" x2="166" y2="642"/>
         <text x="160" y="638" text-anchor="end">Menzil 14 metre</text>
-        <text x="160" y="656" text-anchor="end" class="anno-sub">Dışına çıktın</text>
+        <text x="160" y="656" text-anchor="end" class="anno-sub">Dışına çıkınca söner</text>
       </g>
 
       <g class="anno anno-4">
+        <!-- Golge plakasi: W3C G18. Olculdu, arka planin en
+             parlak yerinde saf beyaz bile 3,48:1 kaliyordu;
+             a=0,72 ile —chalk 6,4:1, alt satir 4,8:1 oluyor.
+             Bulanik, cunku keskin kutu fotografin uzerinde
+             yabanci duruyor. -->
+        <rect class="anno-plate" x="92" y="365" width="180" height="42" rx="8"/>
         <circle cx="346" cy="421" r="2.5"/>
         <line x1="342" y1="421" x2="268" y2="386"/>
-        <text x="262" y="382" text-anchor="end">0,6 watt</text>
-        <text x="262" y="400" text-anchor="end" class="anno-sub">Sessiz, hazır</text>
+        <text x="262" y="382" text-anchor="end">Kısık mod</text>
+        <text x="262" y="400" text-anchor="end" class="anno-sub">0,6 watt, sessiz</text>
       </g>
 
     </svg>
@@ -309,16 +331,38 @@
       <button type="button" data-p="0.90">Bekleme</button>
     </nav>
 
-    <!-- Kapi merkeze alindi, arkasi her an aydinlik olabilir:
-         kopya kolonunun arkasina okunabilirlik perdesi. -->
-    <i class="copy-scrim" aria-hidden="true"></i>
+    <!-- Okunabilirlik perdesi iki katman: kolon icin sagdan,
+         kapak icin yukaridan. Tek elemanda gradyani degistirmek
+         sert bir kesme yapiyordu (background-image gecis kabul
+         etmiyor); iki katman opaklikla capraz geciyor. -->
+    <i class="copy-scrim scrim-side" aria-hidden="true"></i>
+    <i class="copy-scrim scrim-cover" aria-hidden="true"></i>
+
+      <!-- ============================================================
+           KAPAK. Ilk ekran bir urun kapagi gibi kuruluyor: eyebrow,
+           baslik, kapsayici tek cumle, dort deger, kaydirma isareti.
+           Hepsi ORTADA, cunku kapi da kadrajin tam ortasinda
+           (dunya x=386, viewBox merkezi de 386).
+           Olculdu: fotografin kendi parlaklik merkezi kapidan yalnizca
+           6 birim sapiyor, yani resim dengeli. Ama sag kolonlu
+           duzende ekrandaki yazi murekkebinin agirlik merkezi
+           %75,6'da kaliyordu; kapinin merkezde durmadigi izlenimini
+           veren sey buydu. Ortalanan baslik bu farki kapatiyor.
+           Isigin ne yaptigi burada anlatilmiyor: o scrollun isi.
+           ============================================================ -->
+      <article class="act act-cover is-on" data-act="0">
+        <p class="cover-eyebrow">Nöbet N1 — hareket sensörlü kapı armatürü</p>
+        <h1>Işık uyarır.<br>Telefonun haber verir.</h1>
+        <p class="cover-lede">Kimse yokken 0,6 watt kısık ışık. Biri kapıya yaklaşınca tam güce çıkar, kırmızı-mavi flaşöre geçer ve telefonuna bildirim gönderir. Siren yok.</p>
+        <ul class="cover-spec">
+          <li><b>2400 lm</b><span>5000 K, tam güç</span></li>
+          <li><b>14 m</b><span>algılama menzili</span></li>
+          <li><b>IP66</b><span>dış mekân gövde</span></li>
+          <li><b>0,6 W</b><span>bekleme gücü</span></li>
+        </ul>
+      </article>
 
     <div class="stage-copy">
-      <article class="act is-on" data-act="0">
-        <h1>Işık uyarır.<br>Telefonun haber verir.</h1>
-        <p>Sen bu sayfayı açarken N1 seni çoktan gördü. 14 metrede PIR tetiklendi, armatür kısık moddan tam güce — 2400 lümene — geçti. Çoğu ziyaretçi tam burada geri döner.</p>
-        <p class="cue">Aşağı kaydır</p>
-      </article>
       <article class="act" data-act="1">
         <h2>Yaklaşmaya devam ediyorsun.</h2>
         <p>6 metre eşiği geçildi. Işık nabız gibi atmaya başladı. Bu bir uyarı: fark edildin, kayıt altındasın.</p>
@@ -489,7 +533,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=122" defer></script>
-<script src="assets/js/ui.js?v=122" defer></script>
+<script src="assets/js/scene.js?v=131" defer></script>
+<script src="assets/js/ui.js?v=131" defer></script>
 </body>
 </html>

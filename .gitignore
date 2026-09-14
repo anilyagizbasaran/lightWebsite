@@ -7,3 +7,6 @@ dist/
 # anlami yok; OneDrive zaten yediliyor.
 Gemini_Generated_Image_*.jfif
 olcum.json
+
+# Yerel onizleme sunucusu tanimi (ortama bagli).
+.claude/
