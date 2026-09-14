@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=113">
+<link rel="stylesheet" href="assets/css/style.css?v=114">
 </head>
 <body>
 <a class="skiplink" href="#caydirma">İçeriğe geç</a>
@@ -70,19 +70,22 @@
         <!-- Kirmizi: yuzey yikamasi. Barin ALTINDA tepe yapan sicak
              leke + kapi boyunca sonen genis leke + zeminde one dogru
              uzayan havuz. Havada koni YOK. -->
+        <!-- Tepe lekesi: cekirdegi beyaza yakin (kirpilmis),
+             kenari doygun. -->
         <radialGradient id="gNearR">
-          <stop offset="0" stop-color="#FF3A48" stop-opacity=".92"/>
-          <stop offset=".45" stop-color="#FF2536" stop-opacity=".54"/>
+          <stop offset="0" stop-color="#FFD7DC" stop-opacity=".95"/>
+          <stop offset=".38" stop-color="#FF2536" stop-opacity=".62"/>
           <stop offset="1" stop-color="#FF2536" stop-opacity="0"/>
         </radialGradient>
-        <!-- Olculen sonme: y 500..660 arasinda 181 -> 90, yani
-             2,0 kat. Ters-kare 10 kat dusururdu; duvar isigin
-             eksenine paralel oldugu icin gelis acisi siyirtma
-             ve sonme cok daha yumusak. -->
+        <!-- Olculen sonme 2,0 kat (y 500..660: 181 -> 90).
+             Ust stop BEYAZA YAKIN: kaynagin hemen altinda
+             olculen tepe luminans 225..241, yani kirpilmis.
+             Doygunluk ancak isik sondukce geliyor. -->
         <linearGradient id="gFanR" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FF2536" stop-opacity=".60"/>
-          <stop offset=".5" stop-color="#FF2536" stop-opacity=".44"/>
-          <stop offset="1" stop-color="#FF2536" stop-opacity=".30"/>
+          <stop offset="0" stop-color="#FFD7DC" stop-opacity=".72"/>
+          <stop offset=".18" stop-color="#FF2536" stop-opacity=".58"/>
+          <stop offset=".55" stop-color="#FF2536" stop-opacity=".44"/>
+          <stop offset="1" stop-color="#A8101F" stop-opacity=".30"/>
         </linearGradient>
         <radialGradient id="gGndR">
           <stop offset="0" stop-color="#FF3A48" stop-opacity=".62"/>
@@ -107,19 +110,22 @@
         <!-- Mavi: yuzey yikamasi. Barin ALTINDA tepe yapan sicak
              leke + kapi boyunca sonen genis leke + zeminde one dogru
              uzayan havuz. Havada koni YOK. -->
+        <!-- Tepe lekesi: cekirdegi beyaza yakin (kirpilmis),
+             kenari doygun. -->
         <radialGradient id="gNearB">
-          <stop offset="0" stop-color="#3C8AFF" stop-opacity=".92"/>
-          <stop offset=".45" stop-color="#2472FF" stop-opacity=".54"/>
+          <stop offset="0" stop-color="#D8E6FF" stop-opacity=".95"/>
+          <stop offset=".38" stop-color="#2472FF" stop-opacity=".62"/>
           <stop offset="1" stop-color="#2472FF" stop-opacity="0"/>
         </radialGradient>
-        <!-- Olculen sonme: y 500..660 arasinda 181 -> 90, yani
-             2,0 kat. Ters-kare 10 kat dusururdu; duvar isigin
-             eksenine paralel oldugu icin gelis acisi siyirtma
-             ve sonme cok daha yumusak. -->
+        <!-- Olculen sonme 2,0 kat (y 500..660: 181 -> 90).
+             Ust stop BEYAZA YAKIN: kaynagin hemen altinda
+             olculen tepe luminans 225..241, yani kirpilmis.
+             Doygunluk ancak isik sondukce geliyor. -->
         <linearGradient id="gFanB" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#2472FF" stop-opacity=".60"/>
-          <stop offset=".5" stop-color="#2472FF" stop-opacity=".44"/>
-          <stop offset="1" stop-color="#2472FF" stop-opacity=".30"/>
+          <stop offset="0" stop-color="#D8E6FF" stop-opacity=".72"/>
+          <stop offset=".18" stop-color="#2472FF" stop-opacity=".58"/>
+          <stop offset=".55" stop-color="#2472FF" stop-opacity=".44"/>
+          <stop offset="1" stop-color="#0C2F96" stop-opacity=".30"/>
         </linearGradient>
         <radialGradient id="gGndB">
           <stop offset="0" stop-color="#3C8AFF" stop-opacity=".62"/>
@@ -201,15 +207,15 @@
              y=440 -> 42,  y=500 -> 180,  y=620 -> 225,  y=676 -> 245.
              Armaturun hemen altinda hizla aciliyor, sonra yavas
              genisliyor: duvar yikayici armaturun imzasi. -->
-        <path d="M325,440 C187,500 142,620 122,676
-                 L612,676 C592,620 547,500 409,440 Z"
+        <path d="M325,432 C187,500 142,620 122,676
+                 L612,676 C592,620 547,500 409,432 Z"
               fill="url(#gFanR)" filter="url(#fSoft)"/>
         <!-- 3. agzin hemen altindaki tepe (olculen tepe y=460) -->
         <ellipse cx="367" cy="462" rx="116" ry="60" fill="url(#gNearR)" filter="url(#fMed)"/>
         <!-- 4. kaynak: uc kademeli bloom + patlak agiz -->
-        <ellipse cx="367" cy="430" rx="240" ry="78" fill="url(#gBloomR)" filter="url(#fSoft)" opacity=".34"/>
-        <ellipse cx="367" cy="430" rx="126" ry="42" fill="url(#gBloomR)" filter="url(#fSoft)"/>
-        <rect x="345" y="424" width="42" height="13" rx="5" fill="#FFFFFF" filter="url(#fTight)"/>
+        <ellipse cx="367" cy="428" rx="240" ry="78" fill="url(#gBloomR)" filter="url(#fSoft)" opacity=".34"/>
+        <ellipse cx="367" cy="428" rx="126" ry="42" fill="url(#gBloomR)" filter="url(#fSoft)"/>
+        <rect x="345" y="424" width="42" height="8" rx="4" fill="#FFFFFF" filter="url(#fTight)"/>
       </g>
       <g id="lRedT" class="tint" opacity="0">
         <ellipse cx="367" cy="556" rx="224" ry="182" fill="url(#gTintR)" filter="url(#fSoft)"/>
@@ -231,15 +237,15 @@
              y=440 -> 42,  y=500 -> 180,  y=620 -> 225,  y=676 -> 245.
              Armaturun hemen altinda hizla aciliyor, sonra yavas
              genisliyor: duvar yikayici armaturun imzasi. -->
-        <path d="M365,440 C227,500 182,620 162,676
-                 L652,676 C632,620 587,500 449,440 Z"
+        <path d="M365,432 C227,500 182,620 162,676
+                 L652,676 C632,620 587,500 449,432 Z"
               fill="url(#gFanB)" filter="url(#fSoft)"/>
         <!-- 3. agzin hemen altindaki tepe (olculen tepe y=460) -->
         <ellipse cx="407" cy="462" rx="116" ry="60" fill="url(#gNearB)" filter="url(#fMed)"/>
         <!-- 4. kaynak: uc kademeli bloom + patlak agiz -->
-        <ellipse cx="407" cy="430" rx="240" ry="78" fill="url(#gBloomB)" filter="url(#fSoft)" opacity=".34"/>
-        <ellipse cx="407" cy="430" rx="126" ry="42" fill="url(#gBloomB)" filter="url(#fSoft)"/>
-        <rect x="387" y="424" width="42" height="13" rx="5" fill="#FFFFFF" filter="url(#fTight)"/>
+        <ellipse cx="407" cy="428" rx="240" ry="78" fill="url(#gBloomB)" filter="url(#fSoft)" opacity=".34"/>
+        <ellipse cx="407" cy="428" rx="126" ry="42" fill="url(#gBloomB)" filter="url(#fSoft)"/>
+        <rect x="387" y="424" width="42" height="8" rx="4" fill="#FFFFFF" filter="url(#fTight)"/>
       </g>
       <g id="lBlueT" class="tint" opacity="0">
         <ellipse cx="407" cy="556" rx="224" ry="182" fill="url(#gTintB)" filter="url(#fSoft)"/>
@@ -447,7 +453,7 @@
 
 </main>
 
-<script src="assets/js/scene.js?v=113" defer></script>
-<script src="assets/js/ui.js?v=113" defer></script>
+<script src="assets/js/scene.js?v=114" defer></script>
+<script src="assets/js/ui.js?v=114" defer></script>
 </body>
 </html>
