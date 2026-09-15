@@ -37,10 +37,9 @@
     ],
 
     "kapak": {
-      "_": "Acilis ekrani. baslik iki satir; her oge ayri satira geliyor.",
-      "eyebrow": "Nöbet N1 — hareket sensörlü kapı armatürü",
+      "_": "Acilis ekrani. baslik iki satir; her oge ayri satira geliyor. Eyebrow etiketi YOK: urun adi lede'nin ilk cumlesinde geciyor.",
       "baslik": ["Işık uyarır.", "Telefonun haber verir."],
-      "lede": "Kimse yokken 0,6 watt kısık ışık. Biri kapıya yaklaşınca tam güce çıkar, kırmızı-mavi flaşöre geçer ve telefonuna bildirim gönderir. Siren yok.",
+      "lede": "Nöbet N1, kapı önüne bakan hareket sensörlü bir armatür. Kimse yokken 0,6 watt; biri yaklaşınca tam güce çıkar, kırmızı-mavi flaşöre geçer, telefonuna bildirim gönderir. Siren yok.",
       "degerler": [
         { "deger": "2400 lm", "etiket": "5000 K, tam güç" },
         { "deger": "14 m",    "etiket": "algılama menzili" },

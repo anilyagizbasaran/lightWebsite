@@ -66,13 +66,12 @@
       }
     ],
     "kapak": {
-      "_": "Acilis ekrani. baslik iki satir; her oge ayri satira geliyor.",
-      "eyebrow": "Nobet N1 - motion-activated entrance luminaire",
+      "_": "Acilis ekrani. baslik iki satir; her oge ayri satira geliyor. Eyebrow etiketi YOK: urun adi lede'nin ilk cumlesinde geciyor.",
       "baslik": [
         "Light warns first.",
         "Your phone tells you next."
       ],
-      "lede": "Draws 0,6 watts while nobody is there. The moment somebody approaches your door it steps to full output, switches to a red-blue strobe and pushes a notification to your phone. No siren.",
+      "lede": "Nobet N1 is a motion-activated luminaire that watches your entrance. It draws 0.6 watts while nobody is there; the moment somebody approaches it steps to full output, switches to a red-blue strobe and pushes a notification to your phone. No siren.",
       "degerler": [
         {
           "deger": "2400 lm",

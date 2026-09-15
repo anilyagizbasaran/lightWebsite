@@ -110,8 +110,8 @@ def beatler(c):
 
 def kapak(c):
     k = c['sahne']['kapak']
-    s = [u'<p class="cover-eyebrow">%s</p>' % kacir(k['eyebrow']),
-         u'        <h1>%s</h1>' % u'<br>'.join(kacir(x) for x in k['baslik']),
+    # Eyebrow etiketi kasten yok: bkz. content/tr.json -> sahne.kapak._
+    s = [u'<h1>%s</h1>' % u'<br>'.join(kacir(x) for x in k['baslik']),
          u'        <p class="cover-lede">%s</p>' % kacir(k['lede']),
          u'        <ul class="cover-spec">']
     for d in k['degerler']:
