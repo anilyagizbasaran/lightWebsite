@@ -10,3 +10,7 @@ olcum.json
 
 # Yerel onizleme sunucusu tanimi (ortama bagli).
 .claude/
+
+# Python onbellegi
+__pycache__/
+*.pyc
