@@ -87,10 +87,11 @@ def topnav(c):
 
 
 def mobnav(c):
+    # Numarali isaret YOK: menu bir sira degil, bir liste.
+    # (Kurulum adimlari gercek sira; oradaki sayac duruyor.)
     s = [u'<nav class="mobnav-in" aria-label="%s">' % oz(c['menu']['etiket'])]
-    for i, o in enumerate(c['menu']['ogeler'], 1):
-        s.append(u'    <a href="#%s"><span class="mobnav-i">%02d</span>%s</a>'
-                 % (o['id'], i, kacir(o['ad'])))
+    for o in c['menu']['ogeler']:
+        s.append(u'    <a href="#%s">%s</a>' % (o['id'], kacir(o['ad'])))
     s.append(u'  </nav>')
     s.append(u'  <p class="mobnav-foot"><a href="mailto:%s">%s</a></p>'
              % (oz(c['eposta']), kacir(c['eposta'])))

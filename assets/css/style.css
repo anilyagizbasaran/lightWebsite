@@ -20,7 +20,12 @@
 
   --chalk: #D7E2F0;
   --mute:  #7C8DA6;
-  --faint: #4A5C76;
+  /* Ucuncu bir sessiz metin seviyesi YOK. Olculdu: #4A5C76
+     bu zeminde 2,88:1 / 2,74:1 veriyordu ve saf siyaha karsi ust
+     siniri 3,08:1 -- hicbir zemin onu WCAG AA'nin 4,5:1'ine
+     cikaramaz. Taban L>=0,204, --mute ise L=0,259; yani AA'nin
+     ustunde uclu bir renk merdiveni icin yer kalmiyor. Sessizlik
+     artik renkle degil PUNTO ve KALINLIKLA yapiliyor. */
 
   --sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
   --mono: "Azeret Mono", ui-monospace, "SFMono-Regular", monospace;
@@ -139,13 +144,9 @@ img, svg { max-width: 100%; }
   font-variation-settings: "wdth" 104, "wght" 700;
   font-size: 1.55rem; letter-spacing: -.02em; line-height: 1;
 }
-.mobnav-i {
-  font-family: var(--mono); font-size: .72rem; color: var(--faint);
-  font-variation-settings: normal;
-}
 .mobnav-foot {
-  margin: 2.2rem 0 0; font-family: var(--mono); font-size: .84rem;
-  color: var(--faint);
+  margin: 2.2rem 0 0; font-size: .88rem;
+  color: var(--mute);
 }
 .mobnav-foot a {
   color: var(--beam); text-decoration: none;
@@ -317,17 +318,6 @@ img, svg { max-width: 100%; }
 .act p { margin: 0 0 .9em; color: var(--mute); max-width: 44ch; }
 .act p:last-child { margin-bottom: 0; }
 
-.cue {
-  font-family: var(--mono); font-size: .78rem; color: var(--faint);
-  display: flex; align-items: center; gap: .6rem;
-}
-.cue::after {
-  content: ""; width: 1px; height: 26px;
-  background: linear-gradient(to bottom, var(--faint), transparent);
-  animation: cueDrop 1.9s ease-in-out infinite;
-}
-@keyframes cueDrop { 0%,100% { transform: scaleY(.4); opacity: .4 } 50% { transform: scaleY(1); opacity: 1 } }
-@media (prefers-reduced-motion: reduce) { .cue::after { animation: none } }
 
 /* Kopya gecisindeki kayma reduced-motion'da durmali; yalniz
    opaklik degisimi kalir. */
@@ -401,11 +391,13 @@ img, svg { max-width: 100%; }
   font-variation-settings: "wdth" 104, "wght" 680;
   font-size: 1.32rem; letter-spacing: -.02em; color: var(--chalk);
 }
+/* Sayinin altindaki SOZ etiketi. Mono degil: ustundeki sayi sans
+   ile dizili, etiketin mono olmasi tersti. Hiyerarsi renkle degil
+   punto ve kalinlikla: 11,8 px normal vs 21 px yari kalin.
+   Olculen esik L>=0,482 (bu satir kadrajin parlak bolgesine denk
+   geliyor); bu ton 5,03:1. */
 .cover-spec span {
-  font-family: var(--mono); font-size: .7rem; letter-spacing: .06em;
-  /* Olculen esik L>=0,482 (bu satir kadrajin parlak bolgesine denk
-     geliyor); bu ton 5,03:1. Hiyerarsi renkle degil punto ve
-     kalinlikla korunuyor: 11 px mono vs 21 px yari kalin. */
+  font-size: .74rem; letter-spacing: .005em;
   color: #B8C4D6;
 }
 
@@ -498,7 +490,7 @@ img, svg { max-width: 100%; }
   display: flex; justify-content: space-between; gap: 1rem;
   padding: .2rem 0;
 }
-.hud-k { color: var(--faint); }
+.hud-k { color: var(--mute); }
 .hud-v { color: var(--chalk); font-variation-settings: "wght" 500; }
 .hud.is-alarm .hud-v { color: var(--alarm-red); }
 .hud-bar {
@@ -570,7 +562,8 @@ img, svg { max-width: 100%; }
   font-variation-settings: "wdth" 104, "wght" 700;
   font-size: 1.3rem; letter-spacing: -.02em;
 }
-.step-meta { margin: 0 0 .7rem; font-family: var(--mono); font-size: .78rem; color: var(--faint); }
+/* Mono degil: "Kirmizi-mavi -- telefona aninda" duz metin, veri degil. */
+.step-meta { margin: 0 0 .7rem; font-size: .82rem; color: var(--mute); }
 .step p:last-child { margin: 0; color: var(--mute); }
 .step-3 .step-meta { color: color-mix(in srgb, var(--alarm-red) 80%, var(--mute)); }
 
@@ -622,7 +615,7 @@ img, svg { max-width: 100%; }
   gap: 1.6rem; justify-content: start;
 }
 .geo-figs div { border-top: var(--rule); padding-top: .55rem; }
-.geo-figs dt { font-size: .8rem; color: var(--faint); }
+.geo-figs dt { font-size: .8rem; color: var(--mute); }
 .geo-figs dd {
   margin: .15rem 0 0; font-family: var(--mono);
   font-size: 1.3rem; color: var(--chalk); font-variation-settings: "wght" 500;
@@ -631,7 +624,9 @@ img, svg { max-width: 100%; }
 .geo-art { width: 100%; height: auto; overflow: visible; }
 .geo-grid line { stroke: #16202F; stroke-width: 1; }
 .geo-grid text {
-  fill: var(--faint); font-family: var(--mono); font-size: 9px;
+  /* 9 px idi: 520 birimlik viewBox ~400 px genislikte cizildigi
+     icin etkin boyut 7 px'e dusuyordu. */
+  fill: var(--mute); font-family: var(--mono); font-size: 11px;
 }
 .geo-wedge { fill: rgba(232,243,255,.09); }
 .geo-edge { stroke: var(--haze); stroke-width: 1; stroke-dasharray: 4 5; fill: none; }
@@ -671,7 +666,8 @@ img, svg { max-width: 100%; }
 }
 .model p { color: var(--mute); margin: 0 0 .8rem; }
 .model-power {
-  margin: 0; font-family: var(--mono); font-size: .78rem; color: var(--faint);
+  /* Mono KALIYOR: "12 V DC" / "802.3at PoE+" besleme degeri. */
+  margin: 0; font-family: var(--mono); font-size: .78rem; color: var(--mute);
   border-top: var(--rule); padding-top: .6rem;
 }
 
@@ -688,7 +684,7 @@ img, svg { max-width: 100%; }
 .howto li::before {
   content: counter(s);
   grid-row: 1 / span 2;
-  font-family: var(--mono); font-size: 1.5rem; color: var(--faint);
+  font-family: var(--mono); font-size: 1.5rem; color: var(--mute);
   line-height: 1.1;
 }
 .howto h3 {
@@ -708,7 +704,8 @@ img, svg { max-width: 100%; }
 .foot-note { margin: 0; color: var(--mute); }
 .foot-mail { margin: 0; }
 .foot-mail a {
-  color: var(--beam); text-decoration: none; font-family: var(--mono);
+  /* Mono degil: e-posta adresi makine okumasi degil, iletisim metni. */
+  color: var(--beam); text-decoration: none;
   border-bottom: 1px solid color-mix(in srgb, var(--beam) 45%, transparent);
 }
 .foot-mail a:hover { border-bottom-color: var(--beam); }
@@ -770,7 +767,7 @@ img, svg { max-width: 100%; }
     font-size: .86rem; line-height: 1.5; margin-bottom: .6em;
     max-width: 30ch;
   }
-  .act p:not(.cue):not(.act-cta) { max-width: 28ch; }
+  .act p:not(.act-cta) { max-width: 28ch; }
   /* Telefonda kopya tam genislikte: yatay kaydirma yok, dusey de
      daha kisik (ekran kisa, sahne hemen altta). */
   .act[data-act="0"] { top: 0;    right: 0; }
@@ -778,7 +775,6 @@ img, svg { max-width: 100%; }
   .act[data-act="2"] { top: 6vh;  right: 0; }
   .act[data-act="3"] { top: 9vh;  right: 0; }
   .act[data-act="4"] { top: 2vh;  right: 0; }
-  .cue { font-size: .76rem; }
 
   /* Kapak telefonda: ust bant kisa, blok armaturun ustunde
      kalmali. Masaustu clamp'inin 2,5rem tabani 375 px'te
@@ -803,11 +799,12 @@ img, svg { max-width: 100%; }
     gap: .75rem 1rem; max-width: 20rem; text-align: left;
   }
   .cover-spec b { font-size: 1.04rem; }
-  .cover-spec span { font-size: .62rem; letter-spacing: .04em; }
+  .cover-spec span { font-size: .68rem; letter-spacing: .005em; }
 
-  /* Perde mobilde tek katman (bkz. cue.py notu): ustteki
-     .copy-scrim kurali iki katmani da yakaliyor ve capraz
-     gecis perdeyi hafifletiyordu. */
+  /* Perde mobilde tek katman. Yukaridaki mobil .copy-scrim kurali
+     iki katmani da yakaliyor; ikisi yarim opaklikta ust uste
+     binince perde HAFIFLIYOR (1-(1-a/2)^2 < a), yani capraz
+     gecisin ortasinda metin daha az korunuyordu. */
   .scrim-cover { display: none; }
 
   .hud {
@@ -830,8 +827,7 @@ img, svg { max-width: 100%; }
 }
 
 @media (max-width: 420px) {
-  .act p.cue { font-size: .74rem; }
-  .act p:not(.cue):not(.act-cta) { max-width: 30ch; }
+  .act p:not(.act-cta) { max-width: 30ch; }
 }
 
 /* yatay mobil: kopya ile çizim çakışmasın */
