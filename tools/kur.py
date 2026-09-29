@@ -254,9 +254,9 @@ def sahne_resmi(kay, kok_yolu=u''):
         t = u'%.1f' % v
         return t[:-2] if t.endswith(u'.0') else t
 
-    return (u'<image href="%s%s" x="%s" y="%s"\n'
+    return (u'<image href="%s%s?v=%s" x="%s" y="%s"\n'
             u'             width="%s" height="%s" preserveAspectRatio="none"/>'
-            % (kok_yolu, oz(s['dosya']), sy(x), sy(ty), sy(g), sy(y)))
+            % (kok_yolu, oz(s['dosya']), kay['surum'], sy(x), sy(ty), sy(g), sy(y)))
 
 
 # ---------------------------------------------------------------

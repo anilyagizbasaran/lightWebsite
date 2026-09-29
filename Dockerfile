@@ -1,6 +1,8 @@
 FROM nginx:1.27-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Yayin ayari: surumlu dosyalar uzun sure onbellekte. Gelistirmede docker-compose
+# nginx.conf'u bunun uzerine baglar, orada onbellek kapali kalir.
+COPY nginx.prod.conf /etc/nginx/conf.d/default.conf
 COPY index.html /usr/share/nginx/html/index.html
 COPY assets     /usr/share/nginx/html/assets
 
