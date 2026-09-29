@@ -2,7 +2,7 @@
   "_": "Dilden bagimsiz ayarlar: arka plan resmi, olcum ve surum. Metin icin content/tr.json.",
 
   "surum": "137",
-  "_surum": "Onbellek kirici. CSS/JS degistikce artir; kur.py bunu ?v=... olarak yaziyor.",
+  "_surum": "Onbellek kirici. CSS/JS ya da sahne resmi degistikce artir; kur.py bunu ?v=... olarak yaziyor. Yayinda bu dosyalar 1 yil onbellekte kalir, artirmazsan ziyaretci eskisini gorur.",
 
   "sahne": {
     "_": "ARKA PLAN RESMINI DEGISTIRME. Yeni bir render koyduktan sonra asagidaki dort sayiyi yeni resme gore olcun; kur.py yerlesimi (x/y/genislik/yukseklik) bunlardan HESAPLIYOR, elle girmeniz gereken bir sey yok.",

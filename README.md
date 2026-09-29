@@ -16,6 +16,8 @@ metni içerikten üreten küçük bir Python betiği var.
 | `assets/js/scene.js` | Kaydırma motoru ve ışık. |
 | `assets/js/ui.js` | Mobil menü ve algılama geometrisi hesabı. |
 | `assets/art/sahne.webp` | Sahnenin tek görseli. |
+| `nginx.conf` | Geliştirme sunucusu ayarı; önbellek kapalı, kaydet-yenile çalışır. `docker-compose.yml` bunu bağlar. |
+| `nginx.prod.conf` | Yayın ayarı; `Dockerfile` bunu kopyalar. `?v=` sürümlü CSS, JS ve sahne resmi 1 yıl önbellekte kalır. Bu dosyalardan biri değişince `content/kaynaklar.json` içindeki `surum`u artırıp `kur.py`yi çalıştırın. |
 
 ## Metni değiştirmek
 
